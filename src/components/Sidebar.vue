@@ -2,12 +2,22 @@
 
     export default({
         name: 'Sidebar',
+        data() {
+            return {
+                sidebarVisible: true,
+            }
+        },
+        methods: {
+            toggleVisibility() {
+                this.sidebarVisible = !this.sidebarVisible;
+            }
+        }
     });
 </script>
 
 <template>
-    <div id="sidebar">
-        <div id="hideBarButton">
+    <div id="sidebar" :class="{ hidden : !sidebarVisible }">
+        <div id="hideBarButton" @click="toggleVisibility" title="Sidebar ein-/ausblenden">
             <img src="./../assets/chevron-left-solid.svg" alt="Sidbar visibility toggle icon">
         </div>
         <header>
@@ -35,6 +45,18 @@
         justify-content: space-between;
         background-color: var(--secondBgC);
         padding: 2rem;
+    }
+
+    #sidebar,
+    #sidebar img {
+        transition: transform 250ms ease-in-out;
+    }
+
+    .hidden {
+        transform: translateX(-100%);
+    }
+    .hidden img {
+        transform: rotate(180deg);
     }
 
     h1,
@@ -76,10 +98,14 @@
         background-color: var(--secondBgC);
         border-radius: 50%;
         cursor: pointer;
+        transition: transform 250ms ease-in-out;
     }
     #hideBarButton img {
         width: 45%;
         pointer-events: none;
+    }
+    #hideBarButton:hover {
+        transform: scale(110%);
     }
     .cpr {
         font-size: .8rem;
