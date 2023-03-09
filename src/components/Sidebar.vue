@@ -10,6 +10,9 @@
         methods: {
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
+            },
+            showCreateListDialog() {
+                this.$emit('showCreateListDialogEvent');
             }
         }
     });
@@ -25,7 +28,7 @@
             <p class="subtitle">Keep your Tasks insight!</p>
         </header>
         <div id="toolContainer">
-            <button id="newListButton" title="Neue Liste erstellen">
+            <button id="newListButton" title="Neue Liste erstellen" @click="showCreateListDialog">
                 <img src="./../assets/plus-clipboard-add.svg" alt="Neue Liste-Icon">
             </button>
         </div>
