@@ -76,6 +76,11 @@
         display: block;
         margin: 0;
     }
+
+    .cpr {
+        font-size: .8rem;
+        color: var(--black50);
+    }
     h1 {
         font-size: 6rem;
         font-weight: 100;
@@ -106,8 +111,8 @@
     #hideBarButton:hover {
         transform: scale(110%);
     }
-    .cpr {
-        font-size: .8rem;
-        color: var(--black50);
+
+    #toolContainer {
+        transform: translateY(-50%);
     }
 </style>
