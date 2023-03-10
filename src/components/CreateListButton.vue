@@ -1,9 +1,9 @@
 <script>
     export default({
         name: 'CreateListButton',
-        data() {
-            return null;
-        }
+        // data() {
+        //     return null;
+        // }
     })
 </script>
 

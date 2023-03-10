@@ -8,6 +8,7 @@
     data() {
       return {
         tasks: null,
+        newListName: '',
       }
     },
     methods: {
@@ -16,6 +17,14 @@
       },
       closeCreateListDialog() {
         document.getElementById('createListDialog').close();
+      },
+      createNewList() {
+        const listName = this.newListName;
+        if(listName !== '') {                                             // bessere Validierung der Eingabe implementieren!
+          console.log('Erstelle neue Liste: ' + listName);
+          this.closeCreateListDialog();
+        }
+        this.newListName = '';
       }
     }
   })
@@ -28,9 +37,9 @@
       <form action="">
         <div class="few">
           <label for="listName">Name der neuen Liste</label>
-          <input type="text" id="listName" placeholder="z.B. Studium" required>
+          <input v-model="newListName" type="text" id="listName" placeholder="z.B. Studium">
         </div>
-        <CreateListButton />
+        <CreateListButton @click="createNewList" />
       </form>
       <footer>
         <a id="cancelCreation" href="#" @click.prevent="closeCreateListDialog">Abbrechen</a>
@@ -50,7 +59,7 @@
     color: white;
     background-color: var(--secondBgC);
     padding: 3rem;
-    border: none;
+    border: solid thin white;
   }
   form {
     width: 100%;
@@ -63,11 +72,20 @@
     display: inherit;
     flex-direction: column;
   }
-  #createList {
-    width: 6rem;
-    height: 6rem;
-    background-color: var(--listBgC);
+
+  label {
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+  }
+  #listName {
+    font-size: 1.2rem;
+    color: white;
+    background-color: var(--firstBgC);
+    padding: .5rem;
     border: none;
+  }
+  #listName:focus {
+    outline: none;
   }
 
   #cancelCreation:link,
