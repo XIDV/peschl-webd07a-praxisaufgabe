@@ -1,17 +1,21 @@
 <script>
   import Sidebar from './components/Sidebar.vue';
   import Main from './components/Main.vue';
+  import CreateListButton from './components/CreateListButton.vue';
 
   export default({
-    components: {Sidebar, Main},
+    components: {Sidebar, Main, CreateListButton},
     data() {
       return {
-        tasks: null
+        tasks: null,
       }
     },
     methods: {
       showCreateListDialog() {
         document.getElementById('createListDialog').showModal();
+      },
+      closeCreateListDialog() {
+        document.getElementById('createListDialog').close();
       }
     }
   })
@@ -26,8 +30,11 @@
           <label for="listName">Name der neuen Liste</label>
           <input type="text" id="listName" placeholder="z.B. Studium" required>
         </div>
-        <button id="createList" type="button"><img src="./assets/plus-clipboard-add.svg" alt="Neue Liste-Icon"></button>
+        <CreateListButton />
       </form>
+      <footer>
+        <a id="cancelCreation" href="#" @click.prevent="closeCreateListDialog">Abbrechen</a>
+      </footer>
     </dialog>
 
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
@@ -61,6 +68,16 @@
     height: 6rem;
     background-color: var(--listBgC);
     border: none;
+  }
+
+  #cancelCreation:link,
+  #cancelCreation:visited {
+    font-size: 1rem;
+    color: var(--black50);
+    text-decoration: none;
+  }
+  #cancelCreation:hover {
+    text-decoration: underline;
   }
 
   #primeContainer {

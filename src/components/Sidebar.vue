@@ -1,7 +1,9 @@
 <script>
+    import CreateListButton from './CreateListButton.vue';
 
     export default({
         name: 'Sidebar',
+        components: {CreateListButton},
         data() {
             return {
                 sidebarVisible: true,
@@ -28,9 +30,7 @@
             <p class="subtitle">Keep your Tasks insight!</p>
         </header>
         <div id="toolContainer">
-            <button id="newListButton" title="Neue Liste erstellen" @click="showCreateListDialog">
-                <img src="./../assets/plus-clipboard-add.svg" alt="Neue Liste-Icon">
-            </button>
+            <CreateListButton @click="showCreateListDialog" />
         </div>
         <footer>
             <p class="cpr">&copy; Sebastian Peschl (2023)</p>
@@ -75,18 +75,6 @@
     .subtitle {
         font-weight: 700;
         font-style: italic;
-    }
-
-    #newListButton {
-        width: 6rem;
-        height: 6rem;
-        background-color: var(--listBgC);
-        border: none;
-        cursor: pointer;
-        transition: box-shadow 250ms ease-in-out;
-    }
-    #newListButton:hover {
-        box-shadow: 0 0 0 .025rem white;
     }
 
     #hideBarButton {
