@@ -1,4 +1,5 @@
 <script>
+  import _ from 'lodash';
   import Sidebar from './components/Sidebar.vue';
   import Main from './components/Main.vue';
   import CreateListButton from './components/CreateListButton.vue';
@@ -7,8 +8,42 @@
     components: {Sidebar, Main, CreateListButton},
     data() {
       return {
-        tasks: null,
+        tasks: [
+          { 
+            list: 'Demoliste',
+            start: '2023-03-30',
+            end: '2023-04-05',
+            title: 'Geschenk besorgen',
+            done: false
+          },
+          { 
+            list: 'Demoliste',
+            start: '2023-04-10',
+            end: '2023-04-29',
+            title: 'Vortrag vorbereiten',
+            done: false
+          },
+          { 
+            list: 'Demoliste',
+            start: '2023-04-15',
+            end: '2023-05-03',
+            title: 'Einladungen versenden',
+            done: true
+          },
+          { 
+            list: 'Demoliste',
+            start: '2023-07-16',
+            end: '2023-07-25',
+            title: 'Reise buchen',
+            done: false
+          }
+        ],
         newListName: '',
+      }
+    },
+    computed: {
+      lists() {
+        return _.uniq(this.tasks.map(task => task.list));
       }
     },
     methods: {
@@ -32,7 +67,6 @@
 
 <template>
   <div id="primeContainer">
-    
     <dialog id="createListDialog">
       <form action="">
         <div class="few">
