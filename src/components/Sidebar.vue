@@ -40,6 +40,7 @@
 
 <style scoped>
     #sidebar {
+        width: 20rem;
         position: relative;
         min-height: 100vh;
         display: flex;

@@ -88,6 +88,9 @@
 </template>
 
 <style scoped>
+  #primeContainer {
+    display: flex;
+  }
   #createListDialog {
     width: 30rem;
     color: white;
