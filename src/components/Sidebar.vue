@@ -12,7 +12,6 @@
         methods: {
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
-                this.$emit('sidbarStatusChange', this.sidebarVisible);
             },
             showCreateListDialog() {
                 this.$emit('showCreateListDialogEvent');
@@ -22,7 +21,7 @@
 </script>
 
 <template>
-    <div id="sidebar" :class="{ hidden : !sidebarVisible }">
+    <div id="sidebar" class="default" :class="{ hidden : !sidebarVisible }">
         <div id="hideBarButton" @click="toggleVisibility" title="Sidebar ein-/ausblenden">
             <img src="./../assets/chevron-left-solid.svg" alt="Sidbar visibility toggle icon">
         </div>
@@ -41,7 +40,6 @@
 
 <style scoped>
     #sidebar {
-        width: 20rem;
         position: relative;
         min-height: 100vh;
         display: flex;
@@ -49,19 +47,27 @@
         align-items: center;
         justify-content: space-between;
         background-color: var(--secondBgC);
+    }
+    
+    .default {
         padding: 2rem;
+        
     }
 
     #sidebar,
-    #sidebar img {
-        transition: transform 250ms ease-in-out;
+    #sidebar * {
+        transition: all 250ms ease-in-out;
     }
 
     .hidden {
-        transform: translateX(-100%);
+        flex: 0 0 0;
+        padding: 0;
     }
     .hidden img {
         transform: rotate(180deg);
+    }
+    .hidden *:not(img) {
+        display: none;
     }
 
     h1,
