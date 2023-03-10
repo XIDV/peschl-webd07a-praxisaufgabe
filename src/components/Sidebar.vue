@@ -12,6 +12,7 @@
         methods: {
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
+                this.$emit('sidbarStatusChange', this.sidebarVisible);
             },
             showCreateListDialog() {
                 this.$emit('showCreateListDialogEvent');

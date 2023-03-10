@@ -60,7 +60,8 @@
           this.closeCreateListDialog();
         }
         this.newListName = '';
-      }
+      },
+  
     }
   })
 </script>
@@ -81,6 +82,7 @@
     </dialog>
 
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
+
     <Main />
 
   </div>
@@ -91,6 +93,7 @@
   #primeContainer {
     display: flex;
   }
+
   #createListDialog {
     width: 30rem;
     color: white;
@@ -133,9 +136,5 @@
   }
   #cancelCreation:hover {
     text-decoration: underline;
-  }
-
-  #primeContainer {
-    display: flex;
   }
 </style>

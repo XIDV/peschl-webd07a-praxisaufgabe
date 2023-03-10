@@ -35,7 +35,7 @@
 
 <style scoped>
     #mainWrapper {
-        /* Bereich passt sich nicht an wenn Sidbar ausgeblendet wird ... */
+        flex: 1;
         padding: 0 2rem;
     }
 
