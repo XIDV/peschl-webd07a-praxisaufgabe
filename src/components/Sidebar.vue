@@ -27,7 +27,7 @@
         </div>
         <header>
             <h1>Do It!</h1>
-            <p class="subtitle">Keep your Tasks insight!</p>
+            <p class="subtitle">Procrastinators unite! Tomorrw. Maybe.</p>
         </header>
         <div id="toolContainer">
             <CreateListButton @click="showCreateListDialog" />
@@ -41,6 +41,7 @@
 <style scoped>
     #sidebar {
         position: relative;
+        max-width: 20rem;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -86,6 +87,7 @@
         font-weight: 100;
     }
     .subtitle {
+        text-align: center;
         font-weight: 700;
         font-style: italic;
     }
