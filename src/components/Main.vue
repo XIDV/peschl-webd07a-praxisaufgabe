@@ -1,5 +1,4 @@
 <script>
-
     export default({
         name: 'Main',
         data() {
@@ -7,15 +6,46 @@
                 date: new Date(),
             }
         },
-        
+        methods: {
+            setDate() {
+                this.date = new Date();
+            }
+        },
+        created() {
+                setInterval(this.setDate, 1000);
+        },
+        computed: {
+            currentDate() {
+                return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
+                ${ this.date.getUTCDate() }.
+                ${ this.date.getMonth() }.
+                ${ this.date.getFullYear() }`;
+                
+            },
+            currentTime() {
+                const time = {
+                    hours: this.date.getHours(),
+                    minutes: this.date.getMinutes(),
+                    seconds: this.date.getSeconds()
+                    
+                }
+                for(let element in time) {
+                    if(time[element] < 10) {
+                        time[element] = `0${time[element]}`;
+                    }
+                }
+                return `${time.hours}:${time.minutes}:${time.seconds}`;
+            },
+            
+        },
     });
 </script>
 
 <template>
     <div id="mainWrapper">
         <header>
-            <div id="dateContainer">{{ date.toDateString().toLocaleString() }}</div>
-            <div id="timeContainer">{{ date.getHours() }}:{{ date.getMinutes() }}</div>
+            <div id="dateContainer">{{ currentDate }}</div>
+            <div id="timeContainer">{{ currentTime }}</div>
         </header>
 
         <form action="" id="createNewTaskForm">
@@ -45,6 +75,7 @@
         align-items: center;
         font-size: 2.5rem;
         font-weight: 100;
+        padding: .5rem 0;
         border-bottom: solid thin white;
     }
 
