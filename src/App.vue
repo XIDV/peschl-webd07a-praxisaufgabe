@@ -89,7 +89,7 @@
   
 </template>
 
-<style scoped>
+<style>
   #primeContainer {
     display: flex;
   }
@@ -114,7 +114,7 @@
   }
 
   label {
-    font-size: 1rem;
+    font-size: .8rem;
     margin: 0 0 1rem 0;
   }
   #listName {

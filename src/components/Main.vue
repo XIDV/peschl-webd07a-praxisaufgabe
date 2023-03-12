@@ -50,6 +50,25 @@
 
         <form action="" id="createNewTaskForm">
             <!-- Formularelemente erstellen -->
+            <div class="few">
+                <label for="taskName">Neue Aufgabe erstellen *</label>
+                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" required>
+            </div>
+            <div class="few">
+                <label for="startDate">Startdatum wählen</label>
+                <input type="date" name="startDate" id="startDate">
+            </div>
+            <div class="few">
+                <label for="endDate">Fällig am *</label>
+                <input type="date" name="endDate" id="endDate">
+            </div>
+            <div class="few">
+                <label for="listSelect">Liste wählen</label>
+                <select name="listSelect" id="listSelect">
+                    <!-- Todo: options dynamisch ezeugen lassen -->
+                </select>
+            </div>
+            <button type="button" id="createNewTaskButton"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
         </form>
 
         <div id="listsContainer">
@@ -81,5 +100,60 @@
 
     h2 {
         font-size: 2.5rem;
+    }
+
+    #createNewTaskForm {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: .5rem;
+    }
+
+    label {
+        margin: 1rem 0 .5rem 0;
+    }
+
+    .few,
+    input,
+    select {
+        width: 100%;
+    }
+
+    input,
+    select {
+        font-size: 1.2rem;
+        color: white;
+        background-color: var(--secondBgC);
+        padding: .5rem;
+        border: none;
+    }
+
+    button {
+        width: 3rem;
+        height: 3rem;
+        align-self: center;
+        background-color: var(--listBgC);
+        border: none;
+        margin: 1rem;
+    }
+    button img {
+        width: 90%;
+    }
+
+    @media screen and (min-width: 50em) {
+        #createNewTaskForm {
+            flex-direction: row;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .few {
+            flex: 1 0 10rem;
+        }
+        button {
+            align-self: flex-end;
+            margin: 0;
+        }
     }
 </style>
