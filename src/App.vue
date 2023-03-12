@@ -9,6 +9,7 @@
     data() {
       return {
         newListName: '',
+        newListNameTemp: '',
       }
     },
     methods: {
@@ -24,8 +25,8 @@
         const listName = this.newListName;
         // Todo::: bessere Validierung der Eingabe !
         if(listName !== '') {                       
-
-          // Todo::: Neue Liste Erstellen in Main triggern ...
+          
+          this.newListNameTemp = listName;
           this.closeCreateListDialog();
         }
         this.newListName = '';
@@ -48,7 +49,7 @@
           <input v-model="newListName" type="text" id="listName" placeholder="z.B. Studium">
         </div>
 
-        <CreateListButton @click="createNewList" />
+        <CreateListButton @click.prevent="createNewList" />
       
       </form>
       <footer>
@@ -58,9 +59,10 @@
 
     
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
-    <Main />
+    <Main :newName="newListNameTemp" />
 
-
+    
+    
   </div>
   
 </template>

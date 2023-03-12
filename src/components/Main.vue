@@ -3,10 +3,13 @@
 
     export default({
         name: 'Main',
-        props: ['newListProp'],
+        props: {
+            newName: String,
+        },
         data() {
             return {
                 date: new Date(),
+                someNames: [],
                 newTaskData: {
                     list: '',
                     start: '',
@@ -46,10 +49,15 @@
                 ],
             }
         },
+        watch: {
+            newName(wert) {
+                this.someNames.push(wert);
+            },
+        },
         methods: {
             setDate() {
                 this.date = new Date();
-            }
+            },
         },
         created() {
                 setInterval(this.setDate, 1000);
@@ -116,7 +124,7 @@
 
         <div id="listsContainer">
             <h2>Ihre Listen</h2>
-            <p>{{ lists }}</p>
+            <p v-for="name in someNames">{{ name }}</p>
             <!-- Hier werden alle Listen angezeigt -->
         </div>
 
