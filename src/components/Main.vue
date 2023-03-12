@@ -4,6 +4,13 @@
         data() {
             return {
                 date: new Date(),
+                newTaskData: {
+                    list: '',
+                    start: '',
+                    end: '',
+                    title: '',
+                    done: false
+                }
             }
         },
         methods: {
@@ -49,22 +56,21 @@
         </header>
 
         <form action="" id="createNewTaskForm">
-            <!-- Formularelemente erstellen -->
             <div class="few">
                 <label for="taskName">Neue Aufgabe erstellen *</label>
-                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" required>
+                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" required v-model="newTaskData.title">
             </div>
             <div class="few">
                 <label for="startDate">Startdatum wählen</label>
-                <input type="date" name="startDate" id="startDate">
+                <input type="date" name="startDate" id="startDate" v-model="newTaskData.start">
             </div>
             <div class="few">
                 <label for="endDate">Fällig am *</label>
-                <input type="date" name="endDate" id="endDate">
+                <input type="date" name="endDate" id="endDate" v-model="newTaskData.end">
             </div>
             <div class="few">
                 <label for="listSelect">Liste wählen</label>
-                <select name="listSelect" id="listSelect">
+                <select name="listSelect" id="listSelect" v-model="newTaskData.list">
                     <!-- Todo: options dynamisch ezeugen lassen -->
                 </select>
             </div>
