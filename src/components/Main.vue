@@ -1,8 +1,10 @@
 <script>
     import _ from 'lodash';
+    import TaskList from './TaskList.vue';
 
     export default({
         name: 'Main',
+        components: {TaskList},
         props: {
             newName: String,
         },
@@ -49,11 +51,13 @@
                 ],
             }
         },
+        
         watch: {
             newName(wert) {
                 this.addListNames(wert);
             },
         },
+        
         methods: {
             setDate() {
                 this.date = new Date();
@@ -65,14 +69,23 @@
                 }
             }
         },
+        
         created() {
             setInterval(this.setDate, 1000);
             this.addListNames();
         },
+        
         computed: {
             lists() {
                 return _.uniq(this.tasks.map(task => task.list));
-            },  
+            },
+            subLists() {
+                let subLists = [];
+                this.lists.forEach((list) => {
+                    subLists.push(this.tasks.filter(task => task.list === list));
+                });
+                return subLists;
+            },
             currentDate() {
                 return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
                 ${ this.date.getUTCDate() }.
@@ -129,10 +142,14 @@
             <button type="button" id="createNewTaskButton"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
         </form>
 
-        <div id="listsContainer">
+        <main>
             <h2>Ihre Listen</h2>
-            <!-- Hier werden alle Listen angezeigt -->
-        </div>
+            <div id="listsContainer">
+                <!-- Hier werden alle Listen angezeigt -->
+                <TaskList v-for="list in subLists" :subTasks="list" />
+
+            </div>
+        </main>
 
         <aside>
             <!-- Anzeige aller laufenden und erledigten Aufgaben -->
@@ -218,5 +235,10 @@
             align-self: flex-end;
             margin: 0;
         }
+    }
+
+    #listsContainer {
+        display: flex;
+        gap: 1rem
     }
 </style>
