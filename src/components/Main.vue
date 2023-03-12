@@ -135,9 +135,14 @@
         background-color: var(--listBgC);
         border: none;
         margin: 1rem;
+        cursor: pointer;
     }
     button img {
         width: 90%;
+        pointer-events: none;
+    }
+    button:hover {
+        box-shadow: 0 0 0 .025rem white;
     }
 
     @media screen and (min-width: 50em) {
