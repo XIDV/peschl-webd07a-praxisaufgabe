@@ -9,7 +9,7 @@
         data() {
             return {
                 date: new Date(),
-                someNames: [],
+                allLists: [],
                 newTaskData: {
                     list: '',
                     start: '',
@@ -51,16 +51,23 @@
         },
         watch: {
             newName(wert) {
-                this.someNames.push(wert);
+                this.addListNames(wert);
             },
         },
         methods: {
             setDate() {
                 this.date = new Date();
             },
+            addListNames(newList) {
+                this.allLists = this.lists;
+                if(newList && !_.includes(this.allLists, newList)) {
+                    this.allLists.push(newList);
+                }
+            }
         },
         created() {
-                setInterval(this.setDate, 1000);
+            setInterval(this.setDate, 1000);
+            this.addListNames();
         },
         computed: {
             lists() {
@@ -116,7 +123,7 @@
                 <label for="listSelect">Liste wählen</label>
                 <select name="listSelect" id="listSelect" v-model="newTaskData.list">
                     <!-- Todo: options dynamisch ezeugen lassen -->
-                    <option v-for="list in lists" value="list">{{ list }}</option>
+                    <option v-for="list in allLists" value="list">{{ list }}</option>
                 </select>
             </div>
             <button type="button" id="createNewTaskButton"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
@@ -124,7 +131,6 @@
 
         <div id="listsContainer">
             <h2>Ihre Listen</h2>
-            <p v-for="name in someNames">{{ name }}</p>
             <!-- Hier werden alle Listen angezeigt -->
         </div>
 
