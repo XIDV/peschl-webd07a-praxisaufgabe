@@ -1,6 +1,9 @@
 <script>
+    import _ from 'lodash';
+
     export default({
         name: 'Main',
+        props: ['newListProp'],
         data() {
             return {
                 date: new Date(),
@@ -10,7 +13,37 @@
                     end: '',
                     title: '',
                     done: false
-                }
+                },
+                tasks: [
+                    { 
+                        list: 'Demoliste',
+                        start: '2023-03-30',
+                        end: '2023-04-05',
+                        title: 'Geschenk besorgen',
+                        done: false
+                    },
+                    { 
+                        list: 'Demoliste',
+                        start: '2023-04-10',
+                        end: '2023-04-29',
+                        title: 'Vortrag vorbereiten',
+                        done: false
+                    },
+                    { 
+                        list: 'Demoliste2',
+                        start: '2023-04-15',
+                        end: '2023-05-03',
+                        title: 'Einladungen versenden',
+                        done: true
+                    },
+                    { 
+                        list: 'Demoliste',
+                        start: '2023-07-16',
+                        end: '2023-07-25',
+                        title: 'Reise buchen',
+                        done: false
+                    }
+                ],
             }
         },
         methods: {
@@ -22,6 +55,9 @@
                 setInterval(this.setDate, 1000);
         },
         computed: {
+            lists() {
+                return _.uniq(this.tasks.map(task => task.list));
+            },  
             currentDate() {
                 return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
                 ${ this.date.getUTCDate() }.
@@ -72,6 +108,7 @@
                 <label for="listSelect">Liste wählen</label>
                 <select name="listSelect" id="listSelect" v-model="newTaskData.list">
                     <!-- Todo: options dynamisch ezeugen lassen -->
+                    <option v-for="list in lists" value="list">{{ list }}</option>
                 </select>
             </div>
             <button type="button" id="createNewTaskButton"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
@@ -79,6 +116,7 @@
 
         <div id="listsContainer">
             <h2>Ihre Listen</h2>
+            <p>{{ lists }}</p>
             <!-- Hier werden alle Listen angezeigt -->
         </div>
 

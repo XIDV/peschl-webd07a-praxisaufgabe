@@ -1,5 +1,5 @@
 <script>
-  import _ from 'lodash';
+  
   import Sidebar from './components/Sidebar.vue';
   import Main from './components/Main.vue';
   import CreateListButton from './components/CreateListButton.vue';
@@ -8,42 +8,7 @@
     components: {Sidebar, Main, CreateListButton},
     data() {
       return {
-        tasks: [
-          { 
-            list: 'Demoliste',
-            start: '2023-03-30',
-            end: '2023-04-05',
-            title: 'Geschenk besorgen',
-            done: false
-          },
-          { 
-            list: 'Demoliste',
-            start: '2023-04-10',
-            end: '2023-04-29',
-            title: 'Vortrag vorbereiten',
-            done: false
-          },
-          { 
-            list: 'Demoliste',
-            start: '2023-04-15',
-            end: '2023-05-03',
-            title: 'Einladungen versenden',
-            done: true
-          },
-          { 
-            list: 'Demoliste',
-            start: '2023-07-16',
-            end: '2023-07-25',
-            title: 'Reise buchen',
-            done: false
-          }
-        ],
         newListName: '',
-      }
-    },
-    computed: {
-      lists() {
-        return _.uniq(this.tasks.map(task => task.list));
       }
     },
     methods: {
@@ -53,41 +18,54 @@
       closeCreateListDialog() {
         document.getElementById('createListDialog').close();
       },
+      
+      
       createNewList() {
         const listName = this.newListName;
-        if(listName !== '') {                                             // bessere Validierung der Eingabe implementieren!
-          console.log('Erstelle neue Liste: ' + listName);
+        // Todo::: bessere Validierung der Eingabe !
+        if(listName !== '') {                       
+
+          // Todo::: Neue Liste Erstellen in Main triggern ...
           this.closeCreateListDialog();
         }
         this.newListName = '';
       },
   
+
     }
   })
 </script>
 
+
+
 <template>
   <div id="primeContainer">
+    
     <dialog id="createListDialog">
       <form action="">
         <div class="few">
           <label for="listName">Name der neuen Liste</label>
           <input v-model="newListName" type="text" id="listName" placeholder="z.B. Studium">
         </div>
+
         <CreateListButton @click="createNewList" />
+      
       </form>
       <footer>
         <a id="cancelCreation" href="#" @click.prevent="closeCreateListDialog">Abbrechen</a>
       </footer>
     </dialog>
 
+    
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
-
     <Main />
+
 
   </div>
   
 </template>
+
+
 
 <style>
   #primeContainer {
