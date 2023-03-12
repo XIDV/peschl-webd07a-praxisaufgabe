@@ -92,7 +92,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 2.5rem;
+        font-size: clamp(1.4rem, 3vw, 4.5rem);
         font-weight: 100;
         padding: .5rem 0;
         border-bottom: solid thin white;
