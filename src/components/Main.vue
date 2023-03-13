@@ -133,6 +133,7 @@
     <div id="mainWrapper">
         <header>
             <div id="dateContainer">{{ currentDate }}</div>
+            <div id="numOfPendingTasks"><p>{{ tasks.length }}</p></div>
             <div id="timeContainer">{{ currentTime }}</div>
         </header>
 
@@ -192,6 +193,18 @@
 
     h2 {
         font-size: 2.5rem;
+    }
+
+    #numOfPendingTasks {
+        font-size: 1.5rem;
+        width: 4vw;
+        height: 4vw;
+        display: inherit;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border: solid thin;
+        border-radius: 50%;
     }
 
     #createNewTaskForm {
@@ -256,6 +269,8 @@
 
     #listsContainer {
         display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 1rem
     }
 </style>
