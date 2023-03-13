@@ -1,10 +1,11 @@
 <script>
     import _ from 'lodash';
     import TaskList from './TaskList.vue';
+    import Infobar from './Infobar.vue';
 
     export default({
         name: 'Main',
-        components: {TaskList},
+        components: {TaskList, Infobar},
         props: {
             newName: String,
         },
@@ -114,6 +115,12 @@
                 });
                 return subLists;
             },
+            pendingList() {
+                return this.tasks.filter(task => !task.done);
+            },
+            doneList() {
+                return this.tasks.filter(task => task.done);
+            },
             currentDate() {
                 return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
                 ${ this.date.getUTCDate() }.
@@ -133,7 +140,8 @@
                         time[element] = `0${time[element]}`;
                     }
                 }
-                return `${time.hours}:${time.minutes}:${time.seconds}`;
+                // return `${time.hours}:${time.minutes}:${time.seconds}`;
+                return `${time.hours}:${time.minutes}`;
             },
             
         },
@@ -144,7 +152,7 @@
     <div id="mainWrapper">
         <header>
             <div id="dateContainer">{{ currentDate }}</div>
-            <div id="numOfPendingTasks"><p>{{ tasks.length }}</p></div>
+            <div id="numOfPendingTasks"><p>{{ pendingList.length }}</p></div>
             <div id="timeContainer">{{ currentTime }}</div>
         </header>
 
@@ -164,25 +172,24 @@
             <div class="few">
                 <label for="listSelect">Liste wählen</label>
                 <select name="listSelect" id="listSelect" v-model="newTaskData.list">
-                    <!-- Todo: options dynamisch ezeugen lassen -->
-                    <option v-for="list in allLists" :value='list'>{{ list }}</option>
-                </select>
-            </div>
-            <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
-        </form>
+                        <option v-for="list in allLists" :value='list'>{{ list }}</option>
+                    </select>
+                </div>
+                <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+            </form>
+            
+        <div id="contentWrapper">
+            <main>
+                <h2>Ihre Listen</h2>
+                <div id="listsContainer">
+                    <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" @taskStatusToggleEvent="toggleTaskStatus" />
+                </div>
+            </main>
+            <aside>
+                <Infobar :doneAndPending="{done: doneList, pending: pendingList}"/>
+            </aside>
 
-        <main>
-            <h2>Ihre Listen</h2>
-            <div id="listsContainer">
-                <!-- Hier werden alle Listen angezeigt -->
-                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" @taskStatusToggleEvent="toggleTaskStatus" />
-
-            </div>
-        </main>
-
-        <aside>
-            <!-- Anzeige aller laufenden und erledigten Aufgaben -->
-        </aside>
+        </div>
     </div>
 </template>
 
@@ -193,6 +200,7 @@
     }
 
     header {
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -200,6 +208,23 @@
         font-weight: 100;
         padding: .5rem 0;
         border-bottom: solid thin white;
+    }
+
+    #contentWrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    main {
+        min-width: 30rem;
+        flex: 1;
+    }
+
+    aside {
+        width: 100%;
+        border-top: solid thin;
+        margin-top: 2rem;
     }
 
     h2 {
@@ -278,6 +303,15 @@
         }
     }
 
+    @media screen and (min-width: 64em) {
+        aside {
+            width: 20rem;
+            padding-left: 2rem;
+            border-top: none;
+            border-left: solid thin;
+            margin: 2 0 0 0;
+        }
+    }
     #listsContainer {
         display: flex;
         justify-content: center;
