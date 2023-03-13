@@ -114,7 +114,7 @@
             currentDate() {
                 return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
                 ${ this.date.getUTCDate() }.
-                ${ this.date.getMonth() }.
+                ${ this.date.getMonth() + 1}.
                 ${ this.date.getFullYear() }`;
                 
             },
