@@ -92,6 +92,9 @@
                 this.tasks = _.remove(this.tasks, function(t) {
                     return t.list !== list;
                 });
+            },
+            toggleTaskStatus(task) {
+                this.tasks[this.tasks.indexOf(task)].done = !this.tasks[this.tasks.indexOf(task)].done;
             }
         },
         
@@ -172,7 +175,7 @@
             <h2>Ihre Listen</h2>
             <div id="listsContainer">
                 <!-- Hier werden alle Listen angezeigt -->
-                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" />
+                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" @taskStatusToggleEvent="toggleTaskStatus" />
 
             </div>
         </main>

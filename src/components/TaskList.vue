@@ -15,6 +15,9 @@ import { trigger } from '@vue/reactivity';
             },
             triggerListDel() {
                 this.$emit('delListEvent', this.subTasks[0].list);
+            },
+            triggerToggleStatus(task) {
+                this.$emit('taskStatusToggleEvent', task);
             }
         }
 
@@ -32,7 +35,7 @@ import { trigger } from '@vue/reactivity';
             <DelBu title="Liste löschen" @click="triggerListDel"/>
         </header>
         <div class="tasks">
-            <TaskListItem v-for="task in this.subTasks" :task="task" @delTaskEvent="triggerTaskDel"/>
+            <TaskListItem v-for="task in this.subTasks" :task="task" @delTaskEvent="triggerTaskDel" @taskStatusToggleEvent="triggerToggleStatus"/>
         </div>
     </div>
 </template>

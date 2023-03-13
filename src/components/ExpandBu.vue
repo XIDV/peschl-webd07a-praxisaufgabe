@@ -13,6 +13,6 @@
 
 <style scoped>
     .expandBu {
-        background-color: var(--listBgC);
+        background-color: transparent;
     }
 </style>
