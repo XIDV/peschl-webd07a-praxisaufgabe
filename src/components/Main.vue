@@ -87,6 +87,11 @@
             },
             delTask(task) {
                 this.tasks.splice(this.tasks.indexOf(task), 1);
+            },
+            delList(list) {
+                this.tasks = _.remove(this.tasks, function(t) {
+                    return t.list !== list;
+                });
             }
         },
         
@@ -167,7 +172,7 @@
             <h2>Ihre Listen</h2>
             <div id="listsContainer">
                 <!-- Hier werden alle Listen angezeigt -->
-                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask"/>
+                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" />
 
             </div>
         </main>
