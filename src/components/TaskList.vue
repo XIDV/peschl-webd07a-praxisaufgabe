@@ -1,12 +1,18 @@
 <script>
     import TaskListItem from './TaskListItem.vue';
     import DelBu from './DelBu.vue';
+import { trigger } from '@vue/reactivity';
 
     export default({
         name: 'TaskList',
         components: {TaskListItem, DelBu},
         props: {
             subTasks: Array,
+        },
+        methods: {
+            triggerTaskDel(task) {
+                this.$emit('delTaskEvent', task);
+            }
         }
 
         
@@ -23,7 +29,7 @@
             <DelBu title="Liste löschen"/>
         </header>
         <div class="tasks">
-            <TaskListItem v-for="task in this.subTasks" :task="task" />
+            <TaskListItem v-for="task in this.subTasks" :task="task" @delTaskEvent="triggerTaskDel"/>
         </div>
     </div>
 </template>

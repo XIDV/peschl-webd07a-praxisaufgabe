@@ -18,7 +18,11 @@
         methods: {
             toggleDetails() {
                 this.detailsHidden = !this.detailsHidden;
+            },
+            triggerTaskDel() {
+                this.$emit('delTaskEvent', this.task);
             }
+
         }
 
     });
@@ -31,7 +35,7 @@
             <div>{{ this.task.title }}</div>
             <div class="btnWrapper">
                 <ExpandBu title="Details anzeigen" @click="toggleDetails" />
-                <DelBu title="Aufgabe löschen" />
+                <DelBu title="Aufgabe löschen" @click="triggerTaskDel"/>
             </div>
         </header>
         <div class="taskDetails" :class="{'hidden' : detailsHidden}">

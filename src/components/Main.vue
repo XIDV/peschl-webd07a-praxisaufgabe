@@ -84,6 +84,9 @@
                 this.newTaskData.start = '';
                 this.newTaskData.end = '';
                 this.newTaskData.title = '';
+            },
+            delTask(task) {
+                this.tasks.splice(this.tasks.indexOf(task), 1);
             }
         },
         
@@ -164,7 +167,7 @@
             <h2>Ihre Listen</h2>
             <div id="listsContainer">
                 <!-- Hier werden alle Listen angezeigt -->
-                <TaskList v-for="list in subLists" :subTasks="list" />
+                <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask"/>
 
             </div>
         </main>
