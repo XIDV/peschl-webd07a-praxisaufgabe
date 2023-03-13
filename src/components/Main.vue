@@ -67,6 +67,23 @@
                 if(newList && !_.includes(this.allLists, newList)) {
                     this.allLists.push(newList);
                 }
+            },
+            addNewTask() {
+                const temp = {
+                    list: this.newTaskData.list,
+                    start: this.newTaskData.start,
+                    end: this.newTaskData.end,
+                    title: this.newTaskData.title,
+                    done: this.newTaskData.done
+                }
+                this.tasks.push(temp);
+                this.clearNewTaskForm();
+            },
+            clearNewTaskForm() {
+                this.newTaskData.list = '';
+                this.newTaskData.start = '';
+                this.newTaskData.end = '';
+                this.newTaskData.title = '';
             }
         },
         
@@ -136,10 +153,10 @@
                 <label for="listSelect">Liste wählen</label>
                 <select name="listSelect" id="listSelect" v-model="newTaskData.list">
                     <!-- Todo: options dynamisch ezeugen lassen -->
-                    <option v-for="list in allLists" value="list">{{ list }}</option>
+                    <option v-for="list in allLists" :value='list'>{{ list }}</option>
                 </select>
             </div>
-            <button type="button" id="createNewTaskButton"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+            <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
         </form>
 
         <main>
