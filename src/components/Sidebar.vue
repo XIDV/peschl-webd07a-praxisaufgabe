@@ -7,6 +7,7 @@
         data() {
             return {
                 sidebarVisible: true,
+                sidbarWidth: undefined,
             }
         },
         methods: {
@@ -15,8 +16,11 @@
             },
             showCreateListDialog() {
                 this.$emit('showCreateListDialogEvent');
-            }
-        }
+            },
+            sidebarChangeEvent() {
+                console.log('sidebar changed');
+            },
+        },
     });
 </script>
 
@@ -41,7 +45,6 @@
 <style scoped>
     #sidebar {
         position: relative;
-        max-width: 20rem;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -51,8 +54,12 @@
     }
     
     .default {
-        padding: 2rem;
-        
+        flex: 0 0 20rem;
+        padding: 2rem;   
+    }
+
+    .default #hideBarButton {
+        left: 18.5rem;
     }
 
     #sidebar,
@@ -63,6 +70,9 @@
     .hidden {
         flex: 0 0 0;
         padding: 0;
+    }
+    .hidden #hideBarButton {
+        left: -1.5rem;
     }
     .hidden img {
         transform: rotate(180deg);
@@ -83,8 +93,9 @@
         color: var(--black50);
     }
     h1 {
-        font-size: 6rem;
+        font-size: clamp(3rem, 5vw, 6rem);
         font-weight: 100;
+        text-align: center;
     }
     .subtitle {
         text-align: center;
@@ -93,9 +104,8 @@
     }
 
     #hideBarButton {
-        position: absolute;
-        right: -1.5rem;
-        top: 50%;
+        position: fixed;
+        top: 50vh;
         display: flex;
         justify-content: center;
         align-items: center;
