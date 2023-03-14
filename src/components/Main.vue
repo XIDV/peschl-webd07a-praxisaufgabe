@@ -232,18 +232,19 @@
     }
 
     #numOfPendingTasks {
-        font-size: 1.5rem;
-        width: 4vw;
-        height: 4vw;
+        font-size: clamp(1.2rem, 4vw, 4.5rem);
+        width: clamp(3rem, 5vw, 5rem);
+        height: clamp(3rem, 5vw, 5rem);
         display: inherit;
         justify-content: center;
         align-items: center;
         text-align: center;
-        border: solid thin;
+        border: solid .25rem;
         border-radius: 50%;
     }
 
     #createNewTaskForm {
+        /* max-width: 80rem; */
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -285,25 +286,23 @@
     button:hover {
         box-shadow: 0 0 0 .025rem white;
     }
-
-    @media screen and (min-width: 50em) {
+    
+    @media screen and (min-width: 64em) {
         #createNewTaskForm {
             flex-direction: row;
+            justify-content: center;
             align-items: flex-end;
             flex-wrap: wrap;
             gap: 1rem;
         }
-
+    
         .few {
-            flex: 1 0 10rem;
+            flex: 0 1 15rem;
         }
         button {
             align-self: flex-end;
             margin: 0;
         }
-    }
-
-    @media screen and (min-width: 64em) {
         aside {
             width: 20rem;
             padding-left: 2rem;

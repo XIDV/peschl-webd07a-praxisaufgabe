@@ -62,7 +62,7 @@ import { trigger } from '@vue/reactivity';
         justify-content: center;
         align-items: center;
         text-align: center;
-        border: solid thin;
+        border: solid .25rem;
         border-radius: 50%;
     }
     button {
