@@ -108,6 +108,11 @@
     outline: none;
   }
 
+  dialog #newListButton {
+    width: 20%;
+    height: 20%;
+  }
+
   #cancelCreation:link,
   #cancelCreation:visited {
     font-size: 1rem;

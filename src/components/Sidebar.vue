@@ -46,10 +46,6 @@
     #sidebar {
         position: relative;
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
         background-color: var(--secondBgC);
     }
     
@@ -114,6 +110,7 @@
         background-color: var(--secondBgC);
         border-radius: 50%;
         cursor: pointer;
+        transform: translateY(-50%);
         transition: transform 250ms ease-in-out;
     }
     #hideBarButton img {
@@ -121,10 +118,27 @@
         pointer-events: none;
     }
     #hideBarButton:hover {
-        transform: scale(110%);
+        transform: scale(110%) translateY(-50%);
     }
 
     #toolContainer {
-        transform: translateY(-50%);
+        position: sticky;
+        top: 20vh;
+        height: 50vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+
+    #newListButton {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    footer {
+        position: sticky;
+        top: 95vh;
+        text-align: center;
+    }
+    
 </style>
