@@ -81,6 +81,11 @@
     padding: 3rem;
     border: solid thin white;
   }
+
+  #createListDialog::backdrop {
+    backdrop-filter: blur(.5rem);
+  }
+
   form {
     width: 100%;
     display: flex;
