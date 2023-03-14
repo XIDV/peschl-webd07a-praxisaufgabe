@@ -16,6 +16,11 @@
                 this.done = this.doneAndPending.done;
                 this.pending = this.doneAndPending.pending;
             }
+        },
+        methods: {
+            triggerDelTask(i) {
+                this.$emit('delTaskEvent', this.done[i]);
+            }
         }
 
     });
@@ -40,7 +45,10 @@
                 <h2>Erledigt</h2>
             </header>
             <ul>
-                <li v-for="dTask in done">{{ dTask.title }}</li>
+                <li v-for="dTask in done">
+                    <div>{{ dTask.title }}</div>
+                    <button @click="triggerDelTask(done.indexOf(dTask))" type="button"><img src="./../assets/trash.svg" alt="Delet icon"></button>
+                </li>
             </ul>
         </div>
     </div>
@@ -65,5 +73,14 @@
     }
     #doneList li {
         color: var(--black50);
+    }
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    button {
+        background-color: transparent;
+        border: none;
     }
 </style>

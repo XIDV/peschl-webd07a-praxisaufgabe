@@ -186,7 +186,7 @@
                 </div>
             </main>
             <aside>
-                <Infobar :doneAndPending="{done: doneList, pending: pendingList}"/>
+                <Infobar @delTaskEvent="delTask" :doneAndPending="{done: doneList, pending: pendingList}"/>
             </aside>
 
         </div>
