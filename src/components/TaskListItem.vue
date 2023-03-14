@@ -25,8 +25,15 @@
             triggerToggleStatus() {
                 this.$emit('taskStatusToggleEvent', this.task);
             }
+        },
+        computed: {
+            formatedDates() {
+                return {
+                    start: new Date(this.task.start).toLocaleDateString(),
+                    end: new Date(this.task.end).toLocaleDateString(),
+                }
+            }
         }
-
     });
 </script>
 
@@ -43,11 +50,11 @@
         <div class="taskDetails" :class="{'hidden' : detailsHidden}">
             <div>
                 <div class="detHead">Startdatum</div>
-                <div>{{ this.task.start }}</div>
+                <div>{{ formatedDates.start }}</div>
             </div>
             <div>
                 <div class="detHead">Fällig am</div>
-                <div>{{ this.task.end }}</div>
+                <div>{{ formatedDates.end }}</div>
             </div>
 
         </div>

@@ -21,8 +21,8 @@
             triggerDelTask(i) {
                 this.$emit('delTaskEvent', this.done[i]);
             }
-        }
-
+        },
+        
     });
 </script>
 
@@ -33,9 +33,13 @@
         <div id="pendingList">
             <header>
                 <h2>Ausstehend</h2>
+                <div>Fällig</div>
             </header>
             <ul>
-                <li v-for="pTask in pending">{{ pTask.title }}</li>
+                <li v-for="pTask in pending">
+                    <div>{{ pTask.title }}</div>
+                    <div>{{ new Date(pTask.end).toLocaleDateString() }}</div>
+                </li>
             </ul>
         </div>
     
@@ -58,11 +62,19 @@
 
 
 <style scoped>
-    h2 {
-        font-size: 1rem;
-        font-weight: 900;
+    header {
         border-bottom: solid thin;
         margin-top: 2rem;
+    }
+    header:first-of-type {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h2,
+    header div {
+        font-size: 1rem;
+        font-weight: 900;
     }
     ul {
         list-style: none;
