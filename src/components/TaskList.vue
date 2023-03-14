@@ -26,6 +26,11 @@
             closeDelListDialog() {
                 document.querySelector('#confirmDelListDialog').close();
             }
+        },
+        computed: {
+            subTasksPending() {
+                return this.subTasks.filter(task => !task.done).length;
+            }
         }
 
         
@@ -52,7 +57,10 @@
         </dialog>
         <header class="tlh">
             <h3>{{ this.subTasks[0].list }}</h3>
-            <div class="pendingTasksInfo"><p>{{ subTasks.length }}</p></div>
+            <div class="pendingTasksInfo">
+                <p v-if="subTasksPending > 0">{{ subTasksPending }}</p>
+                <img v-else src="./../assets/check-circle.svg">
+            </div>
             <DelBu title="Liste löschen" @click="operateDelListDialog"/>
         </header>
         <div class="tasks">
