@@ -1,7 +1,6 @@
 <script>
     import TaskListItem from './TaskListItem.vue';
     import DelBu from './DelBu.vue';
-import { trigger } from '@vue/reactivity';
 
     export default({
         name: 'TaskList',
@@ -15,9 +14,17 @@ import { trigger } from '@vue/reactivity';
             },
             triggerListDel() {
                 this.$emit('delListEvent', this.subTasks[0].list);
+                this.closeDelListDialog();
             },
             triggerToggleStatus(task) {
                 this.$emit('taskStatusToggleEvent', task);
+            },
+            operateDelListDialog() {
+                document.querySelector('#confirmDelListDialog').showModal();
+
+            },
+            closeDelListDialog() {
+                document.querySelector('#confirmDelListDialog').close();
             }
         }
 
@@ -29,10 +36,24 @@ import { trigger } from '@vue/reactivity';
 
 <template>
     <div class="taskList">
+        <dialog id="confirmDelListDialog">
+            <header>
+                <h3>Achtung!!!</h3>
+            </header>
+            <div>
+                <p>Das Löschen der gesamten Liste kann <strong>nicht</strong> rückgängig gemacht werden!</p>
+                <p>Es werden alle enthaltenen Aufgaben ebenfalls gelöscht!</p>
+                <p>Wollen Sie die Liste <strong>"{{ this.subTasks[0].list }}"</strong> löschen?</p>
+            </div>
+            <div>
+                <button @click="closeDelListDialog" id="cancelDel" type="button">Abbrechen!</button>
+                <button @click="triggerListDel" id="deletNow" type="button">Jetzt löschen!</button>
+            </div>
+        </dialog>
         <header class="tlh">
             <h3>{{ this.subTasks[0].list }}</h3>
             <div class="pendingTasksInfo"><p>{{ subTasks.length }}</p></div>
-            <DelBu title="Liste löschen" @click="triggerListDel"/>
+            <DelBu title="Liste löschen" @click="operateDelListDialog"/>
         </header>
         <div class="tasks">
             <TaskListItem v-for="task in this.subTasks" :task="task" @delTaskEvent="triggerTaskDel" @taskStatusToggleEvent="triggerToggleStatus"/>
@@ -75,5 +96,33 @@ import { trigger } from '@vue/reactivity';
     }
     button:hover {
         transform: scale(110%);
+    }
+
+    #confirmDelListDialog {
+        color: white;
+        background-color: var(--secondBgC);
+    }
+    #confirmDelListDialog::backdrop {
+        backdrop-filter: blur(.5rem);
+    }
+    #confirmDelListDialog div:last-of-type {
+        display: flex;
+        justify-content: space-evenly;
+    }
+    #confirmDelListDialog h3,
+    #confirmDelListDialog p:last-of-type {
+        text-align: center;
+    }
+    
+    #confirmDelListDialog button {
+        width: 8rem;
+        color: white;
+        font-weight: bold;
+    }
+    #cancelDel {
+        background-color: var(--black50);
+    }
+    #deletNow {
+        background-color: var(--warnColor);
     }
 </style>
