@@ -10,6 +10,9 @@
       return {
         newListName: '',
         newListNameTemp: '',
+        delListDialogVisible: false,
+        listName: '',
+        delListName: '',
       }
     },
     methods: {
@@ -19,7 +22,19 @@
       closeCreateListDialog() {
         document.getElementById('createListDialog').close();
       },
-      
+
+      openDelDialog(name) {
+        this.listName = name;
+        document.querySelector('#delListDialog').showModal();
+      },
+      closeDelDialog() {
+        document.querySelector('#delListDialog').close();
+      },
+      triggerListDelete() {
+        this.delListName  = this.listName;
+        this.closeDelDialog();
+      },
+
       
       createNewList() {
         const listName = this.newListName;
@@ -41,6 +56,20 @@
 
 <template>
   <div id="primeContainer">
+
+    <dialog id="delListDialog">
+      <header>
+        <h3>Liste Löschen?</h3>
+      </header>
+      <div>
+        <p>Wollen Sie die Liste <strong>"{{ listName }}"</strong> mit allen darin enthaltenen Aufgaben löschen?"</p>
+        <p><strong>Dieser Vorgang kann nicht wiederrufen werden!</strong></p>
+      </div>
+      <div>
+        <button type="button" id="cancelDelete" @click="closeDelDialog">Abbrechen!</button>
+        <button type="button" id="confirmDelete" @click="triggerListDelete">Liste jetzt löschen!</button>
+      </div>
+    </dialog>
     
     <dialog id="createListDialog">
       <form action="">
@@ -59,9 +88,7 @@
 
     
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
-    <Main :newName="newListNameTemp" />
-
-    
+    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" />
     
   </div>
   
@@ -71,19 +98,51 @@
 
 <style>
   #primeContainer {
+    position: relative;
     display: flex;
   }
 
-  #createListDialog {
-    width: 30rem;
+  dialog {
+    width: clamp(30rem, 90vw, 50rem);
     color: white;
     background-color: var(--secondBgC);
     padding: 3rem;
     border: solid thin white;
   }
 
-  #createListDialog::backdrop {
+  dialog::backdrop {
     backdrop-filter: blur(.5rem);
+  }
+
+  #delListDialog div:last-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  #delListDialog button {
+    font-size: 1.2rem;
+    font-weight: 900;
+    width: 20rem;
+    height: 4rem;
+    padding: 1rem;
+  }
+
+  #cancelDelete {
+    background-color: var(--black50);
+  }
+
+  #confirmDelete {
+    background-color: var(--warnColor);
+  }
+
+  dialog header {
+    text-align: center;
+  }
+
+  dialog div:last-of-type {
+    display: flex;
+    justify-content: space-evenly;
   }
 
   form {

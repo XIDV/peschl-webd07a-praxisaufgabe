@@ -8,6 +8,7 @@
         components: {TaskList, Infobar},
         props: {
             newName: String,
+            delListName: String,
         },
         data() {
             return {
@@ -57,6 +58,9 @@
             newName(wert) {
                 this.addListNames(wert);
             },
+            delListName(list) {
+                this.delList(list);
+            }
         },
         
         methods: {
@@ -65,8 +69,6 @@
             },
             addListNames(newList) {
                 this.allLists = this.lists;
-                console.log(this.allLists);
-                console.log(this.lists);
                 if(newList && !_.includes(this.allLists, newList)) {
                     this.allLists.push(newList);
                 }
@@ -95,6 +97,11 @@
                 this.addListNames();
                 this.saveTasksToLocalStorage();
             },
+
+            triggerListDel(list) {
+                this.$emit('delListEvent', list);
+            },
+
             delList(list) {
                 this.tasks = _.remove(this.tasks, function(t) {
                     return t.list !== list;
@@ -102,6 +109,9 @@
                 this.addListNames();
                 this.saveTasksToLocalStorage();
             },
+
+
+
             toggleTaskStatus(task) {
                 this.tasks[this.tasks.indexOf(task)].done = !this.tasks[this.tasks.indexOf(task)].done;
                 this.saveTasksToLocalStorage();
@@ -201,7 +211,7 @@
             <main>
                 <h2>Ihre Listen</h2>
                 <div id="listsContainer">
-                    <TaskList v-for="list in subLists" :subTasks="list" @delTaskEvent="delTask" @delListEvent="delList" @taskStatusToggleEvent="toggleTaskStatus" />
+                    <TaskList v-for="list in subLists" :subTasksList="list" :key="list[0].list" @delTaskEvent="delTask" @delListEvent="triggerListDel" @taskStatusToggleEvent="toggleTaskStatus" />
                 </div>
             </main>
             <aside>

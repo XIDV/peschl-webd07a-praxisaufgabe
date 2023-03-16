@@ -6,11 +6,11 @@
         name: 'TaskList',
         components: {TaskListItem, DelBu},
         props: {
-            subTasks: Array,
+            subTasksList: Array,
         },
         data() {
             return {
-                delListName: this.subTasks[0].list,
+                listName: this.subTasksList[0].list,
             }
         },
         methods: {
@@ -18,28 +18,17 @@
                 this.$emit('delTaskEvent', task);
             },
             triggerListDel() {
-                this.$emit('delListEvent', this.subTasks[0].list);
-                this.closeDelListDialog();
+                this.$emit('delListEvent', this.listName);
             },
             triggerToggleStatus(task) {
                 this.$emit('taskStatusToggleEvent', task);
             },
-            operateDelListDialog() {
-                document.querySelector('#confirmDelListDialog').showModal();
-
-            },
-            closeDelListDialog() {
-                document.querySelector('#confirmDelListDialog').close();
-            }
         },
         computed: {
             subTasksPending() {
-                return this.subTasks.filter(task => !task.done).length;
+                return this.subTasksList.filter(task => !task.done).length;
             },
         },
-        created() {
-            console.log(this.subTasks);
-        }
     });
 </script>
 
@@ -47,38 +36,25 @@
 
 <template>
     <div class="taskList">
-        <dialog id="confirmDelListDialog">
-            <header>
-                <h3>Achtung!!!</h3>
-            </header>
-            <div>
-                <p>Das Löschen der gesamten Liste kann <strong>nicht</strong> rückgängig gemacht werden!</p>
-                <p>Es werden alle enthaltenen Aufgaben ebenfalls gelöscht!</p>
-                <p>Wollen Sie die Liste <strong>"{{ delListName }}"</strong> löschen?</p>
-            </div>
-            <div>
-                <button @click="closeDelListDialog" id="cancelDel" type="button">Abbrechen!</button>
-                <button @click="triggerListDel" id="deletNow" type="button">Jetzt löschen!</button>
-            </div>
-        </dialog>
         <header class="tlh">
-            <h3>{{ this.subTasks[0].list }}</h3>
+            <h3>{{ listName }}</h3>
             <div class="pendingTasksInfo">
                 <p v-if="subTasksPending > 0">{{ subTasksPending }}</p>
                 <img v-else src="./../assets/check-circle.svg">
             </div>
-            <DelBu title="Liste löschen" @click="operateDelListDialog"/>
+            <DelBu title="Liste löschen" @click="triggerListDel"/>
         </header>
         <div class="tasks">
-            <TaskListItem v-for="task in this.subTasks" :task="task" @delTaskEvent="triggerTaskDel" @taskStatusToggleEvent="triggerToggleStatus"/>
+            <TaskListItem v-for="task in this.subTasksList" :task="task" @delTaskEvent="triggerTaskDel" @taskStatusToggleEvent="triggerToggleStatus"/>
         </div>
     </div>
 </template>
 
 
 
-<style >
+<style>
     .taskList {
+        position: relative;
         flex: 0 1 30rem;
         background-color: var(--listBgC);
     }
@@ -110,33 +86,5 @@
     }
     button:hover {
         transform: scale(110%);
-    }
-
-    #confirmDelListDialog {
-        color: white;
-        background-color: var(--secondBgC);
-    }
-    #confirmDelListDialog::backdrop {
-        backdrop-filter: blur(.5rem);
-    }
-    #confirmDelListDialog div:last-of-type {
-        display: flex;
-        justify-content: space-evenly;
-    }
-    #confirmDelListDialog h3,
-    #confirmDelListDialog p:last-of-type {
-        text-align: center;
-    }
-    
-    #confirmDelListDialog button {
-        width: 8rem;
-        color: white;
-        font-weight: bold;
-    }
-    #cancelDel {
-        background-color: var(--black50);
-    }
-    #deletNow {
-        background-color: var(--warnColor);
     }
 </style>
