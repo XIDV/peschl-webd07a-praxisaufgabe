@@ -65,6 +65,8 @@
             },
             addListNames(newList) {
                 this.allLists = this.lists;
+                console.log(this.allLists);
+                console.log(this.lists);
                 if(newList && !_.includes(this.allLists, newList)) {
                     this.allLists.push(newList);
                 }
@@ -78,7 +80,9 @@
                     done: this.newTaskData.done
                 }
                 this.tasks.push(temp);
+                this.addListNames();
                 this.clearNewTaskForm();
+                this.saveTasksToLocalStorage();
             },
             clearNewTaskForm() {
                 this.newTaskData.list = '';
@@ -88,19 +92,34 @@
             },
             delTask(task) {
                 this.tasks.splice(this.tasks.indexOf(task), 1);
+                this.addListNames();
+                this.saveTasksToLocalStorage();
             },
             delList(list) {
                 this.tasks = _.remove(this.tasks, function(t) {
                     return t.list !== list;
                 });
+                this.addListNames();
+                this.saveTasksToLocalStorage();
             },
             toggleTaskStatus(task) {
                 this.tasks[this.tasks.indexOf(task)].done = !this.tasks[this.tasks.indexOf(task)].done;
+                this.saveTasksToLocalStorage();
+            },
+            checkForLokalTasksData() {
+                return localStorage.getItem('savedTasks');
+            },
+            saveTasksToLocalStorage() {
+                localStorage.setItem('savedTasks', JSON.stringify(this.tasks));
             }
         },
         
         created() {
             setInterval(this.setDate, 1000);
+            let localTasks = this.checkForLokalTasksData();
+            if(localTasks !== null) {
+                this.tasks = JSON.parse(localTasks) 
+            }
             this.addListNames();
         },
         

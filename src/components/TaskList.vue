@@ -8,6 +8,11 @@
         props: {
             subTasks: Array,
         },
+        data() {
+            return {
+                delListName: this.subTasks[0].list,
+            }
+        },
         methods: {
             triggerTaskDel(task) {
                 this.$emit('delTaskEvent', task);
@@ -30,10 +35,11 @@
         computed: {
             subTasksPending() {
                 return this.subTasks.filter(task => !task.done).length;
-            }
+            },
+        },
+        created() {
+            console.log(this.subTasks);
         }
-
-        
     });
 </script>
 
@@ -48,7 +54,7 @@
             <div>
                 <p>Das Löschen der gesamten Liste kann <strong>nicht</strong> rückgängig gemacht werden!</p>
                 <p>Es werden alle enthaltenen Aufgaben ebenfalls gelöscht!</p>
-                <p>Wollen Sie die Liste <strong>"{{ this.subTasks[0].list }}"</strong> löschen?</p>
+                <p>Wollen Sie die Liste <strong>"{{ delListName }}"</strong> löschen?</p>
             </div>
             <div>
                 <button @click="closeDelListDialog" id="cancelDel" type="button">Abbrechen!</button>
