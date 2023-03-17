@@ -13,17 +13,9 @@
                 listName: this.subTasksList[0].list,
             }
         },
-        methods: {
-            triggerTaskDel(task) {
-                this.$emit('delTaskEvent', task);
-            },
-            triggerListDel() {
-                this.$emit('delListEvent', this.listName);
-            },
-            triggerToggleStatus(task) {
-                this.$emit('taskStatusToggleEvent', task);
-            },
-        },
+
+        emits: ['delTaskEvent', 'taskStatusToggleEvent'],
+        
         computed: {
             subTasksPending() {
                 return this.subTasksList.filter(task => !task.done).length;
@@ -42,10 +34,10 @@
                 <p v-if="subTasksPending > 0">{{ subTasksPending }}</p>
                 <img v-else src="./../assets/check-circle.svg">
             </div>
-            <DelBu title="Liste löschen" @click="triggerListDel"/>
+            <DelBu title="Liste löschen" @click="$parent.$emit('delListEvent', this.listName);"/>
         </header>
         <div class="tasks">
-            <TaskListItem v-for="task in this.subTasksList" :task="task" @delTaskEvent="triggerTaskDel" @taskStatusToggleEvent="triggerToggleStatus"/>
+            <TaskListItem v-for="task in this.subTasksList" :task="task" />
         </div>
     </div>
 </template>

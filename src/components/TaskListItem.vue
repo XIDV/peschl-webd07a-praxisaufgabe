@@ -19,12 +19,6 @@
             toggleDetails() {
                 this.detailsHidden = !this.detailsHidden;
             },
-            triggerTaskDel() {
-                this.$emit('delTaskEvent', this.task);
-            },
-            triggerToggleStatus() {
-                this.$emit('taskStatusToggleEvent', this.task);
-            }
         },
         computed: {
             formatedDates() {
@@ -40,13 +34,15 @@
 
 <template>
     <div class="tli" :class="{'taskDone' : this.task.done}">
+        
         <header>
-            <div class="taskTitle" @click="triggerToggleStatus" title="Status ändern">{{ this.task.title }}</div>
+            <div class="taskTitle" @click="$parent.$emit('taskStatusToggleEvent', this.task)" title="Status ändern">{{ this.task.title }}</div>
             <div class="btnWrapper">
                 <ExpandBu title="Details anzeigen" @click="toggleDetails" />
-                <DelBu title="Aufgabe löschen" @click="triggerTaskDel"/>
+                <DelBu title="Aufgabe löschen" @click="$parent.$emit('delTaskEvent', this.task)"/>
             </div>
         </header>
+
         <div class="taskDetails" :class="{'hidden' : detailsHidden}">
             <div>
                 <div class="detHead">Startdatum</div>

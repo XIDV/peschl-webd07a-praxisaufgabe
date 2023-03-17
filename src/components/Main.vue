@@ -10,6 +10,7 @@
             newName: String,
             delListName: String,
         },
+        emits: ['delListEvent'],
         data() {
             return {
                 date: new Date(),
@@ -96,10 +97,6 @@
                 this.tasks.splice(this.tasks.indexOf(task), 1);
                 this.addListNames();
                 this.saveTasksToLocalStorage();
-            },
-
-            triggerListDel(list) {
-                this.$emit('delListEvent', list);
             },
 
             delList(list) {
@@ -211,7 +208,7 @@
             <main>
                 <h2>Ihre Listen</h2>
                 <div id="listsContainer">
-                    <TaskList v-for="list in subLists" :subTasksList="list" :key="list[0].list" @delTaskEvent="delTask" @delListEvent="triggerListDel" @taskStatusToggleEvent="toggleTaskStatus" />
+                    <TaskList v-for="list in subLists" :subTasksList="list" :key="list[0].list" @delTaskEvent="delTask" @taskStatusToggleEvent="toggleTaskStatus" />
                 </div>
             </main>
             <aside>
