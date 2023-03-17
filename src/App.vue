@@ -13,6 +13,7 @@
         delListDialogVisible: false,
         listName: '',
         delListName: '',
+        showInfo: false,
       }
     },
     methods: {
@@ -21,6 +22,7 @@
       },
       closeCreateListDialog() {
         document.getElementById('createListDialog').close();
+        this.showInfo = false;
       },
 
       openDelDialog(name) {
@@ -34,15 +36,19 @@
         this.delListName  = this.listName;
         this.closeDelDialog();
       },
-
+      validString(stringToValidate) {
+        return stringToValidate !== '' && 
+          !stringToValidate.split('', 1)
+          .every(d => d === ' ');
+      },
       
       createNewList() {
         const listName = this.newListName;
-        // Todo::: bessere Validierung der Eingabe !
-        if(listName !== '') {                       
-          
+        if(this.validString(listName)) {
           this.newListNameTemp = listName;
           this.closeCreateListDialog();
+        } else {
+          this.showInfo = true;
         }
         this.newListName = '';
       },
@@ -76,6 +82,7 @@
         <div class="few">
           <label for="listName">Name der neuen Liste</label>
           <input v-model="newListName" type="text" id="listName" placeholder="z.B. Studium">
+          <div v-if="showInfo" class="warn">Bitte geben Sie einen Namen für die neue Liste ein.</div>
         </div>
 
         <CreateListButton @click.prevent="createNewList" />
@@ -185,5 +192,11 @@
   }
   #cancelCreation:hover {
     text-decoration: underline;
+  }
+
+  .warn {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--warnColor);
   }
 </style>
