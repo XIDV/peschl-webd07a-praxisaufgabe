@@ -15,6 +15,7 @@
             return {
                 date: new Date(),
                 allLists: [],
+                showInfo: false,
                 newTaskData: {
                     list: '',
                     start: '',
@@ -82,10 +83,15 @@
                     title: this.newTaskData.title,
                     done: this.newTaskData.done
                 }
-                this.tasks.push(temp);
-                this.addListNames();
+                if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
+                    this.tasks.push(temp);
+                    this.addListNames();
+                    this.saveTasksToLocalStorage();
+                    this.showInfo = false;
+                } else {
+                    this.showInfo = true;
+                }
                 this.clearNewTaskForm();
-                this.saveTasksToLocalStorage();
             },
             clearNewTaskForm() {
                 this.newTaskData.list = '';
@@ -190,16 +196,17 @@
                 <input type="date" name="startDate" id="startDate" v-model="newTaskData.start">
             </div>
             <div class="few">
-                <label for="endDate">Fällig am *</label>
+                <label for="endDate">Fällig am</label>
                 <input type="date" name="endDate" id="endDate" v-model="newTaskData.end">
             </div>
             <div class="few">
-                <label for="listSelect">Liste wählen</label>
+                <label for="listSelect">Liste wählen *</label>
                 <select name="listSelect" id="listSelect" v-model="newTaskData.list">
-                        <option v-for="list in allLists" :value='list'>{{ list }}</option>
-                    </select>
-                </div>
-                <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+                    <option v-for="list in allLists" :value='list'>{{ list }}</option>
+                </select>
+            </div>
+            <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+            <div class="warn" v-if="showInfo" style="width: 100%; text-align: center;">Tragen Sie bitte einen Namen f. die Aufgabe ein und wählen Sie eine Liste aus.</div>
             </form>
             
         <div id="contentWrapper">
