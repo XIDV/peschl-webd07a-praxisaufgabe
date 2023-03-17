@@ -7,7 +7,6 @@
         data() {
             return {
                 sidebarVisible: true,
-                sidbarWidth: undefined,
             }
         },
         methods: {
@@ -17,10 +16,14 @@
             showCreateListDialog() {
                 this.$emit('showCreateListDialogEvent');
             },
-            sidebarChangeEvent() {
-                console.log('sidebar changed');
-            },
+            checkWindowWidth() {
+                window.innerWidth < 880 ? this.sidebarVisible = false : this.sidebarVisible = true;
+            }
         },
+        created() {
+            this.checkWindowWidth();
+            window.addEventListener('resize', this.checkWindowWidth);
+        }
     });
 </script>
 
