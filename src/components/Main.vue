@@ -107,8 +107,6 @@
                 this.saveTasksToLocalStorage();
             },
 
-
-
             toggleTaskStatus(task) {
                 this.tasks[this.tasks.indexOf(task)].done = !this.tasks[this.tasks.indexOf(task)].done;
                 this.saveTasksToLocalStorage();
@@ -185,7 +183,7 @@
         <form action="" id="createNewTaskForm">
             <div class="few">
                 <label for="taskName">Neue Aufgabe erstellen *</label>
-                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" required v-model="newTaskData.title">
+                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" v-model="newTaskData.title">
             </div>
             <div class="few">
                 <label for="startDate">Startdatum wählen</label>
