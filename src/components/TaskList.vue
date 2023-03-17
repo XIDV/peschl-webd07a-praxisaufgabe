@@ -47,7 +47,8 @@
 <style>
     .taskList {
         position: relative;
-        flex: 0 1 30rem;
+        /*flex: 0 1 30rem;*/
+        width: clamp(10rem, 100%, 30rem);
         background-color: var(--listBgC);
     }
 
@@ -79,4 +80,10 @@
     button:hover {
         transform: scale(110%);
     }
+
+    /* @media screen and (min-width: 80em) {
+        .taskList {
+            width: 45%;
+        }
+    } */
 </style>
