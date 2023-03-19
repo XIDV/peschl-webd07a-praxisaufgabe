@@ -46,6 +46,11 @@
         </header>
         <div id="toolContainer">
             <CreateListButton @click="showCreateListDialog" />
+            <div>
+                <button type="button" id="importTasks" title="Aufgaben importieren"><img src="./../assets/import-arrow-down.svg" alt="Import-Icon"></button>
+                <button type="button" id="exportTasks" title="Aufgaben exportieren"><img src="./../assets/floppy-disk.svg" alt="Save-Icon"></button>
+            </div>
+
         </div>
         <footer>
             <p class="cpr">&copy; Sebastian Peschl (2023)</p>
@@ -158,8 +163,21 @@
         top: 20vh;
         height: 50vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 1rem;
+    }
+
+    #toolContainer div {
+        display: inherit;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    #importTasks,
+    #exportTasks {
+        width: 4rem;
     }
 
     #newListButton {
