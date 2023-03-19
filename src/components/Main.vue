@@ -134,15 +134,10 @@
             importTaskData() {
                 console.log('Import starten');
                 // todo::: 
-
-                var input = document.createElement('input');
-                input.type = 'file';
-                input.click();
             },
             expTaskData() {
                 console.log('Export starten');
                 // todo :::
-
             }
         },
         
