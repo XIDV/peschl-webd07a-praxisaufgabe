@@ -178,6 +178,7 @@
     #importTasks,
     #exportTasks {
         width: 4rem;
+        background-color: transparent;
     }
 
     #newListButton {
