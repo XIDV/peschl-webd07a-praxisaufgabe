@@ -61,7 +61,7 @@
 
 <style scoped>
     .tli {
-        padding: 1rem;
+        padding: 0 1rem;
         border: solid thin;
         margin: .5rem;
         overflow: hidden;
@@ -69,7 +69,8 @@
     .taskDone {
         background-color: var(--black50);
     }
-    .taskDone .taskTitle {
+    .taskDone .taskTitle,
+    .taskDone .taskTitle:hover {
         text-decoration: line-through;
     }
     header {
@@ -79,12 +80,14 @@
         margin: 0 0 .5rem 0;
     }
     .taskTitle {
+        flex: 1;
+        padding: 1rem 0;
         cursor: pointer;
         transition: all 250ms ease-in-out;
     }
     .taskTitle:hover {
         text-decoration: underline;
-        transform: scale(110%);
+        transform: scale(105%);
     }
     .btnWrapper {
         display: inherit;

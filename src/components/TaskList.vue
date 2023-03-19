@@ -47,7 +47,6 @@
 <style>
     .taskList {
         position: relative;
-        /*flex: 0 1 30rem;*/
         width: clamp(10rem, 100%, 30rem);
         background-color: var(--listBgC);
     }
