@@ -235,6 +235,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: .25rem;
         font-size: clamp(1.4rem, 3vw, 4.5rem);
         font-weight: 100;
         padding: .5rem 0;
@@ -245,10 +246,10 @@
         width: 100%;
         display: flex;
         flex-wrap: wrap;
+        gap: 1rem;
     }
 
     main {
-        min-width: 30rem;
         flex: 1;
     }
 

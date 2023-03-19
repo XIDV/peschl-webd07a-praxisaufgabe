@@ -47,18 +47,63 @@
 
 <style scoped>
     #sidebar {
-        position: relative;
+        position: absolute;
         min-height: 100vh;
         background-color: var(--secondBgC);
+        z-index: 2;
+    }
+
+    #hideBarButton {
+        position: fixed;
+        top: 50vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        background-color: var(--secondBgC);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 250ms ease-in-out;
+        z-index: 3;
+    }
+    .default #hideBarButton {
+        right: .5rem;
+        border: solid .125rem;
+        transform: translate(50%, -50%);
+    }
+    .hidden #hideBarButton {
+        left: 0;
+        border: none;
+        transform: translate(-50%, -50%);
+    }
+    #hideBarButton img {
+        width: 45%;
+        pointer-events: none;
+    }
+    .default #hideBarButton:hover {
+        transform: scale(110%) translate(50%, -50%);
+    }
+
+    .hidden #hideBarButton:hover {
+        transform: scale(110%) translate(-50%, -50%);
+    }
+
+    @media  screen and (min-width: 32em) {
+        #sidebar {
+            position: relative;
+        }
+        #hideBarButton {
+            position: absolute;
+        }
+        .default #hideBarButton{
+            border: none;
+        }
     }
     
     .default {
         flex: 0 0 20rem;
         padding: 2rem;   
-    }
-
-    .default #hideBarButton {
-        left: 18.5rem;
     }
 
     #sidebar,
@@ -69,9 +114,6 @@
     .hidden {
         flex: 0 0 0;
         padding: 0;
-    }
-    .hidden #hideBarButton {
-        left: -1.5rem;
     }
     .hidden img {
         transform: rotate(180deg);
@@ -100,28 +142,6 @@
         text-align: center;
         font-weight: 700;
         font-style: italic;
-    }
-
-    #hideBarButton {
-        position: fixed;
-        top: 50vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 3rem;
-        height: 3rem;
-        background-color: var(--secondBgC);
-        border-radius: 50%;
-        cursor: pointer;
-        transform: translateY(-50%);
-        transition: transform 250ms ease-in-out;
-    }
-    #hideBarButton img {
-        width: 45%;
-        pointer-events: none;
-    }
-    #hideBarButton:hover {
-        transform: scale(110%) translateY(-50%);
     }
 
     #toolContainer {

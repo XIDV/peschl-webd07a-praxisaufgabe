@@ -17,6 +17,7 @@
 
 <style scoped>
     #newListButton {
+        min-width: 3rem;
         background-color: var(--listBgC);
         border: none;
         cursor: pointer;

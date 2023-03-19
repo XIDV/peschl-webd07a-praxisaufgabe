@@ -110,11 +110,18 @@
   }
 
   dialog {
-    width: clamp(30rem, 90vw, 50rem);
+    width: clamp(20rem, 90vw, 30rem);
     color: white;
     background-color: var(--secondBgC);
     padding: 3rem;
     border: solid thin white;
+  }
+
+  dialog form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .5rem;
   }
 
   dialog::backdrop {
@@ -132,7 +139,7 @@
     font-weight: 900;
     width: 20rem;
     height: 4rem;
-    padding: 1rem;
+    padding: .5rem;
   }
 
   #cancelDelete {
