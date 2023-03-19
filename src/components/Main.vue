@@ -9,6 +9,7 @@
         props: {
             newName: String,
             delListName: String,
+            declaredFileOp: String,
         },
         emits: ['delListEvent'],
         data() {
@@ -62,6 +63,13 @@
             },
             delListName(list) {
                 this.delList(list);
+            },
+            declaredFileOp(op) {
+                if(op === 'import') {
+                    this.importTaskData();
+                } else if(op === 'export') {
+                    this.expTaskData();
+                }
             }
         },
         
@@ -122,6 +130,19 @@
             },
             saveTasksToLocalStorage() {
                 localStorage.setItem('savedTasks', JSON.stringify(this.tasks));
+            },
+            importTaskData() {
+                console.log('Import starten');
+                // todo::: 
+
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.click();
+            },
+            expTaskData() {
+                console.log('Export starten');
+                // todo :::
+
             }
         },
         

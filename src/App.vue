@@ -15,6 +15,7 @@
         delListName: '',
         showInfo: false,
         changer: false,
+        fileOperation: '',
       }
     },
     methods: {
@@ -55,7 +56,10 @@
         this.newListName = '';
       },
   
-
+      triggerFileOp(operation) {
+        this.fileOperation = operation;
+        // this.fileOperation = '';
+      }
     }
   })
 </script>
@@ -96,8 +100,8 @@
     </dialog>
 
     
-    <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer"/>
-    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" />
+    <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer" @triggerFileOpEvent="triggerFileOp" />
+    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" :declaredFileOp="fileOperation" />
     
   </div>
   

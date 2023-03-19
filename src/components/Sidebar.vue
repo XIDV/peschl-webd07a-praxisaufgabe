@@ -12,6 +12,7 @@
                 sidebarVisible: true,
             }
         },
+        emits: ['triggerFileOpEvent'],
         methods: {
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
@@ -21,7 +22,7 @@
             },
             checkWindowWidth() {
                 window.innerWidth < 880 ? this.sidebarVisible = false : this.sidebarVisible = true;
-            }
+            },
         },
         created() {
             this.checkWindowWidth();
@@ -47,8 +48,8 @@
         <div id="toolContainer">
             <CreateListButton @click="showCreateListDialog" />
             <div>
-                <button type="button" id="importTasks" title="Aufgaben importieren"><img src="./../assets/import-arrow-down.svg" alt="Import-Icon"></button>
-                <button type="button" id="exportTasks" title="Aufgaben exportieren"><img src="./../assets/floppy-disk.svg" alt="Save-Icon"></button>
+                <button type="button" id="importTasks" title="Aufgaben importieren" @click="$emit('triggerFileOpEvent', 'import')"><img src="./../assets/import-arrow-down.svg" alt="Import-Icon"></button>
+                <button type="button" id="exportTasks" title="Aufgaben exportieren" @click="$emit('triggerFileOpEvent', 'export')"><img src="./../assets/floppy-disk.svg" alt="Save-Icon"></button>
             </div>
 
         </div>
