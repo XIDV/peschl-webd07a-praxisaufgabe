@@ -14,6 +14,7 @@
         listName: '',
         delListName: '',
         showInfo: false,
+        changer: false,
       }
     },
     methods: {
@@ -47,6 +48,7 @@
         if(this.validString(listName)) {
           this.newListNameTemp = listName;
           this.closeCreateListDialog();
+          this.changer = !this.changer;
         } else {
           this.showInfo = true;
         }
@@ -94,7 +96,7 @@
     </dialog>
 
     
-    <Sidebar @showCreateListDialogEvent="showCreateListDialog" />
+    <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer"/>
     <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" />
     
   </div>

@@ -4,6 +4,9 @@
     export default({
         name: 'Sidebar',
         components: {CreateListButton},
+        props: {
+            changeTrigger: Boolean,
+        },
         data() {
             return {
                 sidebarVisible: true,
@@ -23,6 +26,11 @@
         created() {
             this.checkWindowWidth();
             window.addEventListener('resize', this.checkWindowWidth);
+        },
+        watch: {
+            changeTrigger() {
+                this.checkWindowWidth();
+            },
         }
     });
 </script>
@@ -47,7 +55,8 @@
 
 <style scoped>
     #sidebar {
-        position: absolute;
+        position: fixed;
+        top: 0;
         min-height: 100vh;
         background-color: var(--secondBgC);
         z-index: 2;
