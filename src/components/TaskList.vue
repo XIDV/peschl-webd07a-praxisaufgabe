@@ -65,7 +65,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        border: solid .25rem;
+        border: solid .175rem;
         border-radius: 50%;
     }
     button {
@@ -79,10 +79,4 @@
     button:hover {
         transform: scale(110%);
     }
-
-    /* @media screen and (min-width: 80em) {
-        .taskList {
-            width: 45%;
-        }
-    } */
 </style>

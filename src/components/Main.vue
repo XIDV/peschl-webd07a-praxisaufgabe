@@ -367,14 +367,14 @@
     }
 
     #numOfPendingTasks {
-        font-size: clamp(1.2rem, 4vw, 2.5rem);
+        font-size: clamp(1.2rem, 3vw, 2.5rem);
         width: clamp(3rem, 5vw, 5rem);
         height: clamp(3rem, 5vw, 5rem);
         display: inherit;
         justify-content: center;
         align-items: center;
         text-align: center;
-        border: solid .25rem;
+        border: solid .175rem;
         border-radius: 50%;
     }
 
