@@ -85,22 +85,83 @@
                 this.$emit('resetNewListNameEvent');
             },
             addNewTask() {
+
+                // ###########   Backup  ######################################
+                // const temp = {
+                //     list: this.newTaskData.list,
+                //     start: this.newTaskData.start,
+                //     end: this.newTaskData.end,
+                //     title: this.newTaskData.title,
+                //     done: this.newTaskData.done
+                // }
+
+                // console.log(temp.start > temp.end);
+                // console.log();
+
+                // if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
+                //     this.tasks.push(temp);
+                //     this.addListNames();
+                //     this.saveTasksToLocalStorage();
+                //     this.showInfo = false;
+                // } else {
+                //     this.showInfo = true;
+                // }
+                // this.clearNewTaskForm();
+                // ############################################################
+
                 const temp = {
-                    list: this.newTaskData.list,
+                    list: this.valdateNewTaskData('list', this.newTaskData.list).then(
+                        res => { return res; },
+                        rej => { console.warn(rej.message); }
+                    ).catch((error) => {
+                        console.error(error.message);
+                    }),
                     start: this.newTaskData.start,
-                    end: this.newTaskData.end,
-                    title: this.newTaskData.title,
+                    // end: this.newTaskData.end,
+                    end: this.valdateNewTaskData('date', { start: this.newTaskData.start, end: this.newTaskData.end }).then(
+                        res => { return res; },
+                        rej => { console.warn(rej.message) }
+                    ).catch((error) => {
+                        console.error(error.message);
+                    }),
+                    title: this.valdateNewTaskData('title', this.newTaskData.title).then(
+                        res => { return res },
+                        rej => { console.warn(rej.message); }
+                    ).catch((error) => {
+                        console.error(error.message);
+                    }),
                     done: this.newTaskData.done
                 }
-                if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
-                    this.tasks.push(temp);
-                    this.addListNames();
-                    this.saveTasksToLocalStorage();
-                    this.showInfo = false;
-                } else {
-                    this.showInfo = true;
+
+                // if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
+                //     this.tasks.push(temp);
+                //     this.addListNames();
+                //     this.saveTasksToLocalStorage();
+                //     this.showInfo = false;
+                // } else {
+                //     this.showInfo = true;
+                // }
+                // this.clearNewTaskForm();
+            },
+            valdateNewTaskData(para, data) {
+                console.log('inside validation')
+                if(para === 'list' || para === 'title') {
+                    return new Promise((res, rej) => {
+                        if(this.$parent.validString(data)) {
+                            res(data)
+                        } else {
+                            para === 'list' ? rej(new Error('Bitte wählen Sie eine Liste')) : rej(new Error('Bitte tragen Sie einen Titel ein.'));
+                        }
+                    });
+                } else if(para === 'date') {
+                    return new Promise((res, rej) => {
+                        if(data.start < data.end || data.start === null) {
+                            res(data.end)
+                        } else {
+                            rej(new Error('Das Start-Datum muss sich vor dem Fälligkeitsdatum befinden.'));
+                        }
+                    });
                 }
-                this.clearNewTaskForm();
             },
             clearNewTaskForm() {
                 this.newTaskData.list = '';
