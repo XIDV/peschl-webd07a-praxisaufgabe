@@ -36,7 +36,6 @@
       },
       triggerListDelete() {
         this.delListName  = this.listName;
-        console.log(this.delListName);
         this.closeDelDialog();
       },
       validString(stringToValidate) {
@@ -102,7 +101,7 @@
 
     
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer" @triggerFileOpEvent="triggerFileOp" />
-    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" @resetNewListNameEvent="newListNameTemp = ''" :declaredFileOp="fileOperation" />
+    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" @resetNewListNameEvent="newListNameTemp = ''" @resetDelListNameEvent="delListName = ''" :declaredFileOp="fileOperation" />
     
   </div>
   

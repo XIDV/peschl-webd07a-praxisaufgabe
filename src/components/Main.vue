@@ -11,7 +11,7 @@
             delListName: String,
             declaredFileOp: String,
         },
-        emits: ['delListEvent', 'resetNewListNameEvent'],
+        emits: ['delListEvent', 'resetNewListNameEvent', 'resetDelListNameEvent'],
         data() {
             return {
                 date: new Date(),
@@ -120,6 +120,7 @@
                 });
                 this.addListNames();
                 this.saveTasksToLocalStorage();
+                this.$emit('resetDelListNameEvent');
             },
 
             toggleTaskStatus(task) {
