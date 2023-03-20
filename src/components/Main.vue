@@ -379,7 +379,6 @@
     }
 
     #createNewTaskForm {
-        /* max-width: 80rem; */
         display: flex;
         flex-direction: column;
         align-items: flex-start;
