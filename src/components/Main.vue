@@ -24,6 +24,8 @@
                     title: '',
                     done: false
                 },
+                inputDataOK: false,
+                infoMessage: '',
                 tasks: [
                     { 
                         list: 'Demoliste',
@@ -85,84 +87,55 @@
                 this.$emit('resetNewListNameEvent');
             },
             addNewTask() {
-
-                // ###########   Backup  ######################################
-                // const temp = {
-                //     list: this.newTaskData.list,
-                //     start: this.newTaskData.start,
-                //     end: this.newTaskData.end,
-                //     title: this.newTaskData.title,
-                //     done: this.newTaskData.done
-                // }
-
-                // console.log(temp.start > temp.end);
-                // console.log();
-
-                // if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
-                //     this.tasks.push(temp);
-                //     this.addListNames();
-                //     this.saveTasksToLocalStorage();
-                //     this.showInfo = false;
-                // } else {
-                //     this.showInfo = true;
-                // }
-                // this.clearNewTaskForm();
-                // ############################################################
-
                 const temp = {
-                    list: this.valdateNewTaskData('list', this.newTaskData.list).then(
-                        res => { return res; },
-                        rej => { console.warn(rej.message); }
-                    ).catch((error) => {
-                        console.error(error.message);
-                    }),
+                    list: this.newTaskData.list,
                     start: this.newTaskData.start,
-                    // end: this.newTaskData.end,
-                    end: this.valdateNewTaskData('date', { start: this.newTaskData.start, end: this.newTaskData.end }).then(
-                        res => { return res; },
-                        rej => { console.warn(rej.message) }
-                    ).catch((error) => {
-                        console.error(error.message);
-                    }),
-                    title: this.valdateNewTaskData('title', this.newTaskData.title).then(
-                        res => { return res },
-                        rej => { console.warn(rej.message); }
-                    ).catch((error) => {
-                        console.error(error.message);
-                    }),
+                    end: this.newTaskData.end,
+                    title: this.newTaskData.title,
                     done: this.newTaskData.done
                 }
 
-                // if(this.$parent.validString(temp.title) && this.$parent.validString(temp.list)) {
-                //     this.tasks.push(temp);
-                //     this.addListNames();
-                //     this.saveTasksToLocalStorage();
-                //     this.showInfo = false;
-                // } else {
-                //     this.showInfo = true;
-                // }
-                // this.clearNewTaskForm();
+                this.tasks.push(temp);
+                this.addListNames();
+                this.saveTasksToLocalStorage();
+                this.clearNewTaskForm();
+                this.inputDataOK = false;
             },
-            valdateNewTaskData(para, data) {
-                console.log('inside validation')
-                if(para === 'list' || para === 'title') {
-                    return new Promise((res, rej) => {
-                        if(this.$parent.validString(data)) {
-                            res(data)
-                        } else {
-                            para === 'list' ? rej(new Error('Bitte wählen Sie eine Liste')) : rej(new Error('Bitte tragen Sie einen Titel ein.'));
-                        }
-                    });
-                } else if(para === 'date') {
-                    return new Promise((res, rej) => {
-                        if(data.start < data.end || data.start === null) {
-                            res(data.end)
-                        } else {
-                            rej(new Error('Das Start-Datum muss sich vor dem Fälligkeitsdatum befinden.'));
-                        }
-                    });
-                }
+            validateValues(e) {
+                console.log('start validating');
+                const content = e.target.dataset.content;
+                Promise.all([this.validateString(content, this.newTaskData.list), this.validateString(content, this.newTaskData.title), this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)]).then(
+                    res => {
+                        this.inputDataOK = true;
+                        this.showInfo = false;
+                        this.infoMessage = '';
+                    },
+                    rej => {
+                        this.inputDataOK = false;
+                        this.showInfo = true;
+                        this.infoMessage = rej;
+                    }
+                );
             },
+            validateString(content, str) {
+                return new Promise((res, rej) => {
+                    if(this.$parent.validString(str)) {
+                        res(true);
+                    } else {
+                        rej(`${content} ist fehlerhaft. Bitte korrigieren.`);
+                    }
+                });
+            },
+            validateDateLogic(start, end) {
+                return new Promise((res, rej) => {
+                    if(start === null || start < end) {
+                        res(true);
+                    } else {
+                        rej('Das Fälligkeitsdatum ist erforderlich. Das Startdatum muss vor dem Fälligkeitsdatum liegen.');
+                    }
+                });
+            },
+
             clearNewTaskForm() {
                 this.newTaskData.list = '';
                 this.newTaskData.start = '';
@@ -265,27 +238,27 @@
             <div id="timeContainer">{{ currentTime }}</div>
         </header>
 
-        <form action="" id="createNewTaskForm">
+        <form action="" id="createNewTaskForm" @change="validateValues">
             <div class="few">
                 <label for="taskName">Neue Aufgabe erstellen *</label>
-                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" v-model="newTaskData.title">
+                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" v-model="newTaskData.title" data-content="Liste">
             </div>
             <div class="few">
                 <label for="startDate">Startdatum wählen</label>
                 <input type="date" name="startDate" id="startDate" v-model="newTaskData.start">
             </div>
             <div class="few">
-                <label for="endDate">Fällig am</label>
+                <label for="endDate">Fällig am *</label>
                 <input type="date" name="endDate" id="endDate" v-model="newTaskData.end">
             </div>
             <div class="few">
                 <label for="listSelect">Liste wählen *</label>
-                <select name="listSelect" id="listSelect" v-model="newTaskData.list">
+                <select name="listSelect" id="listSelect" v-model="newTaskData.list" data-content="Aufgabenname">
                     <option v-for="list in allLists" :value='list'>{{ list }}</option>
                 </select>
             </div>
-            <button type="button" id="createNewTaskButton" @click="addNewTask"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
-            <div class="warn" v-if="showInfo" style="width: 100%; text-align: center;">Tragen Sie bitte einen Namen f. die Aufgabe ein und wählen Sie eine Liste aus.</div>
+            <button type="button" id="createNewTaskButton" @click="addNewTask" :class="{'active' : inputDataOK}"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+            <div class="warn" v-if="showInfo" style="width: 100%; text-align: center;">{{ infoMessage }}</div>
             </form>
             
         <div id="contentWrapper">
@@ -385,10 +358,15 @@
         width: 3rem;
         height: 3rem;
         align-self: center;
-        background-color: var(--listBgC);
+        background-color: var(--black50);
         border: none;
         margin: 1rem;
         cursor: pointer;
+        pointer-events: none;
+    }
+    .active {
+        background-color: var(--listBgC);
+        pointer-events: all;
     }
     button img {
         width: 90%;
