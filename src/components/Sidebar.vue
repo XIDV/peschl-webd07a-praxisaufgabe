@@ -179,6 +179,7 @@
     #importTasks,
     #exportTasks {
         width: 4rem;
+        height: 4rem;
         background-color: transparent;
     }
 

@@ -15,4 +15,7 @@
     .delBu {
         background-color: var(--warnColor);
     }
+    .delBu img {
+        width: 98%;
+    }
 </style>

@@ -95,4 +95,7 @@
         background-color: transparent;
         border: none;
     }
+    button img {
+        width: 98%;
+    }
 </style>
