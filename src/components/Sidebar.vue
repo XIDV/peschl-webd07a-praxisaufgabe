@@ -106,10 +106,14 @@
             position: relative;
         }
         #hideBarButton {
-            position: absolute;
+            top: 50vh;
         }
         .default #hideBarButton{
+            left: 17rem;
             border: none;
+        }
+        .hidden #hideBarButton {
+            left: .5rem;
         }
     }
     
