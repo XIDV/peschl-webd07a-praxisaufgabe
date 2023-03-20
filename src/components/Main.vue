@@ -87,15 +87,13 @@
                 this.$emit('resetNewListNameEvent');
             },
             addNewTask() {
-                const temp = {
+                this.tasks.push({
                     list: this.newTaskData.list,
                     start: this.newTaskData.start,
                     end: this.newTaskData.end,
                     title: this.newTaskData.title,
                     done: this.newTaskData.done
-                }
-
-                this.tasks.push(temp);
+                });
                 this.addListNames();
                 this.saveTasksToLocalStorage();
                 this.clearNewTaskForm();
@@ -104,7 +102,12 @@
             validateValues(e) {
                 console.log('start validating');
                 const content = e.target.dataset.content;
-                Promise.all([this.validateString(content, this.newTaskData.list), this.validateString(content, this.newTaskData.title), this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)]).then(
+                Promise.all(
+                    [
+                        this.validateString(this.newTaskData.list),
+                        this.validateString(this.newTaskData.title), 
+                        this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)
+                    ]).then(
                     res => {
                         this.inputDataOK = true;
                         this.showInfo = false;
@@ -117,12 +120,12 @@
                     }
                 );
             },
-            validateString(content, str) {
+            validateString(str) {
                 return new Promise((res, rej) => {
                     if(this.$parent.validString(str)) {
                         res(true);
                     } else {
-                        rej(`${content} ist fehlerhaft. Bitte korrigieren.`);
+                        rej('Bitte Aufgabenname und Liste prüfen.');
                     }
                 });
             },
@@ -241,7 +244,7 @@
         <form action="" id="createNewTaskForm" @change="validateValues">
             <div class="few">
                 <label for="taskName">Neue Aufgabe erstellen *</label>
-                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" v-model="newTaskData.title" data-content="Liste">
+                <input type="text" id="taskName" placeholder="z. B. Geschenk besorgen" v-model="newTaskData.title">
             </div>
             <div class="few">
                 <label for="startDate">Startdatum wählen</label>
@@ -253,7 +256,7 @@
             </div>
             <div class="few">
                 <label for="listSelect">Liste wählen *</label>
-                <select name="listSelect" id="listSelect" v-model="newTaskData.list" data-content="Aufgabenname">
+                <select name="listSelect" id="listSelect" v-model="newTaskData.list">
                     <option v-for="list in allLists" :value='list'>{{ list }}</option>
                 </select>
             </div>
@@ -316,7 +319,7 @@
     }
 
     #numOfPendingTasks {
-        font-size: clamp(1.2rem, 4vw, 4.5rem);
+        font-size: clamp(1.2rem, 4vw, 2.5rem);
         width: clamp(3rem, 5vw, 5rem);
         height: clamp(3rem, 5vw, 5rem);
         display: inherit;
