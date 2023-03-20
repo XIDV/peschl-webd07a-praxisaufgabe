@@ -28,33 +28,82 @@
                 infoMessage: '',
                 tasks: [
                     { 
-                        list: 'Demoliste',
+                        list: 'Erste Schritte',
                         start: '2023-03-30',
                         end: '2023-04-05',
-                        title: 'Geschenk besorgen',
+                        title: 'Klick hier für Statusänderung der Aufgabe',
                         done: false
                     },
                     { 
-                        list: 'Demoliste',
-                        start: '2023-04-10',
-                        end: '2023-04-29',
-                        title: 'Vortrag vorbereiten',
-                        done: false
-                    },
-                    { 
-                        list: 'Demoliste2',
-                        start: '2023-04-15',
-                        end: '2023-05-03',
-                        title: 'Einladungen versenden',
+                        list: 'Erste Schritte',
+                        start: '2023-04-30',
+                        end: '2023-05-05',
+                        title: 'Status kann durck Klick wieder geändert werden',
                         done: true
                     },
                     { 
-                        list: 'Demoliste',
+                        list: 'Erste Schritte',
+                        start: '2023-04-10',
+                        end: '2023-04-29',
+                        title: 'Klick auf die Punkte ->',
+                        done: false
+                    },
+                    { 
+                        list: 'Erste Schritte',
+                        start: '2023-04-15',
+                        end: '2023-05-03',
+                        title: 'Mülleimer löscht die Aufgabe',
+                        done: false
+                    },
+                    { 
+                        list: 'Mit Listen arbeiten',
                         start: '2023-07-16',
                         end: '2023-07-25',
-                        title: 'Reise buchen',
+                        title: 'Liste löschen mit Mülleimer im Listentitel',
                         done: false
-                    }
+                    },
+                    { 
+                        list: 'Mit Listen arbeiten',
+                        start: '2023-07-17',
+                        end: '2023-08-25',
+                        title: 'Die Zahl zeigt die Anzahl der nicht erledigten Aufgaben',
+                        done: false
+                    },
+                    { 
+                        list: 'Mit Listen arbeiten',
+                        start: '2023-07-17',
+                        end: '2023-08-25',
+                        title: 'Neue Listen können über die Schaltfl. in der Sidebar links angelegt werden',
+                        done: false
+                    },
+                    { 
+                        list: 'Das Interface',
+                        start: '2023-07-19',
+                        end: '2023-08-03',
+                        title: 'Die Sidebar kann ein- und ausgeblendet werden',
+                        done: false
+                    },
+                    { 
+                        list: 'Das Interface',
+                        start: '2023-06-07',
+                        end: '2023-07-05',
+                        title: 'Bei kleinen Bildschirmen ist sie standardmäßig ausgeblendet',
+                        done: false
+                    },
+                    { 
+                        list: 'Das Interface',
+                        start: '2023-06-09',
+                        end: '2023-07-02',
+                        title: 'Die Statusleiste am oberen Bildschirmrand zeigt Datum, Uhrzeit und Anzahl nicht erledigter Aufgaben',
+                        done: false
+                    },
+                    { 
+                        list: 'Das Interface',
+                        start: '2023-06-12',
+                        end: '2023-07-01',
+                        title: 'Darunter ist das Eingabeformular um neue Aufgaben zu erstellen. Validierung erfolgt bei der Eingabe',
+                        done: false
+                    },
                 ],
             }
         },
@@ -100,7 +149,6 @@
                 this.inputDataOK = false;
             },
             validateValues(e) {
-                console.log('start validating');
                 const content = e.target.dataset.content;
                 Promise.all(
                     [
