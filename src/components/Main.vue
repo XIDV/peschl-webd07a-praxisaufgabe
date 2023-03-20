@@ -11,7 +11,7 @@
             delListName: String,
             declaredFileOp: String,
         },
-        emits: ['delListEvent'],
+        emits: ['delListEvent', 'resetNewListNameEvent'],
         data() {
             return {
                 date: new Date(),
@@ -82,6 +82,7 @@
                 if(newList && !_.includes(this.allLists, newList)) {
                     this.allLists.push(newList);
                 }
+                this.$emit('resetNewListNameEvent');
             },
             addNewTask() {
                 const temp = {
