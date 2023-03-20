@@ -12,13 +12,10 @@
                 sidebarVisible: true,
             }
         },
-        emits: ['triggerFileOpEvent'],
+        emits: ['triggerFileOpEvent', 'showCreateListDialogEvent'],
         methods: {
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
-            },
-            showCreateListDialog() {
-                this.$emit('showCreateListDialogEvent');
             },
             checkWindowWidth() {
                 window.innerWidth < 880 ? this.sidebarVisible = false : this.sidebarVisible = true;
@@ -46,7 +43,7 @@
             <p class="subtitle">Procrastinators unite! Tomorrw. Maybe.</p>
         </header>
         <div id="toolContainer">
-            <CreateListButton @click="showCreateListDialog" />
+            <CreateListButton @click="$emit('showCreateListDialogEvent')" />
             <div>
                 <button type="button" id="importTasks" title="Aufgaben importieren" @click="$emit('triggerFileOpEvent', 'import')"><img src="./../assets/import-arrow-down.svg" alt="Import-Icon"></button>
                 <button type="button" id="exportTasks" title="Aufgaben exportieren" @click="$emit('triggerFileOpEvent', 'export')"><img src="./../assets/floppy-disk.svg" alt="Save-Icon"></button>
