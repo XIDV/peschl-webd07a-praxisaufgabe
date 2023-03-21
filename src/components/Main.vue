@@ -12,7 +12,7 @@
             delListName: String,
             declaredFileOp: String,
         },
-        emits: ['delListEvent', 'resetNewListNameEvent', 'resetDelListNameEvent'],
+        emits: ['delListEvent', 'resetNewListNameEvent', 'resetDelListNameEvent', 'fileOpCompleted'],
         data() {
             return {
                 date: new Date(),
@@ -27,6 +27,7 @@
                 },
                 inputDataOK: false,
                 infoMessage: '',
+                importData: '',
                 tasks: [
                     { 
                         list: 'Erste Schritte',
@@ -220,14 +221,29 @@
                 localStorage.setItem('savedTasks', JSON.stringify(this.tasks));
             },
             importTaskData() {
-                console.log('Import starten');
-                // todo::: 
+                document.querySelector('#fileSelect').click();
+                this.$emit('fileOpCompleted');
             },
             expTaskData() {
                 let dataExport = new Blob([this.checkForLokalTasksData()], { type: 'text/plain;charset=utf-8' });
                 SaveAs.saveAs(dataExport, `DoIt-backup.json`);
+            },
+            handleImportData(e) {
+                const file = e.target.files[0];
+                const fileReader = new FileReader();
+                if(file.type.match('application.json')) {
+                    fileReader.addEventListener('load', event => {
+                        if(confirm('Bestehende Aufgaben werden durch den Import Überschrieben. Dieser Vorgang kann nicht wiederrufen werden!')) {
+                            this.tasks = JSON.parse(fileReader.result);
+                            this.saveTasksToLocalStorage();
+                        }
+                    });
+                    fileReader.readAsText(file);
+                } else {
+                    alert('Dateityp ist nicht zulässig. JSON erforderlich.');
+                }
+                e.target.value = '';
             }
-
         },
         
         created() {
@@ -285,6 +301,9 @@
 
 <template>
     <div id="mainWrapper">
+        <div>
+            <input type="file" name="fileSelect" id="fileSelect" style="display: none" @change="handleImportData">
+        </div>
         <header>
             <div id="dateContainer">{{ currentDate }}</div>
             <div id="numOfPendingTasks"><p>{{ pendingList.length }}</p></div>

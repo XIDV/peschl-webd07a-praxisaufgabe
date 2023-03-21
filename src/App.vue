@@ -58,7 +58,9 @@
   
       triggerFileOp(operation) {
         this.fileOperation = operation;
-        // this.fileOperation = '';
+      },
+      resetFileOperation() {
+        this.fileOperation = '';
       }
     }
   })
@@ -101,7 +103,8 @@
 
     
     <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer" @triggerFileOpEvent="triggerFileOp" />
-    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" @resetNewListNameEvent="newListNameTemp = ''" @resetDelListNameEvent="delListName = ''" :declaredFileOp="fileOperation" />
+    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" @resetNewListNameEvent="newListNameTemp = ''" @resetDelListNameEvent="delListName = ''"
+    @fileOpCompleted="resetFileOperation" :declaredFileOp="fileOperation" />
     
   </div>
   
