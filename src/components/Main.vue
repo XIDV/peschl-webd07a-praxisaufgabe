@@ -1,5 +1,6 @@
 <script>
     import _ from 'lodash';
+    import SaveAs from 'file-saver';
     import TaskList from './TaskList.vue';
     import Infobar from './Infobar.vue';
 
@@ -223,9 +224,10 @@
                 // todo::: 
             },
             expTaskData() {
-                console.log('Export starten');
-                // todo :::
+                let dataExport = new Blob([this.checkForLokalTasksData()], { type: 'text/plain;charset=utf-8' });
+                SaveAs.saveAs(dataExport, `DoIt-backup.json`);
             }
+
         },
         
         created() {
