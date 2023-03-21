@@ -82,14 +82,13 @@
     }
     li {
         line-height: 2rem;
-    }
-    #doneList li {
-        color: var(--black50);
-    }
-    li {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: .75rem;
+    }
+    #doneList li {
+        color: var(--black50);
     }
     button {
         background-color: transparent;
