@@ -96,6 +96,6 @@
         border: none;
     }
     button img {
-        width: 98%;
+        width: 1.25rem;
     }
 </style>
