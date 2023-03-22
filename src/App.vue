@@ -1,11 +1,16 @@
+//  App.vue ::: Root-Element der Anwendung
+
 <script>
   
+  //  Import der Komponenten 'Sidebar', 'Main' und 'CreateListButton'
   import Sidebar from './components/Sidebar.vue';
   import Main from './components/Main.vue';
   import CreateListButton from './components/CreateListButton.vue';
 
   export default({
+    //  Registrierung der Komponenten
     components: {Sidebar, Main, CreateListButton},
+
     data() {
       return {
         newListName: '',
@@ -18,54 +23,65 @@
         fileOperation: '',
       }
     },
+
+    //  Definition der Methoden 
     methods: {
+      //  Anzeige des Dialogs zum erstellen einer neuen Liste
       showCreateListDialog() {
         document.getElementById('createListDialog').showModal();
       },
+      
+      //  Schließen des Dialogs zum erstellen einer neuen Liste, Wert der Property 'showInfo' wird auf false gesetzt
       closeCreateListDialog() {
         document.getElementById('createListDialog').close();
         this.showInfo = false;
       },
-
+      
+      //  Property 'listName' erhält den Wert von Methodenparameter 'name', Anzeige des Dialogs zum löschen einer Aufgabenliste
       openDelDialog(name) {
         this.listName = name;
         document.querySelector('#delListDialog').showModal();
       },
+
+      //  Schließen des Dialogs zum löschen einer Aufgabenliste
       closeDelDialog() {
         document.querySelector('#delListDialog').close();
       },
+
+      //  Die Property 'delListName' erhält den Wert der Property 'listName', die Methode 'closeDelDialog()' wird aufgerufen
       triggerListDelete() {
         this.delListName  = this.listName;
         this.closeDelDialog();
       },
+
+      //  Prüfen ob der übergebene String nicht leer ist und nicht nur aus Leerzeichen beseteht.
       validString(stringToValidate) {
         return stringToValidate !== '' && 
           !stringToValidate.split('', 1)
           .every(d => d === ' ');
       },
       
+      //  Erstellen einer neuen Liste
       createNewList() {
         const listName = this.newListName;
-        if(this.validString(listName)) {
-          this.newListNameTemp = listName;
-          this.closeCreateListDialog();
-          this.changer = !this.changer;
-        } else {
-          this.showInfo = true;
+        if(this.validString(listName)) {                    //  Aufruf d. Methode 'validString(String)'. Wenn 'true' ...
+          this.newListNameTemp = listName;                  //  ... setze Wert von Property 'newListNameTemp' auf Wert von 'listName' ...
+          this.closeCreateListDialog();                     //  ... rufe Methode 'closeCreateListDialog()' auf ...
+          this.changer = !this.changer;                     //  ... invertiere den Wert von 'changer'.
+        } else {                                            //  Wenn 'false' ...
+          this.showInfo = true;                             //  ... setze den Wert von 'showInfo' auf 'true'.
         }
-        this.newListName = '';
+        this.newListName = '';                              //  Setze den Wert von 'newListName' zurück auf ''.
       },
-  
+
+      //  Setze den Wert von 'fileOperation' auf den Wert des Parameters 'operation'
+      //  (Definiert welche Dateioperation [lesen oder schreiben] getriggert werden soll.)
       triggerFileOp(operation) {
         this.fileOperation = operation;
-      },
-      resetFileOperation() {
-        this.fileOperation = '';
       }
     }
   })
 </script>
-
 
 
 <template>
@@ -92,24 +108,32 @@
           <input v-model="newListName" type="text" id="listName" placeholder="z.B. Studium">
           <div v-if="showInfo" class="warn">Bitte geben Sie einen Namen für die neue Liste ein.</div>
         </div>
-
         <CreateListButton @click.prevent="createNewList" />
-      
       </form>
       <footer>
         <a id="cancelCreation" href="#" @click.prevent="closeCreateListDialog">Abbrechen</a>
       </footer>
     </dialog>
 
+    <Sidebar 
+      @showCreateListDialogEvent="showCreateListDialog"
+      @triggerFileOpEvent="triggerFileOp"
+      :changeTrigger="changer" />
     
-    <Sidebar @showCreateListDialogEvent="showCreateListDialog" :changeTrigger="changer" @triggerFileOpEvent="triggerFileOp" />
-    <Main :newName="newListNameTemp" :delListName="delListName" @delListEvent="openDelDialog" @resetNewListNameEvent="newListNameTemp = ''" @resetDelListNameEvent="delListName = ''"
-    @fileOpCompleted="resetFileOperation" :declaredFileOp="fileOperation" />
+    <!-- 
+      - Beim Empfang eines 'resetNewListNameEvent' wird die Property 'newListName' auf '' gesetzt.
+      - Beim Empfang eines 'resetDelListNameEvent' wief die Property 'delListName' auf '' gesetzt.
+     -->
+    <Main @delListEvent="openDelDialog" 
+      @resetNewListNameEvent="newListNameTemp = ''"
+      @resetDelListNameEvent="delListName = ''" 
+      :declaredFileOp="fileOperation" 
+      :newName="newListNameTemp" 
+      :delListName="delListName"/>
     
   </div>
   
 </template>
-
 
 
 <style>
@@ -175,6 +199,7 @@
     align-items: center;
     justify-content: space-between;
   }
+
   .few {
     display: inherit;
     flex-direction: column;
@@ -184,6 +209,7 @@
     font-size: .8rem;
     margin: 0 0 1rem 0;
   }
+
   #listName {
     font-size: 1.2rem;
     color: white;
@@ -191,6 +217,7 @@
     padding: .5rem;
     border: none;
   }
+
   #listName:focus {
     outline: none;
   }
@@ -206,6 +233,7 @@
     color: var(--black50);
     text-decoration: none;
   }
+
   #cancelCreation:hover {
     text-decoration: underline;
   }

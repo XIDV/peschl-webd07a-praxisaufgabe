@@ -1,60 +1,90 @@
+//  Sidebar.vue ::: Komponente definiert eine Seitenleiste der Anwendung
+
 <script>
+
+    //  Import der Komponente 'CreateListButton'
     import CreateListButton from './CreateListButton.vue';
 
     export default({
         name: 'Sidebar',
+
+        //  Registrierung der Komponenten
         components: {CreateListButton},
+
+        //  Registrierung der Emits
+        emits: ['triggerFileOpEvent', 'showCreateListDialogEvent'],
+        
+        //  Registrierung der Props
         props: {
             changeTrigger: Boolean,
         },
+
+        //  Überwachung der Props ...
+        watch: {
+            changeTrigger() {
+                this.checkWindowWidth();
+            },
+        },
+
         data() {
             return {
                 sidebarVisible: true,
             }
         },
-        emits: ['triggerFileOpEvent', 'showCreateListDialogEvent'],
+
+        //  Definition der Methoden
         methods: {
+            //  Invertieren des Wertes der Property 'sidebarVisible'
             toggleVisibility() {
                 this.sidebarVisible = !this.sidebarVisible;
             },
+
+            //  Setzen des Wertes der Property 'sidebarVisible' in Abhängigkeit der inneren Breite des VP.
             checkWindowWidth() {
                 window.innerWidth < 880 ? this.sidebarVisible = false : this.sidebarVisible = true;
             },
         },
+
+        //  Ausführen beim rendern der Komponente
         created() {
-            this.checkWindowWidth();
-            window.addEventListener('resize', this.checkWindowWidth);
+            this.checkWindowWidth();                                    //  Aufgruf d. Methode 'checkWindowWidth()'
+            window.addEventListener('resize', this.checkWindowWidth);   //  Abfangen von 'resize'-Events u. Aufr. von 'checkWindowWidth()'
         },
-        watch: {
-            changeTrigger() {
-                this.checkWindowWidth();
-            },
-        }
     });
 </script>
+
 
 <template>
     <div id="sidebar" class="default" :class="{ hidden : !sidebarVisible }">
         <div id="hideBarButton" @click="toggleVisibility" title="Sidebar ein-/ausblenden">
             <img src="./../assets/chevron-left-solid.svg" alt="Sidbar visibility toggle icon">
         </div>
+        
         <header>
             <h1>Do It!</h1>
             <p class="subtitle">Procrastinators unite! Tomorrw. Maybe.</p>
         </header>
+        
         <div id="toolContainer">
             <CreateListButton @click="$emit('showCreateListDialogEvent')" />
             <div>
-                <button type="button" id="importTasks" title="Aufgaben importieren" @click="$emit('triggerFileOpEvent', 'import')"><img src="./../assets/import-arrow-down.svg" alt="Import-Icon"></button>
-                <button type="button" id="exportTasks" title="Aufgaben exportieren" @click="$emit('triggerFileOpEvent', 'export')"><img src="./../assets/floppy-disk.svg" alt="Save-Icon"></button>
+                <button type="button" id="importTasks" title="Aufgaben importieren" 
+                @click="$emit('triggerFileOpEvent', 'import')">
+                    <img src="./../assets/import-arrow-down.svg" alt="Import-Icon">
+                </button>
+                <button type="button" id="exportTasks" title="Aufgaben exportieren" 
+                @click="$emit('triggerFileOpEvent', 'export')">
+                    <img src="./../assets/floppy-disk.svg" alt="Save-Icon">
+                </button>
             </div>
-
         </div>
+
         <footer>
             <p class="cpr">&copy; Sebastian Peschl (2023)</p>
         </footer>
     </div>
 </template>
+
 
 <style scoped>
     #sidebar {
@@ -79,20 +109,24 @@
         transition: transform 250ms ease-in-out;
         z-index: 3;
     }
+
     .default #hideBarButton {
         right: .5rem;
         border: solid .125rem;
         transform: translate(50%, -50%);
     }
+
     .hidden #hideBarButton {
         left: 0;
         border: none;
         transform: translate(-50%, -50%);
     }
+
     #hideBarButton img {
         width: 45%;
         pointer-events: none;
     }
+
     .default #hideBarButton:hover {
         transform: scale(110%) translate(50%, -50%);
     }
@@ -149,11 +183,13 @@
         font-size: .8rem;
         color: var(--black50);
     }
+
     h1 {
         font-size: clamp(3rem, 5vw, 6rem);
         font-weight: 100;
         text-align: center;
     }
+
     .subtitle {
         text-align: center;
         font-weight: 700;
@@ -193,6 +229,5 @@
         position: sticky;
         top: 95vh;
         text-align: center;
-    }
-    
+    } 
 </style>

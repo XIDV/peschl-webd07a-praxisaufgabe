@@ -1,18 +1,48 @@
+//  Main.vue ::: Komponente definiert den pimären Anzeigebereich der Anwendung
+
 <script>
+
+    //  Import der node-Pakete 'lodash' und 'file-saver'
     import _ from 'lodash';
     import SaveAs from 'file-saver';
+
+    //  Import der Komponenten 'TaskList' und 'Infobar'
     import TaskList from './TaskList.vue';
     import Infobar from './Infobar.vue';
 
     export default({
         name: 'Main',
+
+        //  Registrierung der Komponenten
         components: {TaskList, Infobar},
+
+        //  Registrierung der Emits
+        emits: ['delListEvent', 'resetNewListNameEvent', 'resetDelListNameEvent', 'fileOpCompleted'],
+
+        //  Registrierung der Props
         props: {
             newName: String,
             delListName: String,
             declaredFileOp: String,
         },
-        emits: ['delListEvent', 'resetNewListNameEvent', 'resetDelListNameEvent', 'fileOpCompleted'],
+        
+        //  Überwachung der Props ...
+        watch: {
+            newName(wert) {
+                this.addListNames(wert);
+            },
+            delListName(list) {
+                this.delList(list);
+            },
+            declaredFileOp(op) {
+                if(op === 'import') {
+                    this.importTaskData();
+                } else if(op === 'export') {
+                    this.expTaskData();
+                }
+            }
+        },
+
         data() {
             return {
                 date: new Date(),
@@ -110,33 +140,23 @@
             }
         },
         
-        watch: {
-            newName(wert) {
-                this.addListNames(wert);
-            },
-            delListName(list) {
-                this.delList(list);
-            },
-            declaredFileOp(op) {
-                if(op === 'import') {
-                    this.importTaskData();
-                } else if(op === 'export') {
-                    this.expTaskData();
-                }
-            }
-        },
-        
+        //  Definition der Methoden
         methods: {
+            //  Setze die Property 'date' auf das aktuelle Datum u. Uhrzeit
             setDate() {
                 this.date = new Date();
             },
+
+            //  Füge der Property 'allLists' einen neuen Eintrag hinzu
             addListNames(newList) {
-                this.allLists = this.lists;
-                if(newList && !_.includes(this.allLists, newList)) {
-                    this.allLists.push(newList);
+                this.allLists = this.lists;                             //  Schreibe den Inhalt d. C-Property 'liste' in 'allLists'
+                if(newList && !_.includes(this.allLists, newList)) {    //  Prüfe ob der Methode ein Parameter übergeben wurde und, wenn das der Fall ist, ob sich in 'allLists' nicht bereits ein entsprechender Eintrag befindet. Wenn 'true' ...
+                    this.allLists.push(newList);                        //  Füge 'allLists' den Wert von 'newList' hinzu
                 }
-                this.$emit('resetNewListNameEvent');
+                this.$emit('resetNewListNameEvent');                    //  Feuer einen 'resetNewListNameEvent' (s. App.vue)
             },
+
+            //  Füge der Property 'tasks' eine weiteres Objekt hinzu
             addNewTask() {
                 this.tasks.push({
                     list: this.newTaskData.list,
@@ -150,26 +170,29 @@
                 this.clearNewTaskForm();
                 this.inputDataOK = false;
             },
-            validateValues(e) {
-                const content = e.target.dataset.content;
+
+            //  Validiere alle Nutzereingaben
+            validateValues() {
                 Promise.all(
                     [
-                        this.validateString(this.newTaskData.list),
-                        this.validateString(this.newTaskData.title), 
-                        this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)
+                        this.validateString(this.newTaskData.list),                             //  validiere Auswahl d. Liste
+                        this.validateString(this.newTaskData.title),                            //  validiere Aufgabentitel
+                        this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)    //  validiere Logik von Start- u. Enddatum.
                     ]).then(
                     res => {
-                        this.inputDataOK = true;
+                        this.inputDataOK = true;            //  Eingegebene Daten sind OK
                         this.showInfo = false;
                         this.infoMessage = '';
                     },
                     rej => {
-                        this.inputDataOK = false;
+                        this.inputDataOK = false;           //  Eine o. mehrere Eingaben sind fehlerhaft
                         this.showInfo = true;
                         this.infoMessage = rej;
                     }
                 );
             },
+
+            //  Validiere einen String
             validateString(str) {
                 return new Promise((res, rej) => {
                     if(this.$parent.validString(str)) {
@@ -179,6 +202,8 @@
                     }
                 });
             },
+
+            // Validiere ob ein Enddatum vergeben wurde und ob Start- und Enddatum logisch kohärent sind
             validateDateLogic(start, end) {
                 return new Promise((res, rej) => {
                     if(start === null || start < end) {
@@ -189,45 +214,54 @@
                 });
             },
 
+            //  Setze die input- und das select-Element zurück
             clearNewTaskForm() {
                 this.newTaskData.list = '';
                 this.newTaskData.start = '';
                 this.newTaskData.end = '';
                 this.newTaskData.title = '';
             },
+
+            //  Lösche die mittels 'task' spezifizierte Aufgabe aus 'tasks'
             delTask(task) {
                 this.tasks.splice(this.tasks.indexOf(task), 1);
                 this.addListNames();
                 this.saveTasksToLocalStorage();
             },
 
+            //  Lösche eine ganze Liste indem alle durch 'list' spezifizierten Aufgaben aus 'tasks' entfernt werden
             delList(list) {
                 this.tasks = _.remove(this.tasks, function(t) {
                     return t.list !== list;
                 });
                 this.addListNames();
                 this.saveTasksToLocalStorage();
-                this.$emit('resetDelListNameEvent');
+                this.$emit('resetDelListNameEvent');            // Feuer einen 'resetDelListNameEvent' (s. App.vue)
             },
 
+            //  Verändere den Status der durch 'task' spezifizierten Aufgabe
             toggleTaskStatus(task) {
                 this.tasks[this.tasks.indexOf(task)].done = !this.tasks[this.tasks.indexOf(task)].done;
                 this.saveTasksToLocalStorage();
             },
+
+            //  Prüfe ob im localStorage des Browsers ein Element 'savedTasks' existiert und gebe es zurück
             checkForLokalTasksData() {
                 return localStorage.getItem('savedTasks');
             },
+
+            //  Speicher den Inhalt von 'tasks' unter der Bezeichnung 'savedTasks' im localStorage des Browsers
             saveTasksToLocalStorage() {
                 localStorage.setItem('savedTasks', JSON.stringify(this.tasks));
             },
+
+            //  Öffne einen 'Datei öffnen'-Dialog
             importTaskData() {
                 document.querySelector('#fileSelect').click();
                 this.$emit('fileOpCompleted');
             },
-            expTaskData() {
-                let dataExport = new Blob([this.checkForLokalTasksData()], { type: 'text/plain;charset=utf-8' });
-                SaveAs.saveAs(dataExport, `DoIt-backup.json`);
-            },
+
+            //  Importiere Aufgaben aus Datei
             handleImportData(e) {
                 const file = e.target.files[0];
                 const fileReader = new FileReader();
@@ -243,22 +277,33 @@
                     alert('Dateityp ist nicht zulässig. JSON erforderlich.');
                 }
                 e.target.value = '';
-            }
+            },
+
+            //  Speicher die Aufgaben in einer Datei
+            expTaskData() {
+                let dataExport = new Blob([this.checkForLokalTasksData()], { type: 'text/plain;charset=utf-8' });
+                SaveAs.saveAs(dataExport, `DoIt-backup.json`);
+            },
         },
         
+        //  Ausführen beim rendern der Komponente
         created() {
-            setInterval(this.setDate, 1000);
+            setInterval(this.setDate, 1000);                        //  Rufe jede Sekunde die Methode 'setDate()' auf
             let localTasks = this.checkForLokalTasksData();
             if(localTasks !== null) {
                 this.tasks = JSON.parse(localTasks) 
             }
             this.addListNames();
         },
-        
+
+        //  Definition der Computed-Properties
         computed: {
+            //  Generiere eine Liste aller Listennamen
             lists() {
                 return _.uniq(this.tasks.map(task => task.list));
             },
+
+            //  Generiere Listen anhand der Listenzugehörigkeit der spezifischen Aufgaben
             subLists() {
                 let subLists = [];
                 this.lists.forEach((list) => {
@@ -266,12 +311,18 @@
                 });
                 return subLists;
             },
+
+            //  Generiere eine Liste der ausstehenden Aufgaben
             pendingList() {
                 return this.tasks.filter(task => !task.done);
             },
+
+            //  Generiere eine Liste der erledigten Aufgaben
             doneList() {
                 return this.tasks.filter(task => task.done);
             },
+
+            //  Gebe das aktuelle Datum als custom-String zurück
             currentDate() {
                 return `${ this.date.toLocaleString('default', { weekday: 'long' }) },
                 ${ this.date.getUTCDate() }.
@@ -279,6 +330,8 @@
                 ${ this.date.getFullYear() }`;
                 
             },
+
+            //  Gebe die Uhrzeit als custom-String zurück
             currentTime() {
                 const time = {
                     hours: this.date.getHours(),
@@ -299,11 +352,13 @@
     });
 </script>
 
+
 <template>
     <div id="mainWrapper">
         <div>
             <input type="file" name="fileSelect" id="fileSelect" style="display: none" @change="handleImportData">
         </div>
+
         <header>
             <div id="dateContainer">{{ currentDate }}</div>
             <div id="numOfPendingTasks"><p>{{ pendingList.length }}</p></div>
@@ -329,24 +384,30 @@
                     <option v-for="list in allLists" :value='list'>{{ list }}</option>
                 </select>
             </div>
-            <button type="button" id="createNewTaskButton" @click="addNewTask" :class="{'active' : inputDataOK}"><img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon"></button>
+            <button type="button" id="createNewTaskButton" 
+            @click="addNewTask" 
+            :class="{'active' : inputDataOK}">
+                <img src="./../assets/calendar-plus-regular.svg" alt="Create new task icon">
+            </button>
             <div class="warn" v-if="showInfo" style="width: 100%; text-align: center;">{{ infoMessage }}</div>
-            </form>
+        </form>
             
         <div id="contentWrapper">
             <main>
                 <h2>Ihre Listen</h2>
                 <div id="listsContainer">
-                    <TaskList v-for="list in subLists" :subTasksList="list" :key="list[0].list" @delTaskEvent="delTask" @taskStatusToggleEvent="toggleTaskStatus" />
+                    <TaskList v-for="list in subLists" :subTasksList="list" :key="list[0].list" 
+                    @delTaskEvent="delTask" 
+                    @taskStatusToggleEvent="toggleTaskStatus" />
                 </div>
             </main>
             <aside>
                 <Infobar @delTaskEvent="delTask" :doneAndPending="{done: doneList, pending: pendingList}"/>
             </aside>
-
         </div>
     </div>
 </template>
+
 
 <style scoped>
     #mainWrapper {
@@ -435,14 +496,17 @@
         cursor: pointer;
         pointer-events: none;
     }
+
     .active {
         background-color: var(--listBgC);
         pointer-events: all;
     }
+
     button img {
         width: 90%;
         pointer-events: none;
     }
+
     button:hover {
         box-shadow: 0 0 0 .025rem white;
     }
@@ -455,7 +519,6 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-    
         .few {
             flex: 0 1 15rem;
         }
@@ -471,6 +534,7 @@
             margin: 2 0 0 0;
         }
     }
+    
     #listsContainer {
         display: flex;
         justify-content: center;
