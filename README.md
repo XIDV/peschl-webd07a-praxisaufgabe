@@ -1,29 +1,38 @@
-# peschl-webd07a-praxisaufgabe
+# Dokumentation zur Lösung der Praxisaufgabe der ESA 11
 
-This template should help get you started developing with Vue 3 in Vite.
+**DoIt! - Aufgabenverwaltung**: Eine Browseranwendung auf Basis von Vue.js, entwickelt unter Verwendung von Vite.
 
-## Recommended IDE Setup
+![DoIt-App_Icon](./public/DoIt-App_Icon.svg)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+&copy; Sebastian Peschl (2023)
 
-## Customize configuration
+___
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Inhalt
 
-## Project Setup
+* [Verzeichnisstruktur](README.md#Verzeichnisstruktur)
+* [Dateiübersicht](README.md#Datei%C3%BCbersicht)
+* ...
 
-```sh
-npm install
-```
+___
 
-### Compile and Hot-Reload for Development
+## Verzeichnisstruktur [[Inhalt](README.md#Inhalt)]
 
-```sh
-npm run dev
-```
+* / (root)
+  * src
+    * assets
+    * components
+  * public
+  * node_modules
+  * .vscode
+  * .git
 
-### Compile and Minify for Production
+## Dateiübersicht [[Inhalt](README.md#Inhalt)]
 
-```sh
-npm run build
-```
+| Datei | Pfad | Kategorie | Kurzbeschreibung |
+| --- | --- | --- | --- |
+| index.html | / | html-Datei | --- |
+| --- | --- | --- | --- |
+| --- | --- | --- | --- |
+| --- | --- | --- | --- |
+| --- | --- | --- | --- |
