@@ -1,17 +1,17 @@
+//  CreateListButton.vue ::: Komponente definiert eine Schaltfläche
+
 <script>
+
     export default({
         name: 'CreateListButton',
-        // data() {
-        //     return null;
-        // }
     })
 </script>
 
 
 <template>
     <button id="newListButton" title="Neue Liste erstellen" @click="showCreateListDialog">
-                <img src="./../assets/plus-clipboard-add.svg" alt="Neue Liste-Icon">
-            </button>
+        <img src="./../assets/plus-clipboard-add.svg" alt="Neue Liste-Icon">
+    </button>
 </template>
 
 

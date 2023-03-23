@@ -1,10 +1,18 @@
+//  TaskListItem.vue ::: Komponente definiert ein einzelnes Aufgabenelement
+
 <script>
+
+    //  Import der Komponenten 'DelBu' und 'ExpandBu'
     import DelBu from './DelBu.vue';
     import ExpandBu from './ExpandBu.vue';
 
     export default({
         name: 'TaskListItem',
+
+        //  Registrierung der Komponenten
         components: {DelBu, ExpandBu},
+
+        //  Registrierung der Props
         props: {
             task: Object,
         },
@@ -15,12 +23,17 @@
             }
         },
 
+        //  Definition der Methoden
         methods: {
+            //  Invertiere den Wert von 'detailsHidden'
             toggleDetails() {
                 this.detailsHidden = !this.detailsHidden;
             },
         },
+
+        //  Definition der Computed-Properties
         computed: {
+            //  Wandle Stat- und Enddatum f. die Anzeige in das Format dd.mm.yyyy um
             formatedDates() {
                 return {
                     start: new Date(this.task.start).toLocaleDateString(),
@@ -34,9 +47,11 @@
 
 <template>
     <div class="tli" :class="{'taskDone' : this.task.done}">
-        
         <header>
-            <div class="taskTitle" @click="$parent.$emit('taskStatusToggleEvent', this.task)" title="Status ändern">{{ this.task.title }}</div>
+            <div class="taskTitle" title="Status ändern" 
+            @click="$parent.$emit('taskStatusToggleEvent', this.task)">
+                {{ this.task.title }}
+            </div>
             <div class="btnWrapper">
                 <ExpandBu title="Details anzeigen" @click="toggleDetails" />
                 <DelBu title="Aufgabe löschen" @click="$parent.$emit('delTaskEvent', this.task)"/>
@@ -52,11 +67,9 @@
                 <div class="detHead">Fällig am</div>
                 <div>{{ formatedDates.end }}</div>
             </div>
-
         </div>
     </div>
 </template>
-
 
 
 <style scoped>

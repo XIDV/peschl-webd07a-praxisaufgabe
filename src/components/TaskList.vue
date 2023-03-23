@@ -1,29 +1,40 @@
+//  TaskList.vue ::: Komponente definiert eine Aufgabenliste.
+
 <script>
+
+    //  Import der Komponenten 'TaskListItem' und 'DelBu'
     import TaskListItem from './TaskListItem.vue';
     import DelBu from './DelBu.vue';
 
     export default({
         name: 'TaskList',
+
+        //  Registrierung der Komponenten
         components: {TaskListItem, DelBu},
+
+        //  Registrierung der Emits
+        emits: ['delTaskEvent', 'taskStatusToggleEvent'],
+
+        //  Registrierung der Props
         props: {
             subTasksList: Array,
         },
+
         data() {
             return {
                 listName: this.subTasksList[0].list,
             }
         },
 
-        emits: ['delTaskEvent', 'taskStatusToggleEvent'],
-        
+        //  Definition der Computed-Properties        
         computed: {
+            //  Liefere die Anzahl ausstehender Aufgaben der entspr. 'subTaskList'
             subTasksPending() {
                 return this.subTasksList.filter(task => !task.done).length;
             },
         },
     });
 </script>
-
 
 
 <template>
@@ -41,7 +52,6 @@
         </div>
     </div>
 </template>
-
 
 
 <style>
@@ -68,6 +78,7 @@
         border: solid .175rem;
         border-radius: 50%;
     }
+
     button {
         width: 2rem;
         height: 2rem;
@@ -76,6 +87,7 @@
         cursor: pointer;
         transition: transform 250ms ease-in-out; 
     }
+    
     button:hover {
         transform: scale(110%);
     }

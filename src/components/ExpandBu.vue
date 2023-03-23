@@ -1,3 +1,5 @@
+//  ExpandBu.vue ::: Komponente definiert eine Schaltfläche
+
 <script>
     
     export default({
@@ -7,7 +9,9 @@
 
 
 <template>
-    <button class="expandBu"><img src="./../assets/dots-vertical.svg" alt="Expand icons"></button>
+    <button class="expandBu">
+        <img src="./../assets/dots-vertical.svg" alt="Expand icons">
+    </button>
 </template>
 
 

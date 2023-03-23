@@ -171,7 +171,7 @@
                 this.inputDataOK = false;
             },
 
-            //  Validiere alle Nutzereingaben
+            //  Validiere aller Nutzereingaben
             validateValues() {
                 Promise.all(
                     [
@@ -180,7 +180,7 @@
                         this.validateDateLogic(this.newTaskData.start, this.newTaskData.end)    //  validiere Logik von Start- u. Enddatum.
                     ]).then(
                     res => {
-                        this.inputDataOK = true;            //  Eingegebene Daten sind OK
+                        this.inputDataOK = true;            //  Alle eingegebenen Daten sind OK
                         this.showInfo = false;
                         this.infoMessage = '';
                     },

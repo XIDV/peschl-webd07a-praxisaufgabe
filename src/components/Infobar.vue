@@ -1,31 +1,39 @@
+//  Infobar.vue ::: Komponente definiert ein Infobar welche eine Übersicht über alle ausstehenden und erledigten Aufgaben bietet
+
 <script>
 
     export default({
         name: 'Infobar',
+
+        //  Registrierung der Props
         props: {
             doneAndPending: Object,
         },
-        data() {
-            return {
-                done: this.doneAndPending.done,
-                pending: this.doneAndPending.pending,
-            }
-        },
+
+        //  Überwachung der Props ...
         watch: {
             doneAndPending() {
                 this.done = this.doneAndPending.done;
                 this.pending = this.doneAndPending.pending;
             }
         },
+
+        data() {
+            return {
+                done: this.doneAndPending.done,
+                pending: this.doneAndPending.pending,
+            }
+        },
+
+        //  Definition der Methoden
         methods: {
+            //  Feuer einen 'delTaskEvent'
             triggerDelTask(i) {
                 this.$emit('delTaskEvent', this.done[i]);
             }
         },
-        
     });
 </script>
-
 
 
 <template>
@@ -43,7 +51,6 @@
             </ul>
         </div>
     
-    
         <div id="doneList">
             <header>
                 <h2>Erledigt</h2>
@@ -51,7 +58,9 @@
             <ul>
                 <li v-for="dTask in done">
                     <div>{{ dTask.title }}</div>
-                    <button @click="triggerDelTask(done.indexOf(dTask))" type="button"><img src="./../assets/trash.svg" alt="Delet icon"></button>
+                    <button @click="triggerDelTask(done.indexOf(dTask))" type="button">
+                        <img src="./../assets/trash.svg" alt="Delet icon">
+                    </button>
                 </li>
             </ul>
         </div>
@@ -60,26 +69,29 @@
 </template>
 
 
-
 <style scoped>
     header {
         border-bottom: solid thin;
         margin-top: 2rem;
     }
+
     header:first-of-type {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
+
     h2,
     header div {
         font-size: 1rem;
         font-weight: 900;
     }
+
     ul {
         list-style: none;
         padding: 0;
     }
+
     li {
         line-height: 2rem;
         display: flex;
@@ -87,13 +99,16 @@
         align-items: center;
         gap: .75rem;
     }
+
     #doneList li {
         color: var(--black50);
     }
+
     button {
         background-color: transparent;
         border: none;
     }
+
     button img {
         width: 1.25rem;
     }
