@@ -15,7 +15,7 @@
       return {
         newListName: '',
         newListNameTemp: '',
-        delListDialogVisible: false,
+        // delListDialogVisible: false,
         listName: '',
         delListName: '',
         showInfo: false,
