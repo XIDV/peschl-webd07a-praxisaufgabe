@@ -78,6 +78,10 @@
       //  (Definiert welche Dateioperation [lesen oder schreiben] getriggert werden soll.)
       triggerFileOp(operation) {
         this.fileOperation = operation;
+      },
+
+      resetFileOperation() {
+        this.fileOperation = '';
       }
     }
   })
@@ -127,6 +131,7 @@
     <Main @delListEvent="openDelDialog" 
       @resetNewListNameEvent="newListNameTemp = ''"
       @resetDelListNameEvent="delListName = ''" 
+      @fileOpCompleted="resetFileOperation" 
       :declaredFileOp="fileOperation" 
       :newName="newListNameTemp" 
       :delListName="delListName"/>

@@ -39,6 +39,7 @@
                     this.importTaskData();
                 } else if(op === 'export') {
                     this.expTaskData();
+                    this.$emit('fileOpCompleted');
                 }
             }
         },
