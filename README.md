@@ -37,7 +37,7 @@ ___
 
 ## Quickstart [[Inhalt](#inhalt)]
 
-1. Nach dem das Repository auf geklont bzw. entpackt haben wechseln Sie im Terminal in das entsprechende Verzeichnis.
+1. Nach dem das Repository geklont bzw. entpackt wurde, wechseln Sie im Terminal in das entsprechende Verzeichnis.
 2. Führen Sie hier den Befehl `npm i` aus um die erfoderlichen Pakete zu installieren.
 3. Starten Sie mit `npm run dev` einen Entwicklungsserver und rufen Sie die im Terminal angezeigte IP in Ihrem Browser auf. Führen Sie (wenn gewünscht) Änderungen an den Quelldateien durch.
 4. Mit `npm run build` können Sie das Projekt bauen lassen. Im Projektverzeichnis finden Sie nun das Verzeichnis *dist*.
@@ -100,6 +100,10 @@ Das `<script>`-Element vor dem `</body>`-Tag bindet die Datei [*main.js*](#mainj
 
 Die Datei *main.js* initialisiert und mounted die Anwendung.  
 Hierfür wird die Methode `createApp()` aus dem Paket **vue**, sowie die primäre Komponente **App** aus [*App.vue*](#appvue-inhalt) importiert. Außerdem wird die Datei *main.css* importiert welche einige grundlegende Stylin-Parameter bereithält.
+
+Durch aufrufen der Methode `createApp(App)` wird eine neue Vue.js-Instanz erstellt und mit Hilfe der Methode `mount('#app')` im Element mit der `id="app"` (s. [index.html](#indexhtml-inhalt)) im DOM eingehängt.
+
+___
 
 ### App.vue [[Inhalt](#inhalt)]
 
@@ -203,6 +207,8 @@ Auch `<Main />` bekommt Werte in Form von Props übergeben. Diese sind:
 | `:declaredFileOp` | `fileOperation` |
 | `:newName` | `newListNameTemp` |
 | `:delListName` | `delListName` |
+
+___
 
 ### Sidebar.vue [[Inhalt](#inhalt)]
 
