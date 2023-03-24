@@ -23,9 +23,13 @@ ___
     - [App.vue \[Inhalt\]](#appvue-inhalt)
       - [**Script-Bereich von *App.vue*** \[Inhalt\]](#script-bereich-von-appvue-inhalt)
         - [*Imports*](#imports)
-        - [*Data-Return-Objekt* von ***App.vue***](#data-return-objekt-von-appvue)
-        - [*Methoden* von ***App.vue***](#methoden-von-appvue)
+        - [Data-Return-Objekt von ***App.vue***](#data-return-objekt-von-appvue)
+        - [Methoden von ***App.vue***](#methoden-von-appvue)
       - [**Template-Bereich von *App.vue*** \[Inhalt\]](#template-bereich-von-appvue-inhalt)
+        - [Der Dialog `id="delListDialog"` \[Inhalt\]](#der-dialog-iddellistdialog-inhalt)
+        - [Der Dialog `id="createListDialog"` \[Inhalt\]](#der-dialog-idcreatelistdialog-inhalt)
+        - [Die Komponente `<Sidebar />`](#die-komponente-sidebar-)
+        - [Die Komponente `<Main />`](#die-komponente-main-)
     - [Sidebar.vue \[Inhalt\]](#sidebarvue-inhalt)
     - [Main.vue \[Inhalt\]](#mainvue-inhalt)
 
@@ -110,11 +114,11 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 - Komponente **Main**
 - Komponente **CreateListButton**
 
-##### *Data-Return-Objekt* von ***App.vue***
+##### Data-Return-Objekt von ***App.vue***
 
 | Property | Erläuterung |
 | --- | --- |
-| `newListName` | Speicher für den Namen der neu zu erstellenden Liste. Bidirektionale Datenverbindung mit dem `<input>`-Element mit der `id="listName"`. |
+| `newListName` | Speicher für den Namen der neu zu erstellenden Liste. Bidirektionale Datenverbindung mit dem `<input>`-Element mit der `id="listName"` ([s. hier](#der-dialog-idcreatelistdialog-inhalt)). |
 | `newListNameTemp` | Temporärer Speicher f. den Namen der neu zu erstellenden Liste. |
 | `listName` | Enthält den Namen einer Aufgabenliste die gelöscht werden soll. |
 | `delListName` | Erhält den Wert von `listName` um den Löschvorgang der Aufgabenliste zu triggern. |
@@ -122,7 +126,7 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 | `changer` | Indikator dessen Wert beim erstellen einer neuen Liste invertiert wird. |
 | `fileOperation` | Wert definiert eine spezifische Dateioperation (import o. export) |
 
-##### *Methoden* von ***App.vue***
+##### Methoden von ***App.vue***
 
 | Methode | Erläuterung |
 | --- | --- |
@@ -132,11 +136,49 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 | `closeDelDialog()` | Schließe den modalen Dialog mit der `id="delListDialog"`. |
 | `triggerListDelete()` | Setze den Wert der Property `delListName` auf den der Property `listName` und rufe die Methode `closeDelDialog` auf. |
 | `validString(stringToValidate)` | Prüfe ob der Wert des Parameters ein valider String ist. Die Methode liefert **true** wenn es sich ***nicht*** um einen leeren String handelt und der String ***nicht*** ausschließlich aus Leerzeichen besteht. |
-| `createNewList()` | ... |
-| `triggerFileOp()` | ... |
-| `resetFileOperation()` | ... |
+| `createNewList()` | <ol><li>Der Wert der Property `newListName` wird in der Konstanten `listName` gespeichert.</li><li>Es wird geprüft ob es sich bei dem Wert von `listName` um einen validen String handelt. Hierfür wird die Methode `validString(listName)` aufgerufen.</li><li>Wenn der String valide ist, also `validString(listName)` **true** liefert, dann ...</li><ol><li>Setze den Wert der Property `newListNameTemp` auf den Wert von `listName`.</li><li>Schließe den Dialog zum erstellen neuer Listen indem die Methode `closeCreateListDialog()` aufgerufen wird.</li><li>Invertiere den Wert der Property `changer`.</li></ol><li>Wenn `validString(listName)` **false** liefert dann setze die Property `showInfo` auf **true**</li><li>Setze abschließend den Wert der Property `newListName` auf einen leeren String.</li></ol> |
+| `triggerFileOp(operation)` | Setze die Property `fileOperation` auf den Wert des übergebenen Paramers `operation` |
+| `resetFileOperation()` | Setze die Property `fileOperation` auf einen leeren String zurück. |
 
 #### **Template-Bereich von *App.vue*** [[Inhalt](#inhalt)]
+
+Das ***root***-Element des Templates bildet das `div` mit der `id="primeContainer"`. Dieses Beinhaltete die folgenden Elemente, bzw. Komponenten:
+
+##### Der Dialog `id="delListDialog"` [[Inhalt](#inhalt)]
+
+`id="delListDialog"` stellt für die Anwenderin / den Anwender einen Bestätigungsdialog bereit. Dieser informiert darüber, dass das löschen einer Liste unwiederruflich ist und erwartet eine Reaktion.
+
+Zum triggern einer Reaktion stellt der Dialog zwei Buttons bereit. `id="cancelDelete"` zum abbrechen der Operation und `id="confirmDelete"` zur Bestätigung, dass der Löschvorgang gestartet werden soll.
+
+Beide Buttons sind jeweils mit einer `@click`-Direktive versehen welche die entsprechende Methode ([s. hier](#methoden-von-appvue)) aufruft:
+
+| Button | Methodenaufruf bei `@click` |
+| --- | --- |
+| `id="cancelDelete"` | `closeDelDialog()` |
+| `id="confirmDelete"` | `triggerListDelete()` |
+
+##### Der Dialog `id="createListDialog"` [[Inhalt](#inhalt)]
+
+Der Dialog `id="createListDialog"` stellt der Anwenderin / dem Anwender die Möglichkeit neue Listen zu erstellen zur Verfügung.  
+Zur Benennung der neuen Liste wird ein einfaches Eingabeformular angezeigt. Das `<input>`-Element mit der `id="listName"` ist mittels der `v-model`-Direktive mit der Property `newListName` ([s. hier](#data-return-objekt-von-appvue)) verknüpft.
+
+Der Anwenderin / dem Anwender werden zwei Auswahlmöglichkeiten angeboten:
+
+1. Ein Button mit der zum erstellen einer neuen Liste in Gestalt der Komponente `<CreateListButton />`
+2. Ein Link mit der `ìd="calcelCreation"` zum abbrechen und schließen des Dialogs.
+
+Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprechende Methoden ([s. hier](#methoden-von-appvue)) aufrufen:
+
+| Button (Komponente) / Link | Methodenaufruf bei `@click` |
+| --- | --- |
+| `<CreateListButton />` | `createNewList()` |
+| `ìd="calcelCreation"` | `closeCreateListDialog()` |
+
+##### Die Komponente `<Sidebar />`
+
+...
+
+##### Die Komponente `<Main />`
 
 ...
 
