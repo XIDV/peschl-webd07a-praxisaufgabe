@@ -21,16 +21,25 @@ ___
     - [index.html \[Inhalt\]](#indexhtml-inhalt)
     - [main.js \[Inhalt\]](#mainjs-inhalt)
     - [App.vue \[Inhalt\]](#appvue-inhalt)
-      - [**Script-Bereich von *App.vue*** \[Inhalt\]](#script-bereich-von-appvue-inhalt)
-        - [*Imports*](#imports)
-        - [Data-Return-Objekt von ***App.vue***](#data-return-objekt-von-appvue)
-        - [Methoden von ***App.vue***](#methoden-von-appvue)
-      - [**Template-Bereich von *App.vue*** \[Inhalt\]](#template-bereich-von-appvue-inhalt)
+      - [Script-Bereich von ***App.vue*** \[Inhalt\]](#script-bereich-von-appvue-inhalt)
+        - [Imports von ***App.vue*** \[Inhalt\]](#imports-von-appvue-inhalt)
+        - [Data-Return-Objekt von ***App.vue*** \[Inhalt\]](#data-return-objekt-von-appvue-inhalt)
+        - [Methoden von ***App.vue*** \[Inhalt\]](#methoden-von-appvue-inhalt)
+      - [Template-Bereich von ***App.vue*** \[Inhalt\]](#template-bereich-von-appvue-inhalt)
         - [Der Dialog `id="delListDialog"` \[Inhalt\]](#der-dialog-iddellistdialog-inhalt)
         - [Der Dialog `id="createListDialog"` \[Inhalt\]](#der-dialog-idcreatelistdialog-inhalt)
-        - [Die Komponente `<Sidebar />`](#die-komponente-sidebar-)
-        - [Die Komponente `<Main />`](#die-komponente-main-)
+        - [Die Komponente `<Sidebar />` innerhalb von ***App.vue*** \[Inhalt\]](#die-komponente-sidebar--innerhalb-von-appvue-inhalt)
+        - [Die Komponente `<Main />` innerhalb von ***App.vue*** \[Inhalt\]](#die-komponente-main--innerhalb-von-appvue-inhalt)
     - [Sidebar.vue \[Inhalt\]](#sidebarvue-inhalt)
+      - [Script-Bereich von ***Sidebar.vue*** \[Inhalt\]](#script-bereich-von-sidebarvue-inhalt)
+        - [Imports von ***Sidebar.vue*** \[Inhalt\]](#imports-von-sidebarvue-inhalt)
+        - [Registrierung der Emits von ***Sidebar.vue*** \[Inhalt\]](#registrierung-der-emits-von-sidebarvue-inhalt)
+        - [Registrierung der Props von ***Sidebar.vue*** \[Inhalt\]](#registrierung-der-props-von-sidebarvue-inhalt)
+        - [Registrierung der Watcher von ***Sidebar.vue*** \[Inhalt\]](#registrierung-der-watcher-von-sidebarvue-inhalt)
+        - [Data-Return-Objekt von ***Sidebar.vue*** \[Inhalt\]](#data-return-objekt-von-sidebarvue-inhalt)
+        - [Methoden von ***Sidebar.vue*** \[Inhalt\]](#methoden-von-sidebarvue-inhalt)
+        - [Die Methode `created()` von ***Sidebar.vue*** \[Inhalt\]](#die-methode-created-von-sidebarvue-inhalt)
+      - [Template-Bereich von ***Sidebar.vue*** \[Inhalt\]](#template-bereich-von-sidebarvue-inhalt)
     - [Main.vue \[Inhalt\]](#mainvue-inhalt)
 
 ___
@@ -111,27 +120,27 @@ ___
 
 Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und erstellen von Listen bereit.
 
-#### **Script-Bereich von *App.vue*** [[Inhalt](#inhalt)]
+#### Script-Bereich von ***App.vue*** [[Inhalt](#inhalt)]
 
-##### *Imports*
+##### Imports von ***App.vue*** [[Inhalt](#inhalt)]
 
 - Komponente **Sidebar**
 - Komponente **Main**
 - Komponente **CreateListButton**
 
-##### Data-Return-Objekt von ***App.vue***
+##### Data-Return-Objekt von ***App.vue*** [[Inhalt](#inhalt)]
 
-| Property | Erläuterung |
-| --- | --- |
-| `newListName` | Speicher für den Namen der neu zu erstellenden Liste. Bidirektionale Datenverbindung mit dem `<input>`-Element mit der `id="listName"` ([s. hier](#der-dialog-idcreatelistdialog-inhalt)). |
-| `newListNameTemp` | Temporärer Speicher f. den Namen der neu zu erstellenden Liste. |
-| `listName` | Enthält den Namen einer Aufgabenliste die gelöscht werden soll. |
-| `delListName` | Erhält den Wert von `listName` um den Löschvorgang der Aufgabenliste zu triggern. |
-| `showInfo` | Wert definiert ob eine Infonachricht angezeigt wird. |
-| `changer` | Indikator dessen Wert beim erstellen einer neuen Liste invertiert wird. |
-| `fileOperation` | Wert definiert eine spezifische Dateioperation (import o. export) |
+| Property | Erläuterung | initialer Wert |
+| --- | --- | --- |
+| `newListName` | Speicher für den Namen der neu zu erstellenden Liste. Bidirektionale Datenverbindung mit dem `<input>`-Element mit der `id="listName"` ([s. hier](#der-dialog-idcreatelistdialog-inhalt)). | `''` |
+| `newListNameTemp` | Temporärer Speicher f. den Namen der neu zu erstellenden Liste. | `''` |
+| `listName` | Enthält den Namen einer Aufgabenliste die gelöscht werden soll. | `''` |
+| `delListName` | Erhält den Wert von `listName` um den Löschvorgang der Aufgabenliste zu triggern. | `''` |
+| `showInfo` | Wert definiert ob eine Infonachricht angezeigt wird. | **false** |
+| `changer` | Indikator dessen Wert beim erstellen einer neuen Liste invertiert wird. | **false** |
+| `fileOperation` | Wert definiert eine spezifische Dateioperation (import o. export) | `''` |
 
-##### Methoden von ***App.vue***
+##### Methoden von ***App.vue*** [[Inhalt](#inhalt)]
 
 | Methode | Erläuterung |
 | --- | --- |
@@ -145,7 +154,7 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 | `triggerFileOp(operation)` | Setze die Property `fileOperation` auf den Wert des übergebenen Paramers `operation` |
 | `resetFileOperation()` | Setze die Property `fileOperation` auf einen leeren String zurück. |
 
-#### **Template-Bereich von *App.vue*** [[Inhalt](#inhalt)]
+#### Template-Bereich von ***App.vue*** [[Inhalt](#inhalt)]
 
 Das ***root***-Element des Templates bildet das `div` mit der `id="primeContainer"`. Dieses Beinhaltete die folgenden Elemente, bzw. Komponenten:
 
@@ -179,7 +188,7 @@ Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprech
 | `<CreateListButton />` | `createNewList()` |
 | `ìd="calcelCreation"` | `closeCreateListDialog()` |
 
-##### Die Komponente `<Sidebar />`
+##### Die Komponente `<Sidebar />` innerhalb von ***App.vue*** [[Inhalt](#inhalt)]
 
 `<Sidebar />` ist eine der primären Komponenten der Anwendung. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#sidebarvue-inhalt))
 
@@ -187,7 +196,7 @@ Die Komponente emittiert Events vom Typ `showCreateListDialogEvent` und `trigger
 
 Ferner erhält `<Sidebar />` in form des Props `:changeTrigger` den Wert der Property `changer` übergeben.
 
-##### Die Komponente `<Main />`
+##### Die Komponente `<Main />` innerhalb von ***App.vue*** [[Inhalt](#inhalt)]
 
 Die Komponente `<Main />` stellt den primären Anzeigebereich der Anwendung dar. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#mainvue-inhalt))
 
@@ -212,7 +221,63 @@ ___
 
 ### Sidebar.vue [[Inhalt](#inhalt)]
 
-...
+Die **Sidebar**-Komponente ist eines von zwei primären Komponenten der Anwendung. Neben dem Titel und Subtitel der Anwendung beherbergt die **Sidebar** Tools zum erstellen neuer Aufgabenlisten, sowie zum importieren und exportieren aller Aufgaben.
+
+#### Script-Bereich von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+##### Imports von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Hier wird nur die Komponente **CreateListButton** benötigt.
+
+##### Registrierung der Emits von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Die Komponente kann zwei Typen von Events emittieren:
+
+- `triggerFileOpEvent`
+- `schowCreateListDialogEvent`
+
+Diese Events werden von der Komponente [***App.vue***](#die-komponente-sidebar--innerhalb-von-appvue-inhalt) gefangen und verarbeitet.
+
+##### Registrierung der Props von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+`changeTrigger` ist vom Typ **Boolean** und ist die einzige Prop dieser Komponente.
+
+##### Registrierung der Watcher von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Der Watcher der einzigen Prop dieser Komponente ist `changeTrigger()`. Verändert sich der Wert der Prop `changeTrigger` wird die Methode `checkWindowWidth()` aufgerufen.
+
+##### Data-Return-Objekt von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Einzige Property der Komponente ist `sidebarVisibel` vom Typ **Boolean**. Ihr initialer Wert ist **true**.
+
+##### Methoden von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+| Methode | Erläuterung |
+| --- | --- |
+| `toggleVisibility()` | Invertiert den aktuellen Wert der Property `sidebarVisible`. |
+| `checkWindowWidth()` | Manipuliert in Abhängigkeit von der aktuellen Breite des VP den Wert der Property `sidebarVisible`. Ist der ermittelte Wert kleiner als **880px** wird der Wert auf **false** gesetzt, andernfalls auf **true**. Dies Bewirkt ein automatisches Ausblenden der Seitenleist bei Viewports die eine geringere innere Breite als **880px** aufweisen. |
+
+##### Die Methode `created()` von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Die folgenden Operationen werden beim erstellen der Komponente ausgeführt:
+
+- Aufruf der Methode `checkWindowWidth()`
+- Registrierung eines EventListeners f. Events vom Typ `resize`. Bei jedem Auftreten dieses Ereignisses wird die Methode `checkWindowWidth()` aufgerufen.
+
+#### Template-Bereich von ***Sidebar.vue*** [[Inhalt](#inhalt)]
+
+Ein `div` mit der `id="sidebar"` stellt das Container-Element dieser Komponente dar. Dieses Element erhält die Klasse `hidden`, wenn die Property `sidebarVisible` den Wert **false** hat. Dies wird durch eine `v-bind:class`-Direktive erreicht.
+
+Dieses Container-Element beherbergt vier Sub-Elemente:
+
+| Sub-Element | Erläuterung |
+| --- | --- |
+| `div` mit der `id="hideBarButton"` | Eine Schaltfläche zum ein- und ausblenden der Sidebar. Das Element ist mittels einer `@click`-Direktive mit der Methode `toggleVisibility()` verknüpft. |
+| `header` | Beinhaltet den Titel und den Subtitel der Anwendung. |
+| `div` mit der `id="toolContainer"` | Dieses Element umschließt drei Schaltflächen mit denen der Anwenderin / dem Anwender die Funktionen zum (1) erstellen einer neuen Aufgabenliste, das (2) exportieren aller Aufgaben in eine Datei und das (3) importieren von Aufgaben aus einer Datei verfügbar gemacht werden. <br> Bei (1) wird hierbei als Schaltfläche die Komponente `<CreateListButton />` verwendet. Über eine `@click`-Direktive wird bei einem Klick-Event, unter Verwendung von `$emit()` ein `showCreateListDialogEvent` gefeuert. (Dieser wird innerhalb von ***App.vue*** gefangen und weiter verarbeitet. [s. hier](#die-komponente-sidebar--innerhalb-von-appvue-inhalt)) |
+| `footer` | Urheberinformation zur Anwendung |
+
+___
 
 ### Main.vue [[Inhalt](#inhalt)]
 
