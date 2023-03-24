@@ -59,6 +59,7 @@ Neben den geforderten Funktionen bietet meine Lösung folgende Features:
 - Diese Sicherungskopie kann in die Anwendung importiert werden.
 - Die Übersichtsliste der erledigten Aufgaben bietet die Funktion einzelne Aufgaben zu löschen.
 - Die gesamte App ist responsive de­signt. Die Anwendung sollte auf jedem Device reibungslos funktionieren und dabei gut aussehen.
+- Am oberen Rand der Anwendung wird der Anwenderin / dem Anwender das aktuelle Datum sowie die Uhrzeit angezeigt.
 
 ## Verzeichnisstruktur [[Inhalt](#inhalt)]
 
@@ -176,11 +177,32 @@ Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprech
 
 ##### Die Komponente `<Sidebar />`
 
-...
+`<Sidebar />` ist eine der primären Komponenten der Anwendung. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#sidebarvue-inhalt))
+
+Die Komponente emittiert Events vom Typ `showCreateListDialogEvent` und `triggerFileOpEvent`. Diese werden hier im Template abgefangen führen zum Aufruf der entsprechenden Methode, `showCreateListDialog()`, bzw. `triggerFileOp`. (s. [hier](#methoden-von-appvue))
+
+Ferner erhält `<Sidebar />` in form des Props `:changeTrigger` den Wert der Property `changer` übergeben.
 
 ##### Die Komponente `<Main />`
 
-...
+Die Komponente `<Main />` stellt den primären Anzeigebereich der Anwendung dar. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#mainvue-inhalt))
+
+`<Main />` emittiert Events folgender Typen welche zur Ausführung der entsprechenden Methoden (s. [hier](#methoden-von-appvue)), bzw. der dirkten Manipulation einer Property (s. [hier](#data-return-objekt-von-appvue)) führen:
+
+| Event | Methode / Property-Manipulation |
+| --- | --- |
+| `delListEvent` | `openDelDialog()` |
+| `resetNewListNameEvent` | `newListNameTemp = ''` |
+| `resetDelListNaveEvent` | `delListName = ''` |
+| `fileOpCompleted` | `resetFileOperation()` |
+
+Auch `<Main />` bekommt Werte in Form von Props übergeben. Diese sind:
+
+| Prop | Wert der Property |
+| --- | --- |
+| `:declaredFileOp` | `fileOperation` |
+| `:newName` | `newListNameTemp` |
+| `:delListName` | `delListName` |
 
 ### Sidebar.vue [[Inhalt](#inhalt)]
 
