@@ -41,6 +41,14 @@ ___
         - [Die Methode `created()` von ***Sidebar.vue*** \[Inhalt\]](#die-methode-created-von-sidebarvue-inhalt)
       - [Template-Bereich von ***Sidebar.vue*** \[Inhalt\]](#template-bereich-von-sidebarvue-inhalt)
     - [Main.vue \[Inhalt\]](#mainvue-inhalt)
+      - [Script-Bereich von ***Main.vue*** \[Inhalt\]](#script-bereich-von-mainvue-inhalt)
+        - [Import zusätzlicher Pakete in ***Main.vue*** \[Inhalt\]](#import-zusätzlicher-pakete-in-mainvue-inhalt)
+        - [Import von Komponenten in ***Main.vue*** \[Inhalt\]](#import-von-komponenten-in-mainvue-inhalt)
+        - [Registrierung der Emits von ***Main.vue*** \[Inhalt\]](#registrierung-der-emits-von-mainvue-inhalt)
+        - [Registrierung der Props von ***Main.vue*** \[Inhalt\]](#registrierung-der-props-von-mainvue-inhalt)
+        - [Registrierung der Watcher von ***Main.vue*** \[Inhalt\]](#registrierung-der-watcher-von-mainvue-inhalt)
+        - [Data-Return-Objekt von ***Main.vue*** \[Inhalt\]](#data-return-objekt-von-mainvue-inhalt)
+        - [Methoden von ***Main.vue*** \[Inhalt\]](#methoden-von-mainvue-inhalt)
 
 ___
 
@@ -124,9 +132,11 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 
 ##### Imports von ***App.vue*** [[Inhalt](#inhalt)]
 
-- Komponente **Sidebar**
-- Komponente **Main**
-- Komponente **CreateListButton**
+| Komponente | (Kurz)-Erläuterung |
+| --- | --- |
+| **Sidebar** | Seitenleiste welche Werkzeuge zum erstellen neuer Listen, zum exportieren der aller Aufgaben als Datei und für den Dateiimport beinhaltet. |
+| **Main** | Primärer Anzeigebereich der Anwendung |
+| **CreateListButton** | Eine Schaltfäche. |
 
 ##### Data-Return-Objekt von ***App.vue*** [[Inhalt](#inhalt)]
 
@@ -200,7 +210,7 @@ Ferner erhält `<Sidebar />` in form des Props `:changeTrigger` den Wert der Pro
 
 Die Komponente `<Main />` stellt den primären Anzeigebereich der Anwendung dar. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#mainvue-inhalt))
 
-`<Main />` emittiert Events folgender Typen welche zur Ausführung der entsprechenden Methoden (s. [hier](#methoden-von-appvue)), bzw. der dirkten Manipulation einer Property (s. [hier](#data-return-objekt-von-appvue)) führen:
+`<Main />` fängt Events folgender Typen welche zur Ausführung der entsprechenden Methoden (s. [hier](#methoden-von-appvue)), bzw. der dirkten Manipulation einer Property (s. [hier](#data-return-objekt-von-appvue)) führen:
 
 | Event | Methode / Property-Manipulation |
 | --- | --- |
@@ -281,4 +291,84 @@ ___
 
 ### Main.vue [[Inhalt](#inhalt)]
 
-...
+**Main** definiert den Anzeigebereich für alle weiteren Komponenten / Elemente der Anwendung.  
+Hier werden der Anwenderin / dem Anwender neben einem Eingabeformular für neue Aufgaben und die existierenden Aufgabenlisten, eine Übersichtsleiste (am rechten Rand der Anwendung), sowie das aktuelle Datum und die Uhrzeit präsentiert.
+
+Darüber hinaus finden in **Main** alle Operationen (erstellen, löschen, statuswechsel) an Aufgaben bzw. Listen statt. 
+
+#### Script-Bereich von ***Main.vue*** [[Inhalt](#inhalt)]
+
+##### Import zusätzlicher Pakete in ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Paket | Erläuterung | Weitere Infos auf *npmjs.com* |
+| --- | --- | --- |
+| `lodash` | Paket zur Vereifachung von Array-Operationen | [lodash](https://www.npmjs.com/package/lodash) |
+| `file-saver` | Paket zum Speichern von Dateien auf Client-Seite  | [file-saver](https://www.npmjs.com/package/file-saver) |
+
+##### Import von Komponenten in ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Komponente | (Kurz)-Erläuterung |
+| --- | --- |
+| **Tasklist** | Definiert eine Augabenliste. |
+| **Inbobar** | Definiert eine Informationsleiste welche Eine Übersicht über ausstehende und erledigte Aufgaben präsentiert. |
+
+##### Registrierung der Emits von ***Main.vue*** [[Inhalt](#inhalt)]
+
+**Main** kann vier Event-Typen emittieren:
+
+- `delListEvent`
+- `resetNewListNameEvent`
+- `resetDelListNameEvent`
+- `fileOpCompleted`
+
+##### Registrierung der Props von ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Prop | Datentyp | Erläuterung |
+| --- | --- | --- |
+| `newName` | **String** | Definiert den Namen einer neuen Liste. |
+| `delListName` | **String** | Definiert den Namen einer zu löschenden Liste. |
+| `declaredFileOp` | **String** | Definiert die Art der Dateioperation, die durchgeführt werden soll. |
+
+##### Registrierung der Watcher von ***Main.vue*** [[Inhalt](#inhalt)]
+
+Die Watcher überwachen den Status, bzw. den Wert der entsprechenden Prop und führen bei einer Änderung die definierten Operationen aus:
+
+| Watcher | Erläuterung |
+| --- | --- |
+| `newName(wert)` | Führt die Methode `addListNames(wert)` aus. |
+| `delListName(list)` | Führt die Methode `delList(list)` aus. |
+| `declaredFileOp(op)` | <ol><li>Wenn der Wert des Parameters `op` den Wert **'import'** hat, dann wird die Methode `importTaskData()` aufgerufen.</li><li>Wenn der Wert des Parameters `op` hingegen den Wert **'export'** hat, dann führe die Methode `expTaskData()` aus und emittiere danach ein Event vom Typ `fileOpCompleted'.</li></ol>
+
+##### Data-Return-Objekt von ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Property | Erläuterung | initialer Wert |
+| --- | --- | --- |
+| `date` | ein Datum-Objekt | `new Date()` |
+| `allLists` | Speicher für alle Listennamen | `[]` |
+| `showInfo` | Indikator ob der Anwenderin / dem Anwender eine Information / Fehlermeldung angezeigt wird. | **false** |
+| `newTaskData` | Zwischenspeicher für die von der Anwenderin / dem Anwender eingegebenen Daten beim erstellen einer neuen Aufgabe. | `{ list: '', stat: '', end: '', title: '', done: false }` |
+| `inputDataOK` | Indikator ob die eingegebenen Daten beim erstellen einer neuen Aufgabe valide sind. | **false** |
+| `infoMessage` | Fehler- / Hinweisnachricht | `''` |
+| `importData` | Zwischenspeicher für Aufgabendaten bei einem Dateiimport | `''` |
+| `tasks` | Speicherort für alle existierenden Aufgaben-Objekte | Bei initialem Aufruf der Anwendung eine Sammlung vordefinierter (Tutorial-)Aufgaben. |
+
+##### Methoden von ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Methode | Erläuterung |
+| --- | --- |
+| `setDate()` | Aktualisiere die Property `date` durch ein neues Date-Objekt. |
+| `addListNames(newList)` | Aktualisiere / Ergänze den Inhalt der Property `allLists`: <ol><li>Überschreibe den Inhalt der Property `allLists` mit dem Inhhalt der Computed-Property `lists`.</li><li>Prüfe ob der Methode ein Parameter `newList` übergeben wurde **und** prüfe, dass wenn ein Parameter `newList` übergeben wurde, dass sich dessen Wert ***nicht*** bereits in der Property `allLists` befindet. Wenn diese Prüfung **true** liefert, dann füge den Wert von `newList` als weiters Element der Property `allLists` hinzu.</li><li>Emittiere abschließend ein Event vom Typ `resetNewListNameEvent` (Dieses Ereignis wird in ***App*** verarbeitet. [s. hier](#die-komponente-main--innerhalb-von-appvue-inhalt)) |
+| `addNewTask()` | <ol><li>Füge der Property `tasks` ein weiteres Objekt hinzu. Verwende hierbei die in der Property `newTaskData` gesicherten Werte.</li><li>Rufe die Methode `addListNames()` auf um die Property `allLists` zu aktualisieren.</li><li>Rufe die Methode `saveTasksToLocalStorage()` auf. (Automatisches speichern der Aufgaben im LocalStorage des Browsers.)</li><li>Rufe die Methode `clearNewTaskForm()` auf.</li><li>Setze die Property `inputDataOK` auf den Wert **false** zurück.</li></ol> |
+| `validateValues()` | Zusammenfassende Validierung der Eingaben im Rahmen der Erstellung einer neuen Aufgabe. Hier kommt die Promis-Helfermethode `Promise.all()` zum Einsatz. Erst wenn alle hierin registrierten Promises erfüllt sind ist auch dieses erfüllt. <ul><li>Wenn alle Promises erfüllt sind, dann ...</li><ol><li>setze den Wert der Property `inputDataOK` auf den Wert **true**,</li><li>setze den Wert der Property `showInfo` auf **false** und</li><li>setze den Wert der Property `infoMessage` auf `''`.</li></ol><li>So lange auch nur eines der Promises nicht erfüllt ist ...</li><ol><li>setze den Wert der Property `inputDataOK` auf den Wert **false**,</li><li>setze den Wert der Property `showInfo` auf **true** und</li><li>setze den Wert der Property `infoMessage` auf den Wert von `rej` des nicht erfüllten Promise.</li></ol></ul> |
+| `validateString(str)` | Liefert ein Promise zurück welches nur dann erfüllt wird, wenn der Aufruf der Methode `validString(str)` in der Parent-Komponente (`this.$parent`) den Wert **true** liefert. |
+| `validateDateLogic(start, end)` | Liefert ein Promise zurück welches nur dann erfüllt wird, wenn (a) der Parameter `start` genau gleich **null** ist ***oder*** (b) der Wert des Parameters `start` kleiner als der Wert des Parameters `end` ist. |
+| `clearNewTaskForm()` | --- |
+| `delTask(task)` | --- |
+| `delList(list)` | --- |
+| `toggleTaskStatus(task)` | --- |
+| `checkForLocalTasksData()` | --- |
+| `saveTasksToLocalStorage()` | --- |
+| `importTaskData()` | --- |
+| `handleImportData(e)` | --- |
+| `expTaskData()` | --- |
+
