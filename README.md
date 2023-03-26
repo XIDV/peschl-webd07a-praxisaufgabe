@@ -49,6 +49,8 @@ ___
         - [Registrierung der Watcher von ***Main.vue*** \[Inhalt\]](#registrierung-der-watcher-von-mainvue-inhalt)
         - [Data-Return-Objekt von ***Main.vue*** \[Inhalt\]](#data-return-objekt-von-mainvue-inhalt)
         - [Methoden von ***Main.vue*** \[Inhalt\]](#methoden-von-mainvue-inhalt)
+        - [Die Methode `created()` von ***Main.vue*** \[Inhalt\]](#die-methode-created-von-mainvue-inhalt)
+        - [Registrierung der Computed-Properties von ***Main.vue*** \[Inhalt\]](#registrierung-der-computed-properties-von-mainvue-inhalt)
 
 ___
 
@@ -362,13 +364,32 @@ Die Watcher überwachen den Status, bzw. den Wert der entsprechenden Prop und f�
 | `validateValues()` | Zusammenfassende Validierung der Eingaben im Rahmen der Erstellung einer neuen Aufgabe. Hier kommt die Promis-Helfermethode `Promise.all()` zum Einsatz. Erst wenn alle hierin registrierten Promises erfüllt sind ist auch dieses erfüllt. <ul><li>Wenn alle Promises erfüllt sind, dann ...</li><ol><li>setze den Wert der Property `inputDataOK` auf den Wert **true**,</li><li>setze den Wert der Property `showInfo` auf **false** und</li><li>setze den Wert der Property `infoMessage` auf `''`.</li></ol><li>So lange auch nur eines der Promises nicht erfüllt ist ...</li><ol><li>setze den Wert der Property `inputDataOK` auf den Wert **false**,</li><li>setze den Wert der Property `showInfo` auf **true** und</li><li>setze den Wert der Property `infoMessage` auf den Wert von `rej` des nicht erfüllten Promise.</li></ol></ul> |
 | `validateString(str)` | Liefert ein Promise zurück welches nur dann erfüllt wird, wenn der Aufruf der Methode `validString(str)` in der Parent-Komponente (`this.$parent`) den Wert **true** liefert. |
 | `validateDateLogic(start, end)` | Liefert ein Promise zurück welches nur dann erfüllt wird, wenn (a) der Parameter `start` genau gleich **null** ist ***oder*** (b) der Wert des Parameters `start` kleiner als der Wert des Parameters `end` ist. |
-| `clearNewTaskForm()` | --- |
-| `delTask(task)` | --- |
-| `delList(list)` | --- |
-| `toggleTaskStatus(task)` | --- |
-| `checkForLocalTasksData()` | --- |
-| `saveTasksToLocalStorage()` | --- |
-| `importTaskData()` | --- |
-| `handleImportData(e)` | --- |
-| `expTaskData()` | --- |
+| `clearNewTaskForm()` | Zurücksetzen der `input`-Elemente und des `select`-Elements im Formular zur Erstellung neuer Aufgaben durch Manipulation der Elemente der Property `newTaskData`. |
+| `delTask(task)` | Lösche eine spezifische Aufgabe, welche durch den Wert des Parameters `task` spezifiziert wird. Der Löschvorgang wird durch die Kombination der Methoden `splice()` und `indexOf()` realisiert. Nach dem Löschvorgang werden die Methoden `addListNames()` und ``saveTasksToLocalStorage()` aufgerufen. |
+| `delList(list)` | Löscht alle Aufgaben-Objekte aus der Property `tasks` welche bzgl. dem Wert ihrer jeweiligen `list`-Property dem Wert des übergebenen Parameters `list` entsprechen. Der Löschvorgang der Objekt erfolgt unter Verwendung der Methode `remove` aus dem Paket **lodash** ([s. hier](#zusätzliche-pakete-inhalt)). Die als Parameter übergebene Callback-Funktion gibt nur diejenigen Aufgabenobjekte zurück welche ***nicht*** dem Parameter `list` entsprechen. Somit wird der Inhalt der Property `tasks` neu generiert. Nach Abschluss des Löschvorgangs werden die Methoden `addListNames()` und `saveTasksToLocaleStorage()` aufgerufen, sowie ein Ereignis vom Typ `resetDelListNameEvent` emittiert. |
+| `toggleTaskStatus(task)` | Manipuliert den Wert der `done`-Property des spezifizierten Aufgaben-Objektes. Die Methode erhält als Parameter das Aufgaben-Objekt dessen Status verändert werden soll. Durch die Verwendung der Methode `indexOf` in Kombination mit diesem Paramteter wird das entsprechende Objekt in der Property `tasks` isoliert was die gezielte Manipulation dessen `done`-Property (Invertierung des aktuellen Wertes) erlaubt. |
+| `checkForLocalTasksData()` | Sofern im LocalStorage des Browsers ein Item mit dem Namen `savedTasks` befindet wird dieses an die aufrufende Stelle zurückgegeben. |
+| `saveTasksToLocalStorage()` | Speichert den akturellen inhalt der Property `tasks` unter dem Namen `savedTasks` im LocalStorage des Browsers. (Die Methode `setItem()` wird hierbei mit der Methode `JSON.stringigy()` kombiniert.) |
+| `importTaskData()` | Öffnet einen 'Datei öffnen...'-Dialog indem an ein verstecktes `<input>`-Element vom Type `file` die Methode `click()` ausgeführt wird. Direkt danach wird ein Event vom Typ `fileOpCompleted` emittiert. |
+| `handleImportData(e)` | Diese Methode ist ein Event-Handler, welcher Ereignisse vom Typ `change` behandelt. Durch Verwendung der Methode `readAsText(file)` einer FileReader-Instanz wird die selektierte Datei gelesen. <ol><li>Erstelle ein Konstante mit dem Namen `file` und initialisiere diese mit dem Wert von `e.target.files[0]`. (`e` als Parameter entsprcht dem `change`-Event.)</li><li>Erstelle eine neue Instanz vom Typ `FileReader` und sichere diese in der Konstanten `fileReader`.</li><li>Prüfe ob es sich beim Typ von `file` um `application.json` handelt. Wenn dem so ist, dann registriere einen EventListener für Ereignisse vom Typ `load`. Wurde die Datei geladen erfolgt eine Sicherheitsabfrage mittels `confirm()`-Dialog. Nach positiver Bestätigung durch die Anwenderin / de, Anwender wird der Wert der `result`-Property von `fileRader` mit Hilfe der Methode `JSON.parse()` geparsed und die Property `tasks` überschrieben.</li><li>Wenn es sich bei dem Typ der Datei nicht um `application.json` handelt wird mittels `alert()` eine Fehlermeldung ausgegeben</li><li>Abschließend wird der Wert von `e.target.value` zurück auf `''` gesetzt.</li></ol> |
+| `expTaskData()` | Speichern des aktuellen Inhaltes des LocalStorage des Browsers als Datei. <ol><li>Erstelle und initialisiere eine Variable `dataExport` vom Datentyp **Blob**. Die Initialisierung erfolgt durch Aufruf der Methode `checkForLocalTaskData()`.</li><li>Der Speichervorgang erfolgt durch Verwendung der Methode `saveAs()` des Paketes **file-saver** ([s. hier](#zusätzliche-pakete-inhalt)). Als Parameter erhält diese `dataExport` und einen (optionalen) Dateinamen.</li></ol> |
+
+##### Die Methode `created()` von ***Main.vue*** [[Inhalt](#inhalt)]
+
+Beim laden der Anwendung werden in dieser Komponente automatisch die folgenden Aktionen durchgeführt:
+
+- Es wird mittels `setInterval()` ein Intervall gestartet, welcher jede Sekunde die Methode `setDate()` aufruft.
+- Durch Aufruf der Methode `checkForLocalTaskData()` werten etwaige existierende im Browser gespeicherte Aufgaben in die lokale Variable `localTasks` geladen. Bei einem positiven Resultat der folgenden Prüfung wird die Property `tasks` mit diesen Daten überschrieben.
+- Aufruf der Methode `addListNames()`.
+
+##### Registrierung der Computed-Properties von ***Main.vue*** [[Inhalt](#inhalt)]
+
+| Computed-Property | Erläuterung |
+| --- | --- |
+| `lists()` | Generiert aus der Property `tasks` und unter Verwendung der Methode `uniq()` aus dem Paket **lodash** eine Liste aus Listennamen. |
+| `subLists()` | Generiert ein zweidimensionales Array. Aufgaben werden anhand des jeweiligen Wertes ihrer `list`-Property sortiert. Dies erfolgt durch die Komination der Methoden `forEach()`, `push()` und `filter()`. |
+| `pendingList()` | Generiert eine Liste aller nicht erledigten Aufgaben. |
+| `doneList()` | Generiert eine List aus allen erledigten Aufgaben. |
+| `currentDate()` | Generiert einen individuellen Datum-String unter Verwendung der Property `date` und der Methoden `toLocaleString()`, `getUTCDate()`, `getMonth()` und `getFullYear()`. |
+| `currentTime()` | Generiert einen individuellen Zeit-String. (Führende 0-en werden bei Stunden-, Minuten- u. Sekundenwerten die kleiner als 10 sind automatisch ergänzt.) |
 
