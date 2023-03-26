@@ -51,6 +51,7 @@ ___
         - [Methoden von ***Main.vue*** \[Inhalt\]](#methoden-von-mainvue-inhalt)
         - [Die Methode `created()` von ***Main.vue*** \[Inhalt\]](#die-methode-created-von-mainvue-inhalt)
         - [Registrierung der Computed-Properties von ***Main.vue*** \[Inhalt\]](#registrierung-der-computed-properties-von-mainvue-inhalt)
+      - [Template-Bereich von ***Main.vue*** \[Inhalt\]](#template-bereich-von-mainvue-inhalt)
 
 ___
 
@@ -392,4 +393,17 @@ Beim laden der Anwendung werden in dieser Komponente automatisch die folgenden A
 | `doneList()` | Generiert eine List aus allen erledigten Aufgaben. |
 | `currentDate()` | Generiert einen individuellen Datum-String unter Verwendung der Property `date` und der Methoden `toLocaleString()`, `getUTCDate()`, `getMonth()` und `getFullYear()`. |
 | `currentTime()` | Generiert einen individuellen Zeit-String. (Führende 0-en werden bei Stunden-, Minuten- u. Sekundenwerten die kleiner als 10 sind automatisch ergänzt.) |
+
+#### Template-Bereich von ***Main.vue*** [[Inhalt](#inhalt)]
+
+Das Template besteht aus vier Hauptelementen welche von einem `<div>`-Container mit der `id="mainWrapper"` umschlossen sind:
+
+| Element | Erläuterung |
+| --- | --- |
+| `<div>` | Ein Container welches ein `<input>`-Element mit der `id="fileSelect"` beinhaltet, welches via `@change`-Direktive mit der Methode `handleImportData()` verknüpft ist. Durch eine entsprechende Style-Anweisung ist dieses `<input>`-Element ausgeblendet. |
+| `<header>` | In diesem Element sind die Anzeige für das aktuelle Datum, die Anzahl der unerledigten Aufgaben, sowie die Anzeige der aktuellen Uhrzeit untergebracht. Diese Elemente greifen auf die Computed-Properties `currentDate()`, `pendingList()` und `currentTime()` zu. |
+| `<form>`-Element mit der `id="createNewTaskForm"` | Dieses Element ist via `@change`-Direktive mit der Methode `validateValues()` verknüpft. Die darin enthaltenen `<input>`-Elemente, bzw. das `<select>`-Element ist via `v-model`-Direktiven mit den entsprechenden Properties der `newTaskData`-Property verknüpft. <br> Die `<option>`-Elemente des `<select>`-Elements werden mittels einer `v-for`-Direktive in Verbindung mit der Property `allLists` dynamisch generiert. <br> Der Button mit der `id="createNewTaskButton"` ist über eine `@click`-Direktive mit der Methode `addNewTask()` verknüpft. Ob die Schaltfläche aktiv und somit für die Anwenderin / dem Anwender benutzbar ist, ist von dem Zustand der Property `inputDataOK` abhängig. Der Button erhält via `v-bind:class`-Direktive nur dann die Klasse `active` wenn diese Property den Wert **true** hat. <br> Das `<div>`-Element welches dem Button folgt wird nur dann angezeigt, wenn der Wert der Property `showInfo` den Wert **true** hat. Dies ist durch eine `v-if`-Direktive realisiert. |
+| `<div>` mit der `id="contentWrapper"` | Innerhalb dieses Container-Elements werden die Aufgabenlisten sowie die Komponente ***Infobar*** angezeigt. Hierbei erfolgt die Gleiderung zunächst mithilfe der klassischen HTML-Elemente `<main>` für die Aufgabenlisten und `<aside>` für die ***Infobar***.<ul><h5>Die Komponenten ***TaskList*** und ***InfoBar*** im Template von ***Main.vue*** [[Inhalt](#inhalt)]</h5><li>Die einzelnen Instanzen der ***TaskList***-Komponente werden innerhalb eines weiteren `<div>`-Containers mit der `id="listsContainer"` generiert</li><li>Die Generierung der einzelen Aufgabenlisten erfolgt mittels einer `v-for`-Direktive unter Verwendung der Computed-Property `subLists`.</li><li>Als Prop `:subTaskList` wird der Komponte die aktuelle SubListe übergeben.</li><li>***TaskList*** fängt innerhalb von ***Main.vue*** zwei Event-Typen: <ul><li>`delTaskEvent` ruft Methode `delTask()` auf.</li><li>`taskStatusToggleEvent` ruft Methode `toggleTaskStatus()` auf.</li></ul></li><li>Innerhalb eines `<aside>`-Elements wird die Komponente ***Infobar*** gerendert. Diese übergibt als Prop `:doneAndPending` ein Objekt welches über die Attribute `done` und `pending` verfügt. Diese Attribute erhalten die Werte der Computed-Properties `doneList()` bzw. `pendingList()`.</li></ul>|
+
+___
 
