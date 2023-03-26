@@ -247,7 +247,7 @@
             },
 
             //  Prüfe ob im localStorage des Browsers ein Element 'savedTasks' existiert und gebe es zurück
-            checkForLokalTasksData() {
+            checkForLocalTasksData() {
                 return localStorage.getItem('savedTasks');
             },
 
@@ -282,7 +282,7 @@
 
             //  Speicher die Aufgaben in einer Datei
             expTaskData() {
-                let dataExport = new Blob([this.checkForLokalTasksData()], { type: 'text/plain;charset=utf-8' });
+                let dataExport = new Blob([this.checkForLocalTasksData()], { type: 'text/plain;charset=utf-8' });
                 SaveAs.saveAs(dataExport, `DoIt-backup.json`);
             },
         },
@@ -290,7 +290,7 @@
         //  Ausführen beim rendern der Komponente
         created() {
             setInterval(this.setDate, 1000);                        //  Rufe jede Sekunde die Methode 'setDate()' auf
-            let localTasks = this.checkForLokalTasksData();
+            let localTasks = this.checkForLocalTasksData();
             if(localTasks !== null) {
                 this.tasks = JSON.parse(localTasks) 
             }
