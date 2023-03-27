@@ -158,8 +158,8 @@ Darüber hinaus stellt **App** in ihrem Template modale Dialoge zum Löschen und
 | Methode | Erläuterung |
 | --- | --- |
 | `showCreateListDialog()` | Aneige des modalen Dialogs mit der `id="createListDialog"` |
-| `closeCreateListDialog()` | Schließt den modalen Dialog mit der `id="createListDialog"` und setzt den Wert der Property `showInfo` auf **false**. (s. [hier](#data-return-objekt-von-appvue)) |
-| `openDelDialog(name)` | Setze den Wert von `listName` (s. [hier](#data-return-objekt-von-appvue)) auf den Wert des der Methode übergebenen Parameters `name` und zeige den modalen Dialog mit der `id="delListDialog"` an. |
+| `closeCreateListDialog()` | Schließt den modalen Dialog mit der `id="createListDialog"` und setzt den Wert der Property `showInfo` auf **false**. ([s. hier](#data-return-objekt-von-appvue-inhalt)) |
+| `openDelDialog(name)` | Setze den Wert von `listName` (s. [hier](#data-return-objekt-von-appvue-inhalt)) auf den Wert des der Methode übergebenen Parameters `name` und zeige den modalen Dialog mit der `id="delListDialog"` an. |
 | `closeDelDialog()` | Schließe den modalen Dialog mit der `id="delListDialog"`. |
 | `triggerListDelete()` | Setze den Wert der Property `delListName` auf den der Property `listName` und rufe die Methode `closeDelDialog` auf. |
 | `validString(stringToValidate)` | Prüfe ob der Wert des Parameters ein valider String ist. Die Methode liefert **true** wenn es sich ***nicht*** um einen leeren String handelt und der String ***nicht*** ausschließlich aus Leerzeichen besteht. |
@@ -177,7 +177,7 @@ Das ***root***-Element des Templates bildet das `div` mit der `id="primeContaine
 
 Zum triggern einer Reaktion stellt der Dialog zwei Buttons bereit. `id="cancelDelete"` zum abbrechen der Operation und `id="confirmDelete"` zur Bestätigung, dass der Löschvorgang gestartet werden soll.
 
-Beide Buttons sind jeweils mit einer `@click`-Direktive versehen welche die entsprechende Methode ([s. hier](#methoden-von-appvue)) aufruft:
+Beide Buttons sind jeweils mit einer `@click`-Direktive versehen welche die entsprechende Methode ([s. hier](#methoden-von-appvue-inhalt)) aufruft:
 
 | Button | Methodenaufruf bei `@click` |
 | --- | --- |
@@ -187,14 +187,14 @@ Beide Buttons sind jeweils mit einer `@click`-Direktive versehen welche die ents
 ##### Der Dialog `id="createListDialog"` [[Inhalt](#inhalt)]
 
 Der Dialog `id="createListDialog"` stellt der Anwenderin / dem Anwender die Möglichkeit neue Listen zu erstellen zur Verfügung.  
-Zur Benennung der neuen Liste wird ein einfaches Eingabeformular angezeigt. Das `<input>`-Element mit der `id="listName"` ist mittels der `v-model`-Direktive mit der Property `newListName` ([s. hier](#data-return-objekt-von-appvue)) verknüpft.
+Zur Benennung der neuen Liste wird ein einfaches Eingabeformular angezeigt. Das `<input>`-Element mit der `id="listName"` ist mittels der `v-model`-Direktive mit der Property `newListName` ([s. hier](#data-return-objekt-von-appvue-inhalt)) verknüpft.
 
 Der Anwenderin / dem Anwender werden zwei Auswahlmöglichkeiten angeboten:
 
 1. Ein Button mit der zum erstellen einer neuen Liste in Gestalt der Komponente `<CreateListButton />`
 2. Ein Link mit der `ìd="calcelCreation"` zum abbrechen und schließen des Dialogs.
 
-Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprechende Methoden ([s. hier](#methoden-von-appvue)) aufrufen:
+Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprechende Methoden ([s. hier](#methoden-von-appvue-inhalt)) aufrufen:
 
 | Button (Komponente) / Link | Methodenaufruf bei `@click` |
 | --- | --- |
@@ -205,7 +205,7 @@ Der Button, bzw. der Link sind mit `@click`-Direktive versehen, welche entsprech
 
 `<Sidebar />` ist eine der primären Komponenten der Anwendung. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#sidebarvue-inhalt))
 
-Die Komponente emittiert Events vom Typ `showCreateListDialogEvent` und `triggerFileOpEvent`. Diese werden hier im Template abgefangen führen zum Aufruf der entsprechenden Methode, `showCreateListDialog()`, bzw. `triggerFileOp`. (s. [hier](#methoden-von-appvue))
+Die Komponente emittiert Events vom Typ `showCreateListDialogEvent` und `triggerFileOpEvent`. Diese werden hier im Template abgefangen führen zum Aufruf der entsprechenden Methode, `showCreateListDialog()`, bzw. `triggerFileOp`. (s. [hier](#methoden-von-appvue-inhalt))
 
 Ferner erhält `<Sidebar />` in form des Props `:changeTrigger` den Wert der Property `changer` übergeben.
 
@@ -213,7 +213,7 @@ Ferner erhält `<Sidebar />` in form des Props `:changeTrigger` den Wert der Pro
 
 Die Komponente `<Main />` stellt den primären Anzeigebereich der Anwendung dar. (Detailierte Informationen zu dieser Komponente finden Sie [hier](#mainvue-inhalt))
 
-`<Main />` fängt Events folgender Typen welche zur Ausführung der entsprechenden Methoden (s. [hier](#methoden-von-appvue)), bzw. der dirkten Manipulation einer Property (s. [hier](#data-return-objekt-von-appvue)) führen:
+`<Main />` fängt Events folgender Typen welche zur Ausführung der entsprechenden Methoden (s. [hier](#methoden-von-appvue-inhalt)), bzw. der dirkten Manipulation einer Property (s. [hier](#data-return-objekt-von-appvue-inhalt)) führen:
 
 | Event | Methode / Property-Manipulation |
 | --- | --- |
@@ -297,7 +297,7 @@ ___
 **Main** definiert den Anzeigebereich für alle weiteren Komponenten / Elemente der Anwendung.  
 Hier werden der Anwenderin / dem Anwender neben einem Eingabeformular für neue Aufgaben und die existierenden Aufgabenlisten, eine Übersichtsleiste (am rechten Rand der Anwendung), sowie das aktuelle Datum und die Uhrzeit präsentiert.
 
-Darüber hinaus finden in **Main** alle Operationen (erstellen, löschen, statuswechsel) an Aufgaben bzw. Listen statt. 
+Darüber hinaus finden in **Main** alle Operationen (erstellen, löschen, statuswechsel) an Aufgaben bzw. Listen statt.
 
 #### Script-Bereich von ***Main.vue*** [[Inhalt](#inhalt)]
 
