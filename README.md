@@ -68,6 +68,13 @@ ___
         - [Methoden von ***TaskListItem.vue*** \[Inhalt\]](#methoden-von-tasklistitemvue-inhalt)
         - [Registrierung der Computed-Properties von ***TaskListItem.vue*** \[Inhalt\]](#registrierung-der-computed-properties-von-tasklistitemvue-inhalt)
       - [Template-Bereich von ***TaskListItem.vue*** \[Inhalt\]](#template-bereich-von-tasklistitemvue-inhalt)
+    - [Infobar.vue \[Inhalt\]](#infobarvue-inhalt)
+      - [Script-Bereich von ***Infobar.vue*** \[Inhalt\]](#script-bereich-von-infobarvue-inhalt)
+        - [Registrierung der Props von ***Infobar*** \[Inhalt\]](#registrierung-der-props-von-infobar-inhalt)
+        - [Registrierung der Watcher von ***Infobar*** \[Inhalt\]](#registrierung-der-watcher-von-infobar-inhalt)
+        - [Data-Return-Objekt von ***Infobar.vue*** \[Inhalt\]](#data-return-objekt-von-infobarvue-inhalt)
+        - [Methoden von ***Infobar.vue*** \[Inhalt\]](#methoden-von-infobarvue-inhalt)
+      - [Template-Bereich von ***Infobar.vue*** \[Inhalt\]](#template-bereich-von-infobarvue-inhalt)
 
 ___
 
@@ -510,6 +517,42 @@ Das Template der Komponente ***TaskListItem*** gliedert sich in zwei Hauptbereic
 | --- | --- |
 | `<header>` | <ol><li>Das `<div>`-Element mit der `class="taskTitle"` dient einerseits der Anzeige des Aufgabentitels (`task.title`) und andererseits als Schaltfläche um den Status der Aufgabe wechseln zu können. Über eine `@click`-Direktive wird ein `taskStatusToggleEvent` in der Eltern-Komponente (***TaskList***) getriggert, welches in ***Main*** gefangen und verarbeitet wird ([s. hier](#template-bereich-von-mainvue-inhalt)).</li><li>Ein weiteres `<div>`-Element mit der `class="btnWrapper"` umfasst die Komponenten ***ExpandBu*** und ***DelBu***.<ol><li>***ExpandBu*** ist via `@click`-Direktive mit der Methode `toggleDetails()` verknüpft.</li><li>Hier triggert ***DelBu*** diese Schaltfläche einen Event vom Typ `delTaskEvent` ([vgl. Event vom Typ 'delListEvent'](#template-bereich-von-tasklistvue-inhalt)) in der Komponente ***TaskList*** welche in ***Main*** gefangen und weiter verarbeitet wird ([s. hier](#template-bereich-von-mainvue-inhalt)). Der Event erhält als zusätzlichen Parameter das spezifische `task`-Objekt um die zu löschende Aufgabe eindeutig identifizieren zu können.</li></ol></li></ol> |
 | `<div>` mit der `class="taskDetails"` | Container-Element in dem Start- und Enddatum unter Verwendung der Conputed-Property `formatedDates()`. Die Sichtbarkeit des Elements ist vom Wert der Property `detailsHidden` abhängig. Dies ist mit einer `v-bind:class`-Direktive realisiert. |
+
+___
+
+### Infobar.vue [[Inhalt](#inhalt)]
+
+Die ***Infobar*** ist eine Komponente welche der Anwenderin / dem Anwender eine Gesamtübersicht über alle unerledigten und erledigten Aufgaben bietet. Um die Möglichkeit bereitzustellen listenübergreifend 'aufräumen' zu können wurde in der Übersicht über die erledigten Aufgaben die Funktion implementiert auch dort einzelne Aufgaben löschen zu können.
+
+#### Script-Bereich von ***Infobar.vue*** [[Inhalt](#inhalt)]
+
+
+##### Registrierung der Props von ***Infobar*** [[Inhalt](#inhalt)]
+
+Als einzige Prop erhält diese Komponente `doneAndPending`. Es handelt sich hierbei um ein Objekt welches die beiden Properties `done` und `pending` beinhalten. Bei beiden handelt es sich um Arrys welche den Computed-Properties `doneList()` und `pendingList()` der Komponente ***Main*** entsprechen ([s. hier](#registrierung-der-computed-properties-von-mainvue-inhalt)).
+
+##### Registrierung der Watcher von ***Infobar*** [[Inhalt](#inhalt)]
+
+`doneUndPending()` überwacht Änderungen an der Prop `doneAndPending` und aktualisiert entsprechend die Werte der Properties `done` und `pending`.
+
+##### Data-Return-Objekt von ***Infobar.vue*** [[Inhalt](#inhalt)]
+
+Die Komponente verfügt über zwei Properties, `done` und `pending` welche jeweils mit dem Wert der entsprechenden Property der Prop `doneAndPending` initialisiert werden.
+
+##### Methoden von ***Infobar.vue*** [[Inhalt](#inhalt)]
+
+Die Komponente ***Infobar*** verfügt lediglich über eine Methode. `triggerDelTask(i)` triggert einen `delTaskEvent` innerhalb der Komponente ***Main***. Der Event erhält zur identifikation des zu löschenden Aufgabenobjekts als Parameter `done[i]` (, das Aufgaben-Objekt, welches das Ereignis ausgelöst hat).
+
+#### Template-Bereich von ***Infobar.vue*** [[Inhalt](#inhalt)]
+
+Das Template besitzt zwei Bereiche welche von einem `<div>`-Element mit der `id="infobar"` umschlossen sind.  
+Zwei `<div>`-Elemente mit der `id="pendingList"`, bzw. `id="doneList"`.Beide folgen grob dem gleichen Aufbau. Sie beinhalten jeweils eine `<header>`-Element, sowie ein `<ul>`-Element.
+
+Die jeweiligen `<li>`-Elemente werden mittels einer `v-for`-Direktive erzeugt. Basis bilden jeweils die Properties `pending`, bzw. `done`.  
+Während die Übersichtsliste der unerledigten Aufgaben lediglich präsentiert, bietet die Übersichtsliste der erledigten Aufgaben eine Interaktionsmöglichkeit. 
+
+Jeder Listeneintrag ist mit einem Button versehen, der die Löschung der jeweiligen Aufgabe ermöglicht.  
+Der Button verfügt auch hier über eine `@click`-Direktive. Diese ist mit der Methode `triggerDelTask()` verknüpft. Dieser Methode wird als Parameter der Index des auslösenden Aufgaben-Objektes im Array übergeben.
 
 ___
 
