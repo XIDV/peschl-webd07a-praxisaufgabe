@@ -52,6 +52,14 @@ ___
         - [Die Methode `created()` von ***Main.vue*** \[Inhalt\]](#die-methode-created-von-mainvue-inhalt)
         - [Registrierung der Computed-Properties von ***Main.vue*** \[Inhalt\]](#registrierung-der-computed-properties-von-mainvue-inhalt)
       - [Template-Bereich von ***Main.vue*** \[Inhalt\]](#template-bereich-von-mainvue-inhalt)
+    - [TaskList.vue \[Inhalt\]](#tasklistvue-inhalt)
+      - [Script-Bereich von ***TaskList.vue*** \[Inhalt\]](#script-bereich-von-tasklistvue-inhalt)
+        - [Imports von ***TaskList.vue*** \[Inhalt\]](#imports-von-tasklistvue-inhalt)
+        - [Registrierung der Emits von ***TaskList*** \[Inhalt\]](#registrierung-der-emits-von-tasklist-inhalt)
+        - [Registrierung der Props von ***TaskList*** \[Inhalt\]](#registrierung-der-props-von-tasklist-inhalt)
+        - [Data-Return-Objekt von ***TaskList.vue*** \[Inhalt\]](#data-return-objekt-von-tasklistvue-inhalt)
+        - [Registrierung der Computed-Properties von ***TaskList.vue*** \[Inhalt\]](#registrierung-der-computed-properties-von-tasklistvue-inhalt)
+      - [Template-Bereich von ***TaskList.vue*** \[Inhalt\]](#template-bereich-von-tasklistvue-inhalt)
 
 ___
 
@@ -404,6 +412,51 @@ Das Template besteht aus vier Hauptelementen welche von einem `<div>`-Container 
 | `<header>` | In diesem Element sind die Anzeige für das aktuelle Datum, die Anzahl der unerledigten Aufgaben, sowie die Anzeige der aktuellen Uhrzeit untergebracht. Diese Elemente greifen auf die Computed-Properties `currentDate()`, `pendingList()` und `currentTime()` zu. |
 | `<form>`-Element mit der `id="createNewTaskForm"` | Dieses Element ist via `@change`-Direktive mit der Methode `validateValues()` verknüpft. Die darin enthaltenen `<input>`-Elemente, bzw. das `<select>`-Element ist via `v-model`-Direktiven mit den entsprechenden Properties der `newTaskData`-Property verknüpft. <br> Die `<option>`-Elemente des `<select>`-Elements werden mittels einer `v-for`-Direktive in Verbindung mit der Property `allLists` dynamisch generiert. <br> Der Button mit der `id="createNewTaskButton"` ist über eine `@click`-Direktive mit der Methode `addNewTask()` verknüpft. Ob die Schaltfläche aktiv und somit für die Anwenderin / dem Anwender benutzbar ist, ist von dem Zustand der Property `inputDataOK` abhängig. Der Button erhält via `v-bind:class`-Direktive nur dann die Klasse `active` wenn diese Property den Wert **true** hat. <br> Das `<div>`-Element welches dem Button folgt wird nur dann angezeigt, wenn der Wert der Property `showInfo` den Wert **true** hat. Dies ist durch eine `v-if`-Direktive realisiert. |
 | `<div>` mit der `id="contentWrapper"` | Innerhalb dieses Container-Elements werden die Aufgabenlisten sowie die Komponente ***Infobar*** angezeigt. Hierbei erfolgt die Gleiderung zunächst mithilfe der klassischen HTML-Elemente `<main>` für die Aufgabenlisten und `<aside>` für die ***Infobar***.<ul><h5>Die Komponenten ***TaskList*** und ***InfoBar*** im Template von ***Main.vue*** [[Inhalt](#inhalt)]</h5><li>Die einzelnen Instanzen der ***TaskList***-Komponente werden innerhalb eines weiteren `<div>`-Containers mit der `id="listsContainer"` generiert</li><li>Die Generierung der einzelen Aufgabenlisten erfolgt mittels einer `v-for`-Direktive unter Verwendung der Computed-Property `subLists`.</li><li>Als Prop `:subTaskList` wird der Komponte die aktuelle SubListe übergeben.</li><li>***TaskList*** fängt innerhalb von ***Main.vue*** zwei Event-Typen: <ul><li>`delTaskEvent` ruft Methode `delTask()` auf.</li><li>`taskStatusToggleEvent` ruft Methode `toggleTaskStatus()` auf.</li></ul></li><li>Innerhalb eines `<aside>`-Elements wird die Komponente ***Infobar*** gerendert. Diese übergibt als Prop `:doneAndPending` ein Objekt welches über die Attribute `done` und `pending` verfügt. Diese Attribute erhalten die Werte der Computed-Properties `doneList()` bzw. `pendingList()`.</li></ul>|
+
+___
+
+### TaskList.vue [[Inhalt](#inhalt)]
+
+Die Komponente ***TaskList*** definiert eine Aufgabenliste. In diesen Listen werden die Entsprechenden Aufgaben in der Form von Komponenten des Typs ***TaskListItem*** dargestellt.
+
+#### Script-Bereich von ***TaskList.vue*** [[Inhalt](#inhalt)]
+
+##### Imports von ***TaskList.vue*** [[Inhalt](#inhalt)]
+
+***TaskList*** benötigt zwei weitere Komponenten:
+
+| Komponente | (Kurz-)Erläuterung |
+| --- | --- |
+| ***TaskListItem*** | Repräsentation einer einzelnen Aufgabe. |
+| ***DelBu*** | Eine Schaltfläche welche hier den Löschvorgang einer ganzen Liste startet. |
+
+##### Registrierung der Emits von ***TaskList*** [[Inhalt](#inhalt)]
+
+Die Komponente ist in der Lage zwei Typen von Events zu emittieren:
+
+- `delTaskEvent`
+- `taskStatusToggleEvent`
+
+##### Registrierung der Props von ***TaskList*** [[Inhalt](#inhalt)]
+
+Die Komponente besitzt eine Prop `subTaskList` vom Typ **Array**. Hierüber wird jeweils bei der Generierung der Aufgabenlisten **eine** Liste ([s. hier](#template-bereich-von-mainvue-inhalt)) der Computed-Property `subLists()` ([s. hier](#registrierung-der-computed-properties-von-mainvue-inhalt)) aus der Komponente ***Main*** übertragen.
+
+##### Data-Return-Objekt von ***TaskList.vue*** [[Inhalt](#inhalt)]
+
+Hier findet sich lediglich die Property `listName`, welche mit dem Wert der `list`-Property des ersten Aufgaben-Objektes der Prop `subTaskList` initialisiert wird.
+
+##### Registrierung der Computed-Properties von ***TaskList.vue*** [[Inhalt](#inhalt)]
+
+Die Computed-Property `subTasksPending()` liefert die Anzahl der noch nicht erledigten Aufgaben der spezifischen Aufgabenliste (`subTaskList`). Hierfür findet die Methode `filter()` Anwendung, welche alle Aufgaben-Objekete herausfiltert dessen Property `done` den Wert **false** haben.
+
+#### Template-Bereich von ***TaskList.vue*** [[Inhalt](#inhalt)]
+
+Das Template gliedert sich in zwei Hauptbereche:
+
+| Bereich | Bestandteile |
+| --- | --- |
+| `<header>`-Element mit der `class="thl"` | <ol><li>Ein `<h1>`-Element zur Anzeige des Listentitels. Hierbei findet die Property `listName` Anwendung.</li><li>Ein `<div>`-Element mit der `class="pendigTaskInfo"` als Container für ein `<p>`- und ein `<img>`-Element. Diese beiden Elemente verfügen jeweils über eine `v-if`-, bzw. eine `v-else`-Direktive mit der, in Kombination mit der Computed-Property `subTasksPendig()` deren Sichtbarkeit gesteuert wird. Ist der Wert von `subTasksPendig > 0` wird das `<p>`-Element angezeigt, ansonsten das `<img>`-Element.</li><li>Eine Komponente ***DelBu*** um einen Löschvorgang der ganzen Liste zu starten. Diese Komponente triggert, mittels `this.$parent` in der Komponente ***Main***, via einer `@click`-Direktive einen `delListEvent`. Diesem Event wird als Parameter der Wert der Property `listName` mitgegeben. Dies dient im weiteren Verlauf, innerhalb der Kompnente ***Main*** der eindeutigen isolierung der zu löschenden Aufgaben (und somit der gesamten Liste). ([s. hier](#methoden-von-mainvue-inhalt))</li></ol> |
+| `<div>`-Element mit der `class="tasks"` | Innerhalb dieses Container-Elements werden Komonenten vom Typ ***TaskListItem*** mittels `v-for`-Direketive und unter Verwendung der Prop `subTaskList` generiert. Jede der generierten Komponenten bekommen als Prop `:task` das jeweilige Aufgaben-Objekt (`task`) mitgegeben. |
 
 ___
 
