@@ -75,6 +75,7 @@ ___
         - [Data-Return-Objekt von ***Infobar.vue*** \[Inhalt\]](#data-return-objekt-von-infobarvue-inhalt)
         - [Methoden von ***Infobar.vue*** \[Inhalt\]](#methoden-von-infobarvue-inhalt)
       - [Template-Bereich von ***Infobar.vue*** \[Inhalt\]](#template-bereich-von-infobarvue-inhalt)
+    - [Die Komponenten CreateListButton.vue, ExpandBu.vue und DelBu.vue \[Inhalt\]](#die-komponenten-createlistbuttonvue-expandbuvue-und-delbuvue-inhalt)
 
 ___
 
@@ -126,8 +127,8 @@ Neben den geforderten Funktionen bietet meine Lösung folgende Features:
 | [Main.vue](#mainvue-inhalt) | /src/components/ | Vue-Komponente | Primärer Anzeigebereich |
 | [TaskList.vue](#tasklistvue-inhalt) | /src/components/ | Vue-Komponente | Aufgabenliste |
 | [TaskListItem.vue](#tasklistitemvue-inhalt) | /src/components/ | Vue-Komponente | Repräsentation einer Aufgabe |
-| --- | /src/components/ | Vue-Komponente | --- |
-| --- | /src/components/ | Vue-Komponente | --- |
+| [Infobar.vue](#infobarvue-inhalt) | /src/components/ | Vue-Komponente | Übersicht über erledigte u. unerledigte Aufgaben |
+| [Schaltflächen](#die-komponenten-createlistbuttonvue-expandbuvue-und-delbuvue-inhalt) | /src/components/ | Vue-Komponenten | Schaltflächen |
 
 ## Zusätzliche Pakete [[Inhalt](#inhalt)]
 
@@ -556,3 +557,14 @@ Der Button verfügt auch hier über eine `@click`-Direktive. Diese ist mit der M
 
 ___
 
+### Die Komponenten CreateListButton.vue, ExpandBu.vue und DelBu.vue [[Inhalt](#inhalt)]
+
+| Komponente | Erläuterung |
+| --- | --- |
+| ***CreateListButton*** | Schaltfläche zu erstellen neuer Aufgabenlisten, bzw. zur Anzeige des entsprechenden Dialogs. ([s. hier](#template-bereich-von-sidebarvue-inhalt)) |
+| ***ExpandBu*** | Schaltfläche zum ein- und ausblenden von Start- und Enddatum einzelner Aufgaben. ([s. hier](#template-bereich-von-tasklistitemvue-inhalt)) |
+| ***DelBu*** | Schaltfläche die zum Löschen einzelner Aufgaben ([s. hier](#template-bereich-von-tasklistitemvue-inhalt)), bzw. ganzer Listen ([s. hier](#template-bereich-von-tasklistvue-inhalt)). |
+
+___
+
+&copy; Sebastian Peschl (XIDV), 2023
