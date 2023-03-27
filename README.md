@@ -115,8 +115,12 @@ Neben den geforderten Funktionen bietet meine Lösung folgende Features:
 | [index.html](#indexhtml-inhalt) | / | html-Datei | Datei zur Darstellung der Anwendung |
 | [main.js](#mainjs-inhalt) | /src/ | javascript-Datei | Erstellen und mounten der Anwendung |
 | [App.vue](#appvue-inhalt) | /src/ | Vue-Komponente | Wurzelkomponente der Anwendung |
-| --- | --- | --- | --- |
-| --- | --- | --- | --- |
+| [Sidebar.vue](#sidebarvue-inhalt) | /src/components/ | Vue-Komponente | Seitenleiste  |
+| [Main.vue](#mainvue-inhalt) | /src/components/ | Vue-Komponente | Primärer Anzeigebereich |
+| [TaskList.vue](#tasklistvue-inhalt) | /src/components/ | Vue-Komponente | Aufgabenliste |
+| [TaskListItem.vue](#tasklistitemvue-inhalt) | /src/components/ | Vue-Komponente | Repräsentation einer Aufgabe |
+| --- | /src/components/ | Vue-Komponente | --- |
+| --- | /src/components/ | Vue-Komponente | --- |
 
 ## Zusätzliche Pakete [[Inhalt](#inhalt)]
 
